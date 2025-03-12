@@ -36,6 +36,7 @@ private slots:
    // void verifierMotDePasse(const QString &motDePasse);
   //  void validateEmail(const QString &email);
     bool isValidSupplementaryHours(const QString &value);
+    QString hasherMotDePasse(const QString &motDePasse);
 
 };
 

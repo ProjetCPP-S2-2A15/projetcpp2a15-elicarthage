@@ -11,6 +11,8 @@
 #include <QSqlError>
 #include <QRandomGenerator>
 #include <QDateTime>
+#include <QCryptographicHash>
+
 
 // Définition de la fonction generateAutoID dans le .cpp
 int MainWindow::generateAutoID() {
@@ -130,7 +132,8 @@ void MainWindow::on_btnAjouter_clicked()
     QString prenom = ui->lineEdit_prenom->text();
     QString mail = ui->lineEdit_mail->text();
     QString role = ui->lineEdit_role->text();
-    QString motDePasse = ui->lineEdit_motDePasse->text();
+    QString motDePasse = hasherMotDePasse(ui->lineEdit_motDePasse->text());
+
 
     // Récupérer la question sélectionnée dans la QComboBox
     QString question = ui->comboBox_question->currentText();
@@ -159,6 +162,12 @@ void MainWindow::on_btnAjouter_clicked()
     {
         qDebug() << "Erreur lors de l'ajout";
     }
+}
+
+QString MainWindow::hasherMotDePasse(const QString &motDePasse)
+{
+    QByteArray hash = QCryptographicHash::hash(motDePasse.toUtf8(), QCryptographicHash::Sha256);
+    return hash.toBase64();  // Encodage en Base64
 }
 
 
@@ -229,7 +238,7 @@ void MainWindow::modifierCellule(const QModelIndex &index)
 
     if (model) {
         // Si la colonne est en lecture seule (index 0 ou 7), ne pas permettre la modification
-        if (index.column() == 0 || index.column() == 7) {
+        if (index.column() == 0 || index.column() == 7 ||  index.column() == 8) {
             QMessageBox::warning(this, tr("Modification non autorisée"), tr("Vous ne pouvez pas modifier cette colonne."));
             return;
         }
