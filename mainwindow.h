@@ -3,9 +3,8 @@
 #include <QLabel>
 
 #include <QMainWindow>
-#include <QTableWidget>  // Inclure le QTableWidget
-#include <QPushButton>   // Inclure QPushButton
-
+#include <QTableWidget>
+#include <QPushButton>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -27,19 +26,20 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    bool isValidColumn(const QString &columnName);
+
+    bool verifierMotDePasse(const QString &motDePasse);
+    bool validateEmail(const QString &email);
+    bool isValidSupplementaryHours(const QString &value);
+    QString hasherMotDePasse(const QString &motDePasse);
+    bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
 
 private slots:
     void on_btnAjouter_clicked();
     void on_annulerEvent_clicked();
     void on_btnsupprimer_clicked();
     void modifierCellule(const QModelIndex &index);
-    bool isValidColumn(const QString &columnName);
 
-    bool verifierMotDePasse(const QString &motDePasse);
-   bool validateEmail(const QString &email);
-    bool isValidSupplementaryHours(const QString &value);
-    QString hasherMotDePasse(const QString &motDePasse);
-    bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
 
 
 };
