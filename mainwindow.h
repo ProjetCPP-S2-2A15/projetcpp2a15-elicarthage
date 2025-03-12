@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <QLabel>
 
 #include <QMainWindow>
 #include <QTableWidget>  // Inclure le QTableWidget
@@ -22,6 +23,7 @@ public:
     // Déclarez la fonction generateAutoID ici
     int generateAutoID();
      bool estTexteValide(const QString &texte);
+     void setupValidation();
 
 private:
     Ui::MainWindow *ui;
@@ -33,10 +35,12 @@ private slots:
     void modifierCellule(const QModelIndex &index);
     bool isValidColumn(const QString &columnName);
 
-   // void verifierMotDePasse(const QString &motDePasse);
-  //  void validateEmail(const QString &email);
+    bool verifierMotDePasse(const QString &motDePasse);
+   bool validateEmail(const QString &email);
     bool isValidSupplementaryHours(const QString &value);
     QString hasherMotDePasse(const QString &motDePasse);
+    bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
+
 
 };
 

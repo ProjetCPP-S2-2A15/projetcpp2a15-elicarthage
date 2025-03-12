@@ -17,7 +17,7 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>-10</x>
+      <x>0</x>
       <y>0</y>
       <width>1251</width>
       <height>600</height>
@@ -267,8 +267,8 @@ QPushButton#logo:pressed {
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>30</y>
-       <width>231</width>
+       <y>40</y>
+       <width>241</width>
        <height>531</height>
       </rect>
      </property>
@@ -288,7 +288,7 @@ QWidget &gt; * {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>50</y>
+        <y>28</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -319,7 +319,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
+        <y>90</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -347,7 +347,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>170</y>
+        <y>160</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -403,7 +403,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
+        <y>10</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -421,7 +421,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>74</y>
         <width>51</width>
         <height>16</height>
        </rect>
@@ -457,7 +457,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>150</y>
+        <y>140</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -471,11 +471,205 @@ QLineEdit:focus {
        <string>Rôle</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>310</y>
+        <width>221</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Choisissez une question et répondez-y</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelEmailStatus">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>268</y>
+        <width>191</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelNomErreur">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>60</y>
+        <width>231</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPrenomErreur">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>120</y>
+        <width>231</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelRoleErreur">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>196</y>
+        <width>221</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelReponseErreur">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>360</y>
+        <width>221</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_question">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>281</y>
+        <width>221</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+    font-weight: bold;      /* Texte en gras */
+    font-size: 10.5px;      /* Taille de la police dans la zone de saisie */
+    color: #2C3E50;         /* Texte bleu foncé */
+}
+
+QComboBox QAbstractItemView {
+    font-size: 5px;         /* Taille de la police très petite dans la liste déroulante */
+    font-weight: bold;      /* Texte en gras dans la liste déroulante */
+}
+
+</string>
+      </property>
+      <item>
+       <property name="text">
+        <string notr="true">Quel est le nom de votre premier animal ?</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Dans quelle ville êtes-vous né(e) ?</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Quel est le nom de votre meilleur ami ?</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_response">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>330</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilité */
+    color: #2C3E50;               /* Texte bleu foncé */
+    border: 2px solid #1F4E78;    /* Bordure bleu foncé */
+    border-radius: 6px;           /* Coins arrondis */
+    padding: 6px;                 /* Espacement intérieur */
+    font-size: 13px;              /* Taille de la police équilibrée */
+    selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
+    selection-color: white;       /* Texte blanc quand sélectionné */
+}
+
+QLineEdit:focus {
+    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
+    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+}
+</string>
+      </property>
+      <property name="placeholderText">
+       <string>reponse</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAjouter">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>480</y>
+        <width>80</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton#btnAjouter {
+    background-color: #2C3E50;  /* Bleu foncé professionnel */
+    color: white;               /* Texte blanc pour un bon contraste */
+    border-radius: 6px;         /* Coins légèrement arrondis */
+    padding: 6px 12px;          /* Espacement réduit pour un design plus compact */
+    font-size: 13px;            /* Texte plus petit et plus élégant */
+    font-weight: normal;        /* Texte normal pour un style minimaliste */
+    border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
+}
+
+QPushButton#btnAjouter:hover {
+    background-color: #34495E;  /* Bleu légèrement plus clair au survol */
+    border: 1px solid #2C3E50;  /* Bordure harmonisée */
+}
+
+QPushButton#btnAjouter:pressed {
+    background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
+}
+
+QPushButton#btnAjouter:disabled {
+    background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
+    color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
+    border: 1px solid #7F8C8D;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Ajouter</string>
+      </property>
+     </widget>
      <widget class="QPushButton" name="annulerEvent">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>490</y>
+        <x>120</x>
+        <y>480</y>
         <width>80</width>
         <height>31</height>
        </rect>
@@ -515,7 +709,7 @@ QPushButton#annulerEvent:disabled {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>270</y>
+        <y>380</y>
         <width>81</width>
         <height>16</height>
        </rect>
@@ -533,7 +727,7 @@ QPushButton#annulerEvent:disabled {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>300</y>
+        <y>400</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -560,140 +754,24 @@ QLineEdit:focus {
        <enum>QLineEdit::EchoMode::Password</enum>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox_question">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>350</y>
-        <width>221</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QComboBox {
-    font-weight: bold;      /* Texte en gras */
-    font-size: 10.5px;      /* Taille de la police dans la zone de saisie */
-    color: #2C3E50;         /* Texte bleu foncé */
-}
-
-QComboBox QAbstractItemView {
-    font-size: 5px;         /* Taille de la police très petite dans la liste déroulante */
-    font-weight: bold;      /* Texte en gras dans la liste déroulante */
-}
-
-</string>
-      </property>
-      <item>
-       <property name="text">
-        <string notr="true">Quel est le nom de votre premier animal ?</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Dans quelle ville êtes-vous né(e) ?</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Quel est le nom de votre meilleur ami ?</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_response">
+     <widget class="QLabel" name="labelErreur">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>420</y>
-        <width>141</width>
+        <y>440</y>
+        <width>231</width>
         <height>31</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">QLineEdit {
-    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilité */
-    color: #2C3E50;               /* Texte bleu foncé */
-    border: 2px solid #1F4E78;    /* Bordure bleu foncé */
-    border-radius: 6px;           /* Coins arrondis */
-    padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
-    selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
-    selection-color: white;       /* Texte blanc quand sélectionné */
-}
-
-QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
-}
-</string>
-      </property>
-      <property name="placeholderText">
-       <string>reponse</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnAjouter">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>490</y>
-        <width>80</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton#btnAjouter {
-    background-color: #2C3E50;  /* Bleu foncé professionnel */
-    color: white;               /* Texte blanc pour un bon contraste */
-    border-radius: 6px;         /* Coins légèrement arrondis */
-    padding: 6px 12px;          /* Espacement réduit pour un design plus compact */
-    font-size: 13px;            /* Texte plus petit et plus élégant */
-    font-weight: normal;        /* Texte normal pour un style minimaliste */
-    border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
-}
-
-QPushButton#btnAjouter:hover {
-    background-color: #34495E;  /* Bleu légèrement plus clair au survol */
-    border: 1px solid #2C3E50;  /* Bordure harmonisée */
-}
-
-QPushButton#btnAjouter:pressed {
-    background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
-}
-
-QPushButton#btnAjouter:disabled {
-    background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
-    color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
-    border: 1px solid #7F8C8D;
-}
-</string>
-      </property>
       <property name="text">
-       <string>Ajouter</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_14">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>390</y>
-        <width>221</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <italic>false</italic>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Choisissez une question et répondez-y</string>
+       <string/>
       </property>
      </widget>
     </widget>
     <widget class="QPushButton" name="exportProjet">
      <property name="geometry">
       <rect>
-       <x>390</x>
+       <x>410</x>
        <y>30</y>
        <width>131</width>
        <height>31</height>
@@ -838,7 +916,7 @@ QPushButton#tri:pressed {
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>10</y>
        <width>181</width>
        <height>31</height>

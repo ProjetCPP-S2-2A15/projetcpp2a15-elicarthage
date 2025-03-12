@@ -12,6 +12,8 @@
 #include <QRandomGenerator>
 #include <QDateTime>
 #include <QCryptographicHash>
+#include <QLabel>
+
 
 
 // Définition de la fonction generateAutoID dans le .cpp
@@ -41,8 +43,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);  // Mise en place de l'UI
     connect(ui->tableView, &QTableView::clicked, this, &MainWindow::modifierCellule);
   //  connect(ui->lineEdit_nom, &QLineEdit::textChanged, this, &MainWindow::verifierSaisie);
-   // connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
-  //   connect(ui->lineEdit_mail, &QLineEdit::textChanged, this, &MainWindow::validateEmail);
+    connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
+     connect(ui->lineEdit_mail, &QLineEdit::textChanged, this, &MainWindow::validateEmail);
+      setupValidation();
 
 
     // Créer une instance de Architecte pour afficher les données
@@ -81,63 +84,152 @@ MainWindow::~MainWindow()
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/*
-void MainWindow::verifierMotDePasse(const QString &motDePasse)
+
+bool MainWindow::verifierMotDePasse(const QString &motDePasse)
 {
-    // Expression régulière pour valider le mot de passe
     QRegularExpression regex("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\w\\s]).{8,}$");
     QRegularExpressionMatch match = regex.match(motDePasse);
 
-   QLabel *labelErreur = ui->labelErreur; // Label spécifique pour l'erreur du mot de passe
+    QLabel *labelErreur = ui->labelErreur;
 
     if (match.hasMatch()) {
-        // Mot de passe valide
         labelErreur->setText("Mot de passe valide.");
         labelErreur->setStyleSheet("color: green;");
+        return true;  // Mot de passe valide
     } else {
-        // Mot de passe invalide
-        labelErreur->setText("Le mot de passe doit contenir au moins 8 caractères,\nune majuscule, une minuscule,\nun chiffre et un caractère spécial.");
+        labelErreur->setText("Mot de passe:Min.8 caractères,1majuscule,<br>1 minuscule,1 chiffre,1 spécial.");
         labelErreur->setStyleSheet("color: red;");
+
+        labelErreur->setStyleSheet("color: red;");
+
+        labelErreur->setStyleSheet("color: red;");
+        return false; // Mot de passe invalide
     }
 }
 
-void MainWindow::validateEmail(const QString &email)
+bool MainWindow::validateEmail(const QString &email)
 {
-    // Vérifier si l'e-mail est valide
     if (email.isEmpty()) {
-        // Si vide, ne rien afficher
         ui->labelEmailStatus->clear();
-    } else {
-        QRegularExpression emailRegex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-        QRegularExpressionMatch match = emailRegex.match(email);
+        return false;
+    }
 
-        if (match.hasMatch()) {
-            ui->labelEmailStatus->setText("Email valide");
-            ui->labelEmailStatus->setStyleSheet("color: green;");
-        } else {
-            ui->labelEmailStatus->setText("Email invalide");
-            ui->labelEmailStatus->setStyleSheet("color: red;");
-        }
+    QRegularExpression emailRegex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    QRegularExpressionMatch match = emailRegex.match(email);
+
+    if (match.hasMatch()) {
+        ui->labelEmailStatus->setText("Email valide");
+        ui->labelEmailStatus->setStyleSheet("color: green;");
+        return true;  // Email valide
+    } else {
+        ui->labelEmailStatus->setText("Email invalide");
+        ui->labelEmailStatus->setStyleSheet("color: red;");
+        return false; // Email invalide
     }
 }
-*/
+
+bool MainWindow::verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur)
+{
+    // Vérifier que la longueur du champ est d'au moins 3 caractères
+    if (champ.length() < 3) {
+        labelErreur->setText("Invalide:Min. 3 caractères");
+        labelErreur->setStyleSheet("color: red;");
+        return false; // Champ invalide
+    }
+
+    // Expression régulière pour vérifier que le champ contient uniquement des lettres (sans caractères spéciaux)
+    QRegularExpression regex("^[A-Za-z]+$"); // Accepte seulement les lettres
+    QRegularExpressionMatch match = regex.match(champ);
+
+    if (match.hasMatch()) {
+        labelErreur->setText("Valide");
+        labelErreur->setStyleSheet("color: green;");
+        return true; // Champ valide
+    } else {
+        labelErreur->setText("Invalide: uniquement des lettres.");
+        labelErreur->setStyleSheet("color: red;");
+        return false; // Champ invalide
+    }
+}
+
+
+void MainWindow::setupValidation()
+{
+    // Connecter tous les champs à leur QLabel respectif pour la validation en temps réel
+    connect(ui->lineEdit_nom, &QLineEdit::textChanged, this, [this]() {
+        verifierChampsLettresSeules(ui->lineEdit_nom->text(), ui->labelNomErreur);
+    });
+
+    connect(ui->lineEdit_prenom, &QLineEdit::textChanged, this, [this]() {
+        verifierChampsLettresSeules(ui->lineEdit_prenom->text(), ui->labelPrenomErreur);
+    });
+
+    connect(ui->lineEdit_role, &QLineEdit::textChanged, this, [this]() {
+        verifierChampsLettresSeules(ui->lineEdit_role->text(), ui->labelRoleErreur);
+    });
+
+    connect(ui->lineEdit_response, &QLineEdit::textChanged, this, [this]() {
+        verifierChampsLettresSeules(ui->lineEdit_response->text(), ui->labelReponseErreur);
+    });
+}
+
 //----------------------CRUD---------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::on_btnAjouter_clicked()
 {
-    // Générer un ID automatiquement
     int autoGeneratedID = generateAutoID();
-
     // Récupérer les informations de l'interface utilisateur
     QString nom = ui->lineEdit_nom->text();
     QString prenom = ui->lineEdit_prenom->text();
-    QString mail = ui->lineEdit_mail->text();
     QString role = ui->lineEdit_role->text();
-    QString motDePasse = hasherMotDePasse(ui->lineEdit_motDePasse->text());
-
-
-    // Récupérer la question sélectionnée dans la QComboBox
-    QString question = ui->comboBox_question->currentText();
     QString reponse = ui->lineEdit_response->text();
+    QString question = ui->comboBox_question->currentText();
+
+    // Récupérer le reste des informations et procéder aux autres vérifications (email, mot de passe, etc.)
+    QString mail = ui->lineEdit_mail->text();
+    QString motDePasse = ui->lineEdit_motDePasse->text();
+
+    // Vérification si les champs sont vides
+    if (nom.isEmpty() || prenom.isEmpty() || mail.isEmpty() || role.isEmpty() ||
+        motDePasse.isEmpty() || reponse.isEmpty())
+    {
+        QMessageBox::warning(this, "Champs vides", "Tous les champs doivent être remplis !");
+        return;
+    }
+
+    // Vérification de la validité des champs lettres seules
+    if (!verifierChampsLettresSeules(nom, ui->labelNomErreur)) {
+        QMessageBox::warning(this, "Nom invalide", "Le nom doit contenir uniquement des lettres.");
+        return;
+    }
+
+    if (!verifierChampsLettresSeules(prenom, ui->labelPrenomErreur)) {
+        QMessageBox::warning(this, "Prénom invalide", "Le prénom doit contenir uniquement des lettres.");
+        return;
+    }
+
+    if (!verifierChampsLettresSeules(role, ui->labelRoleErreur)) {
+        QMessageBox::warning(this, "Rôle invalide", "Le rôle doit contenir uniquement des lettres.");
+        return;
+    }
+
+    if (!verifierChampsLettresSeules(reponse, ui->labelReponseErreur)) {
+        QMessageBox::warning(this, "Réponse invalide", "La réponse doit contenir uniquement des lettres.");
+        return;
+    }
+
+    // Vérification de l'email
+    if (!validateEmail(mail)) {
+        QMessageBox::warning(this, "Email invalide", "L'adresse e-mail saisie est invalide.\nVeuillez respecter le format standard de l'email.");
+        return;
+    }
+
+    // Vérification du mot de passe
+    if (!verifierMotDePasse(motDePasse)) {
+        QMessageBox::warning(this, "Mot de passe invalide", "Le mot de passe doit respecter les critères");
+        return;
+    } else {
+        motDePasse = hasherMotDePasse(motDePasse);
+    }
 
     // Définir automatiquement les heures supplémentaires à 0
     int heuresSupplementaires = 0;
@@ -164,6 +256,7 @@ void MainWindow::on_btnAjouter_clicked()
     }
 }
 
+
 QString MainWindow::hasherMotDePasse(const QString &motDePasse)
 {
     QByteArray hash = QCryptographicHash::hash(motDePasse.toUtf8(), QCryptographicHash::Sha256);
@@ -181,7 +274,7 @@ void MainWindow::on_annulerEvent_clicked()
     ui->lineEdit_role->clear();
     ui->lineEdit_motDePasse->clear();
     ui->lineEdit_response->clear();
-
+ ui->labelErreur->clear();
     // Réinitialiser la combobox (si nécessaire)
     ui->comboBox_question->setCurrentIndex(0);  // Met la première valeur comme valeur par défaut
 }
@@ -227,10 +320,16 @@ void MainWindow::on_btnsupprimer_clicked()
 
 bool MainWindow::estTexteValide(const QString &texte)
 {
+    // Vérifier si la longueur du texte est d'au moins 3 caractères
+    if (texte.length() < 3) {
+        return false; // Le texte n'est pas valide
+    }
+
     // Expression régulière pour vérifier si le texte contient uniquement des lettres (majuscule et minuscule)
     QRegularExpression regex("^[A-Za-z]+$");
     return regex.match(texte).hasMatch();
 }
+
 
 void MainWindow::modifierCellule(const QModelIndex &index)
 {
@@ -238,7 +337,7 @@ void MainWindow::modifierCellule(const QModelIndex &index)
 
     if (model) {
         // Si la colonne est en lecture seule (index 0 ou 7), ne pas permettre la modification
-        if (index.column() == 0 || index.column() == 7 ||  index.column() == 8) {
+        if (index.column() == 0 || index.column() == 6 ||index.column() == 7 ||  index.column() == 8) {
             QMessageBox::warning(this, tr("Modification non autorisée"), tr("Vous ne pouvez pas modifier cette colonne."));
             return;
         }
@@ -263,7 +362,7 @@ void MainWindow::modifierCellule(const QModelIndex &index)
 
             // Si la colonne est NOM, PRÉNOM ou RÔLE, valider que la valeur est un texte valide
             if ((columnName == "NOM" || columnName == "PRÉNOM" || columnName == "RÔLE") && !estTexteValide(newValue)) {
-                QMessageBox::warning(this, tr("Erreur de saisie"), tr("Le champ doit contenir uniquement des lettres."));
+                QMessageBox::warning(this, tr("Erreur de saisie"), tr("Le champ doit contenir uniquement des lettres et un minimum de 3 caractères."));
                 return;
             }
 
