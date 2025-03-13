@@ -309,7 +309,7 @@ QPushButton {
         <x>10</x>
         <y>28</y>
         <width>141</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -319,14 +319,14 @@ QPushButton {
     border: 2px solid #1F4E78;    /* Bordure bleu foncé */
     border-radius: 6px;           /* Coins arrondis */
     padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
+    font-size: 11,8px;              /* Taille de la police équilibrée */
     selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
     selection-color: white;       /* Texte blanc quand sélectionné */
 }
 
 QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
+    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
 }
 </string>
       </property>
@@ -340,7 +340,7 @@ QLineEdit:focus {
         <x>10</x>
         <y>90</y>
         <width>141</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -350,14 +350,14 @@ QLineEdit:focus {
     border: 2px solid #1F4E78;    /* Bordure bleu foncé */
     border-radius: 6px;           /* Coins arrondis */
     padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
+    font-size: 11,8px;              /* Taille de la police équilibrée */
     selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
     selection-color: white;       /* Texte blanc quand sélectionné */
 }
 
 QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
+    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
 }
 </string>
       </property>
@@ -368,7 +368,7 @@ QLineEdit:focus {
         <x>10</x>
         <y>152</y>
         <width>141</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -378,14 +378,14 @@ QLineEdit:focus {
     border: 2px solid #1F4E78;    /* Bordure bleu foncé */
     border-radius: 6px;           /* Coins arrondis */
     padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
+    font-size: 11,8px;              /* Taille de la police équilibrée */
     selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
     selection-color: white;       /* Texte blanc quand sélectionné */
 }
 
 QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
+    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
 }
 </string>
       </property>
@@ -396,7 +396,7 @@ QLineEdit:focus {
         <x>10</x>
         <y>214</y>
         <width>141</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -406,14 +406,14 @@ QLineEdit:focus {
     border: 2px solid #1F4E78;    /* Bordure bleu foncé */
     border-radius: 6px;           /* Coins arrondis */
     padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
+    font-size: 11,8px;              /* Taille de la police équilibrée */
     selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
     selection-color: white;       /* Texte blanc quand sélectionné */
 }
 
 QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
+    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
 }
 </string>
       </property>
@@ -539,7 +539,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>121</y>
+        <y>122</y>
         <width>231</width>
         <height>16</height>
        </rect>
@@ -552,7 +552,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>183</y>
+        <y>184</y>
         <width>221</width>
         <height>16</height>
        </rect>
@@ -619,7 +619,7 @@ QComboBox QAbstractItemView {
         <x>10</x>
         <y>310</y>
         <width>141</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -629,14 +629,14 @@ QComboBox QAbstractItemView {
     border: 2px solid #1F4E78;    /* Bordure bleu foncé */
     border-radius: 6px;           /* Coins arrondis */
     padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
+    font-size: 11,8px;              /* Taille de la police équilibrée */
     selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
     selection-color: white;       /* Texte blanc quand sélectionné */
 }
 
 QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
+    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
 }
 </string>
       </property>
@@ -748,7 +748,7 @@ QPushButton#annulerEvent:disabled {
         <x>10</x>
         <y>380</y>
         <width>141</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -758,14 +758,14 @@ QPushButton#annulerEvent:disabled {
     border: 2px solid #1F4E78;    /* Bordure bleu foncé */
     border-radius: 6px;           /* Coins arrondis */
     padding: 6px;                 /* Espacement intérieur */
-    font-size: 13px;              /* Taille de la police équilibrée */
+    font-size: 11,8px;              /* Taille de la police équilibrée */
     selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
     selection-color: white;       /* Texte blanc quand sélectionné */
 }
 
 QLineEdit:focus {
-    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */
-    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */
+    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
+    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
 }
 </string>
       </property>
@@ -777,7 +777,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>4</x>
-        <y>410</y>
+        <y>420</y>
         <width>231</width>
         <height>31</height>
        </rect>
