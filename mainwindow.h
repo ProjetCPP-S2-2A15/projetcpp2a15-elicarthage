@@ -29,7 +29,9 @@ private:
     bool isValidColumn(const QString &columnName);
 
     bool verifierMotDePasse(const QString &motDePasse);
-    bool validateEmail(const QString &email);
+
+    bool validateEmail(const QString &email, bool isModification = false);
+
     bool isValidSupplementaryHours(const QString &value);
     QString hasherMotDePasse(const QString &motDePasse);
     bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
