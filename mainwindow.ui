@@ -269,20 +269,39 @@ QPushButton#logo:pressed {
        <x>150</x>
        <y>40</y>
        <width>241</width>
-       <height>531</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QWidget {
     background-color: #eee5d3; 
     border: 1px solid black;   /* Cadre noir fin (1px) */
-      border-radius: 20px; /* Coins arrondis */      /* Coins arrondis */
+    border-radius: 20px; /* Coins arrondis */
 }
 
 QWidget &gt; * {
-    border: none;              /* Désactive la bordure pour les éléments enfants */
+    border: none; /* Désactive la bordure pour les éléments enfants */
 }
-</string>
+
+/* Gestion de la position des éléments */
+QGridLayout {
+    spacing: 10px;  /* Espacement entre les widgets */
+    margin: 20px;   /* Marge autour du layout */
+}
+
+QLabel {
+    qproperty-alignment: AlignRight | AlignVCenter; /* Alignement des labels */
+}
+
+QLineEdit, QComboBox {
+    qproperty-alignment: AlignLeft | AlignVCenter; /* Alignement des champs */
+    min-width: 200px;
+}
+
+QPushButton {
+    qproperty-alignment: AlignCenter; /* Centrage des boutons */
+    margin-top: 20px;
+}</string>
      </property>
      <widget class="QLineEdit" name="lineEdit_nom">
       <property name="geometry">
@@ -347,7 +366,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>160</y>
+        <y>152</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -375,7 +394,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>230</y>
+        <y>214</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -439,7 +458,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>210</y>
+        <y>198</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -457,7 +476,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>140</y>
+        <y>136</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -474,8 +493,8 @@ QLineEdit:focus {
      <widget class="QLabel" name="label_14">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>310</y>
+        <x>3</x>
+        <y>285</y>
         <width>221</width>
         <height>16</height>
        </rect>
@@ -494,7 +513,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>268</y>
+        <y>248</y>
         <width>191</width>
         <height>16</height>
        </rect>
@@ -506,9 +525,9 @@ QLineEdit:focus {
      <widget class="QLabel" name="labelNomErreur">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>8</x>
         <y>60</y>
-        <width>231</width>
+        <width>215</width>
         <height>16</height>
        </rect>
       </property>
@@ -520,7 +539,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>120</y>
+        <y>121</y>
         <width>231</width>
         <height>16</height>
        </rect>
@@ -532,8 +551,8 @@ QLineEdit:focus {
      <widget class="QLabel" name="labelRoleErreur">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>196</y>
+        <x>0</x>
+        <y>183</y>
         <width>221</width>
         <height>16</height>
        </rect>
@@ -545,8 +564,8 @@ QLineEdit:focus {
      <widget class="QLabel" name="labelReponseErreur">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>360</y>
+        <x>0</x>
+        <y>340</y>
         <width>221</width>
         <height>16</height>
        </rect>
@@ -559,7 +578,7 @@ QLineEdit:focus {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>281</y>
+        <y>263</y>
         <width>221</width>
         <height>21</height>
        </rect>
@@ -598,7 +617,7 @@ QComboBox QAbstractItemView {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>330</y>
+        <y>310</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -622,14 +641,14 @@ QLineEdit:focus {
 </string>
       </property>
       <property name="placeholderText">
-       <string>reponse</string>
+       <string>réponse</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btnAjouter">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>480</y>
+        <y>460</y>
         <width>80</width>
         <height>31</height>
        </rect>
@@ -669,7 +688,7 @@ QPushButton#btnAjouter:disabled {
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>480</y>
+        <y>460</y>
         <width>80</width>
         <height>31</height>
        </rect>
@@ -709,7 +728,7 @@ QPushButton#annulerEvent:disabled {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>380</y>
+        <y>360</y>
         <width>81</width>
         <height>16</height>
        </rect>
@@ -727,7 +746,7 @@ QPushButton#annulerEvent:disabled {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>400</y>
+        <y>380</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -757,8 +776,8 @@ QLineEdit:focus {
      <widget class="QLabel" name="labelErreur">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>440</y>
+        <x>4</x>
+        <y>410</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -767,6 +786,27 @@ QLineEdit:focus {
        <string/>
       </property>
      </widget>
+     <zorder>lineEdit_nom</zorder>
+     <zorder>lineEdit_prenom</zorder>
+     <zorder>lineEdit_role</zorder>
+     <zorder>lineEdit_mail</zorder>
+     <zorder>label_2</zorder>
+     <zorder>label_3</zorder>
+     <zorder>label_5</zorder>
+     <zorder>label_14</zorder>
+     <zorder>labelEmailStatus</zorder>
+     <zorder>labelNomErreur</zorder>
+     <zorder>labelPrenomErreur</zorder>
+     <zorder>labelRoleErreur</zorder>
+     <zorder>labelReponseErreur</zorder>
+     <zorder>comboBox_question</zorder>
+     <zorder>lineEdit_response</zorder>
+     <zorder>btnAjouter</zorder>
+     <zorder>annulerEvent</zorder>
+     <zorder>label_12</zorder>
+     <zorder>lineEdit_motDePasse</zorder>
+     <zorder>labelErreur</zorder>
+     <zorder>label_4</zorder>
     </widget>
     <widget class="QPushButton" name="exportProjet">
      <property name="geometry">
@@ -1057,6 +1097,9 @@ QWidget &gt; * {
      </property>
     </widget>
     <widget class="QTableView" name="tableView">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>420</x>
