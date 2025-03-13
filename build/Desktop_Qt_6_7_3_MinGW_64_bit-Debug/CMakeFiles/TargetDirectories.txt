@@ -1,0 +1,9 @@
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/SmartArchitect.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/install.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/SmartArchitect_autogen_timestamp_deps.dir
+C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/SmartArchitect_autogen.dir
