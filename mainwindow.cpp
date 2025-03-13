@@ -1,0 +1,637 @@
+#include "mainwindow.h"
+#include "ressource.h"
+#include "./ui_mainwindow.h"
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QWidget>
+#include <QMessageBox>
+#include <QSqlError>
+#include <QTimer>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
+#include <QInputDialog>
+#include <QtCharts/QChartView>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QFormLayout>
+#include <QSpinBox>
+#include "ressource.h"
+#include <QPrinter>
+#include <QPainter>
+#include <QFileDialog>
+#include <QComboBox>
+#include <QPdfWriter>
+void MainWindow::on_annulertri_clicked() {
+    afficher();
+}
+
+void MainWindow::affichertri(QString filtre) {
+    ui->tableWidget->clear();  // Nettoyer le tableau
+    ui->tableWidget->setRowCount(0);
+
+    // Définir les noms des colonnes
+    QStringList headers = {"ID", "Nom", "Type", "État", "Fournisseur", "Localisation", "Quantité", "Action"};
+    ui->tableWidget->setColumnCount(headers.size());
+    ui->tableWidget->setHorizontalHeaderLabels(headers);
+
+    QSqlQuery query;
+    if (filtre.isEmpty()) {
+        query.prepare("SELECT * FROM ressource");
+    } else {
+        query.prepare("SELECT * FROM ressource WHERE type = :filtre");
+        query.bindValue(":filtre", filtre);
+    }
+
+    if (query.exec()) {
+        int row = 0;
+        while (query.next()) {
+            ui->tableWidget->insertRow(row);
+
+            for (int col = 0; col < 7; col++) {  // Mettre les valeurs des 7 colonnes
+                ui->tableWidget->setItem(row, col, new QTableWidgetItem(query.value(col).toString()));
+            }
+
+            // Ajouter le bouton Modifier
+            QPushButton *btnModifier = new QPushButton("Modifier");
+            btnModifier->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
+                                        "QPushButton:hover { background-color: #2980b9; }");
+            btnModifier->setFixedSize(70, 25);
+            connect(btnModifier, &QPushButton::clicked, this, [this, row]() {
+                int id = ui->tableWidget->item(row, 0)->text().toInt();
+                QString nom = ui->tableWidget->item(row, 1)->text();
+                QString type = ui->tableWidget->item(row, 2)->text();
+                QString etat = ui->tableWidget->item(row, 3)->text();
+                QString fournisseur = ui->tableWidget->item(row, 4)->text();
+                QString localisation = ui->tableWidget->item(row, 5)->text();
+                int quantite = ui->tableWidget->item(row, 6)->text().toInt();
+
+                modifier(id, nom, type, etat, fournisseur, localisation, quantite);
+            });
+
+            ui->tableWidget->setCellWidget(row, 7, btnModifier);  // Colonne "Action" pour le bouton
+
+            row++;
+        }
+    }
+}
+
+void MainWindow::on_trimateriel_clicked() {
+    qDebug() << "Tri par Matériel";
+
+    affichertri("materiel");  // Filtrer les ressources de type "Matériel"
+}
+
+void MainWindow::on_trilogiciel_clicked() {
+    qDebug() << "Tri par logiciel";
+
+    affichertri("logiciel");  // Filtrer les ressources de type "Logiciel"
+}
+
+
+void MainWindow::exporterPDF() {
+    // Demander où enregistrer le fichier
+    QString filePath = QFileDialog::getSaveFileName(this, "Exporter en PDF", "", "Fichier PDF (*.pdf)");
+    if (filePath.isEmpty()) {
+        return;  // Si l'utilisateur annule, on ne fait rien
+    }
+
+    // Créer un document PDF
+    QPdfWriter pdfWriter(filePath);
+    pdfWriter.setPageSize(QPageSize(QPageSize::A4));
+    pdfWriter.setResolution(300);
+
+    QPainter painter(&pdfWriter);
+    if (!painter.isActive()) {
+        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir le fichier PDF pour l'écriture.");
+        return;
+    }
+
+    // En-tête du PDF
+    painter.setFont(QFont("Arial", 16, QFont::Bold));
+    painter.drawText(200, 200, "Liste des Ressources Disponibles et Actives");
+
+    // Requête SQL pour récupérer les ressources disponibles et actives
+    QSqlQuery query;
+    query.prepare("SELECT * FROM ressource WHERE (type = 'materiel' AND etat = 'disponible') OR (type = 'logiciel' AND etat = 'active')");
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Erreur", "Échec de la récupération des données.");
+        return;
+    }
+
+    // Positionnement du tableau
+    int x = 100;
+    int y = 400;
+    int rowHeight = 300;
+    int colWidth = 330;
+
+    // Dessiner l'en-tête du tableau
+    painter.setFont(QFont("Arial", 10, QFont::Bold));
+    painter.drawText(x, y, "ID");
+    painter.drawText(x + colWidth, y, "Nom");
+    painter.drawText(x + 2 * colWidth, y, "Type");
+    painter.drawText(x + 3 * colWidth, y, "État");
+    painter.drawText(x + 4 * colWidth, y, "Fournisseur");
+    painter.drawText(x + 5 * colWidth, y, "Localisation");
+    painter.drawText(x + 6 * colWidth, y, "Quantité");
+
+    y += rowHeight;
+
+    // Remplir le tableau avec les ressources disponibles
+    painter.setFont(QFont("Arial", 10));
+    while (query.next()) {
+        painter.drawText(x, y, query.value("id").toString());
+        painter.drawText(x + colWidth, y, query.value("nom").toString());
+        painter.drawText(x + 2 * colWidth, y, query.value("type").toString());
+        painter.drawText(x + 3 * colWidth, y, query.value("etat").toString());
+        painter.drawText(x + 4 * colWidth, y, query.value("fournisseur").toString());
+        painter.drawText(x + 5 * colWidth, y, query.value("localisation").toString());
+        painter.drawText(x + 6 * colWidth, y, query.value("quantite").toString());
+
+        y += rowHeight;
+    }
+
+    painter.end();  // Fin de l'écriture du PDF
+
+    QMessageBox::information(this, "Succès", "Le fichier PDF a été généré avec succès !");
+}
+
+void MainWindow::rechercher() {
+    // Effacer les anciennes lignes affichées dans la table
+    ui->tableWidget->setRowCount(0);
+
+    // Récupérer le texte du champ de recherche
+    QString rechercheNom = ui->lineEdit_Recherche->text();
+
+    // Préparer la requête SQL avec un filtre par nom
+    QSqlQuery query;
+    query.prepare("SELECT * FROM ressource WHERE nom LIKE ?");
+    query.addBindValue("%" + rechercheNom + "%"); // Permet de rechercher partiellement un nom
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Erreur", "Échec de la recherche.");
+        return;
+    }
+
+    int row = 0;
+    while (query.next()) {
+        ui->tableWidget->insertRow(row);
+
+        int id = query.value("id").toInt();
+        QString nom = query.value("nom").toString();
+        QString type = query.value("type").toString();
+        QString etat = query.value("etat").toString();
+        QString fournisseur = query.value("fournisseur").toString();
+        QString localisation = query.value("localisation").toString();
+        int quantite = query.value("quantite").toInt();
+
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(nom));
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(type));
+        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(etat));
+        ui->tableWidget->setItem(row, 4, new QTableWidgetItem(fournisseur));
+        ui->tableWidget->setItem(row, 5, new QTableWidgetItem(localisation));
+        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(QString::number(quantite)));
+
+        // Créer un bouton Modifier
+        QPushButton *modifierButton = new QPushButton("Modifier");
+        modifierButton->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
+                                      "QPushButton:hover { background-color: #2980b9; }");
+
+        // Connecter le bouton à la fonction modifier()
+        connect(modifierButton, &QPushButton::clicked, this, [this, id, nom, type, etat, fournisseur, localisation, quantite]() {
+            modifier(id, nom, type, etat, fournisseur, localisation, quantite);
+        });
+
+        ui->tableWidget->setCellWidget(row, 7, modifierButton);
+
+        row++;
+    }
+}
+
+
+void MainWindow::afficherGraphiqueMateriels() {
+    // Créer la série de barres
+    QBarSeries *series = new QBarSeries();
+
+    QStringList categories;
+
+    // Requête SQL pour récupérer les matériels triés par quantité (ordre décroissant)
+    QSqlQuery query;
+    query.exec("SELECT nom, quantite FROM ressource WHERE type = 'materiel' ORDER BY quantite DESC");
+
+    // Ajouter les matériels à la série
+    while (query.next()) {
+        QString nom = query.value("nom").toString();
+        int quantite = query.value("quantite").toInt();
+
+        QBarSet *set = new QBarSet(nom);  // Créer un ensemble de barres
+        *set << quantite;
+        series->append(set);  // Ajouter l'ensemble à la série
+
+        categories << nom;  // Ajouter le nom du matériel aux catégories
+    }
+
+    // Requête SQL pour récupérer les logiciels actifs
+    QSqlQuery queryLogiciels;
+    queryLogiciels.exec("SELECT nom, quantite FROM ressource WHERE type = 'logiciel' AND etat = 'active'");
+
+    // Ajouter les logiciels actifs à la série
+    while (queryLogiciels.next()) {
+        QString nom = queryLogiciels.value("nom").toString();
+        int quantite = queryLogiciels.value("quantite").toInt();
+
+        QBarSet *set = new QBarSet(nom);  // Créer un ensemble de barres
+        *set << quantite;
+        series->append(set);  // Ajouter l'ensemble à la série
+
+        categories << nom;  // Ajouter le nom du logiciel aux catégories
+    }
+
+    // Créer un graphique
+    QChart *chart = new QChart();
+    chart->setTitle("Statistiques des ressources");
+    chart->addSeries(series);
+
+    // Créer un axe X (catégories)
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);  // Ajouter les catégories (noms des ressources)
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    // Créer un axe Y
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setRange(0, 50);  // Ajuster l'axe Y selon les données
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    // Créer un QChartView pour afficher le graphique
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    // Créer un QWidget pour contenir le layout
+    QWidget *widgetGraph = new QWidget(this);
+    QHBoxLayout *layout = new QHBoxLayout(widgetGraph);
+
+    // Ajouter le chartView au layout
+    layout->addWidget(chartView);
+
+    // Associer le layout au QWidget
+    widgetGraph->setLayout(layout);
+
+    // Ajouter ce QWidget à l'interface principale
+    ui->widgetGraphLayout->addWidget(widgetGraph);
+}
+
+
+void MainWindow::afficher() {
+    // Clear the table before filling it
+    ui->tableWidget->setRowCount(0); // Remove any existing rows
+
+    // Prepare the SQL query
+    QSqlQuery query;
+    query.exec("SELECT * FROM ressource");
+
+    int row = 0;
+    while (query.next()) {
+        ui->tableWidget->insertRow(row);  // Insert a new row
+
+        // Assign data to correct columns based on the column index
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value("id").toString())); // ID
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value("nom").toString())); // NOM
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value("type").toString())); // TYPE
+        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value("etat").toString())); // ETAT
+        ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value("fournisseur").toString())); // FOURNISSEUR
+        ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("localisation").toString())); // LOCALISATION
+        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("quantite").toString())); // QUANTITE
+
+        // Add the Modify button
+        QPushButton *modifyButton = new QPushButton("Modifier");
+        modifyButton->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
+                                    "QPushButton:hover { background-color: #2980b9; }");
+        modifyButton->setFixedSize(70, 25);
+        connect(modifyButton, &QPushButton::clicked, [this, row]() {
+            // Get the values from the table row and pass them to the modifier function
+            int id = ui->tableWidget->item(row, 0)->text().toInt();
+            QString nom = ui->tableWidget->item(row, 1)->text();
+            QString type = ui->tableWidget->item(row, 2)->text();
+            QString etat = ui->tableWidget->item(row, 3)->text();
+            QString fournisseur = ui->tableWidget->item(row, 4)->text();
+            QString localisation = ui->tableWidget->item(row, 5)->text();
+            int quantite = ui->tableWidget->item(row, 6)->text().toInt();
+
+            // Call the modifier function with the parameters
+            this->modifier(id, nom, type, etat, fournisseur, localisation, quantite);
+        });
+
+        // Set the button in the last column of the table
+        ui->tableWidget->setCellWidget(row, 7, modifyButton);
+
+        row++;  // Go to the next row
+    }
+}
+void MainWindow::setupTableWidget() {
+    // Set the number of columns
+    ui->tableWidget->setColumnCount(8);  // 7 columns for ID, NOM, TYPE, ETAT, FOURNISSEUR, LOCALISATION, QUANTITE + 1 column for "action"
+
+    // Set the headers for each column
+    ui->tableWidget->setHorizontalHeaderLabels({"ID", "NOM", "TYPE", "ETAT", "FOURNISSEUR", "LOCALISATION", "QUANTITE", "action"});
+
+    // Fill the table with sample data (adjust this part as needed)
+    ui->tableWidget->setRowCount(8);  // Set number of rows as per your data
+
+
+}
+
+
+void MainWindow::on_ajouter_clicked() {
+    QString nom = ui->lineEdit_Nom->text().trimmed();
+    QString type = ui->lineEdit_Type->text().trimmed();
+    QString etat = ui->lineEdit_Etat->text().trimmed();
+    QString fournisseur = ui->lineEdit_Fournisseur->text().trimmed();
+    QString localisation = ui->lineEdit_Localisation->text().trimmed();
+    // Vérifier si les champs sont vides
+    if (nom.isEmpty() || type.isEmpty() || etat.isEmpty() || fournisseur.isEmpty() || localisation.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Tous les champs doivent être remplis !");
+        return;
+    }
+
+    // Vérifier la quantité
+    bool ok;
+    int quantite = ui->lineEdit_Quantite->text().toInt(&ok);
+    if (!ok) {
+        QMessageBox::warning(this, "Erreur", "Veuillez entrer une quantité valide !");
+        return;
+    }
+
+
+    // Vérifier si les champs sont vides
+    if (nom.isEmpty() || type.isEmpty() || etat.isEmpty() || fournisseur.isEmpty() || localisation.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Tous les champs doivent être remplis !");
+        return;
+    }
+
+    // Vérifier si les champs contiennent uniquement des lettres et espaces
+    QRegularExpression regex("^[A-Za-zÀ-ÖØ-öø-ÿ\\s-]+$");
+    if (!regex.match(nom).hasMatch()) {
+        QMessageBox::warning(this, "Erreur", "Le champ 'Nom' ne doit contenir que des lettres et des espaces !");
+        return;
+    }
+    if (!regex.match(fournisseur).hasMatch()) {
+        QMessageBox::warning(this, "Erreur", "Le champ 'Fournisseur' ne doit contenir que des lettres et des espaces !");
+        return;
+    }
+    if (!regex.match(localisation).hasMatch()) {
+        QMessageBox::warning(this, "Erreur", "Le champ 'Localisation' ne doit contenir que des lettres et des espaces !");
+        return;
+    }
+
+    // Si tout est correct, ajouter dans la base de données
+    Ressource r(nom, type, etat, fournisseur, localisation, quantite);
+    if (r.ajouter()) {
+        QMessageBox::information(this, "Succès", "Ajout réussi !");
+        afficher();  // Mettre à jour l'affichage
+    } else {
+        QMessageBox::critical(this, "Erreur", "Échec de l'ajout !");
+    }
+}
+
+void MainWindow::on_supprimer_clicked() {
+    QString idStr = ui->lineEdit_Id->text().trimmed();  // Récupérer l'ID
+
+    // Vérifier si l'ID est vide
+    if (idStr.isEmpty()) {
+        QMessageBox::warning(this, "Attention", "Veuillez entrer un ID !");
+        return;
+    }
+
+    // Vérifier si l'ID ne contient que des chiffres
+    QRegularExpression regex("^[0-9]+$");
+    if (!regex.match(idStr).hasMatch()) {
+        QMessageBox::warning(this, "Erreur", "L'ID doit contenir uniquement des chiffres !");
+        return;
+    }
+
+    int id = idStr.toInt();  // Convertir en entier
+
+    // Vérifier si l'ID existe dans la base de données
+    QSqlQuery checkQuery;
+    checkQuery.prepare("SELECT COUNT(*) FROM ressource WHERE id = :id");
+    checkQuery.bindValue(":id", id);
+    if (!checkQuery.exec()) {
+        QMessageBox::critical(this, "Erreur", "Erreur lors de la vérification de l'ID !");
+        return;
+    }
+
+    checkQuery.next();
+    if (checkQuery.value(0).toInt() == 0) {
+        QMessageBox::warning(this, "Erreur", "L'ID n'existe pas !");
+        return;
+    }
+
+    // Suppression
+    Ressource r;
+    if (r.supprimer(id)) {
+        QMessageBox::information(this, "Succès", "Suppression réussie !");
+        afficher();  // Mettre à jour l'affichage
+    } else {
+        QMessageBox::critical(this, "Erreur", "Échec de la suppression !");
+    }
+}
+// Définition de la fonction modifierLigne dans mainwindow.cpp
+
+void MainWindow::modifier(int id, const QString &nom, const QString &type, const QString &etat,
+                          const QString &fournisseur, const QString &localisation, int quantite)
+{
+    Ressource r;
+    // Create a dialog for modification
+    QDialog dialog(this);
+    dialog.setWindowTitle("Modifier Ressource");
+    QFormLayout form(&dialog);
+
+    // Pre-fill the fields with the current values
+    QLineEdit *nomEdit = new QLineEdit(nom, &dialog);
+
+    // Create QComboBox for 'type' with predefined options
+    QComboBox *typeEdit = new QComboBox(&dialog);
+    typeEdit->addItem("Logiciel");
+    typeEdit->addItem("Matériel");
+    typeEdit->setCurrentText(type);  // Set the current selection
+
+    // Create QComboBox for 'etat' with predefined options
+    QComboBox *etatEdit = new QComboBox(&dialog);
+    etatEdit->addItem("actif");
+    etatEdit->addItem("inactif");
+    etatEdit->addItem("disponible");
+    etatEdit->addItem("indisponible");
+    etatEdit->setCurrentText(etat);  // Set the current selection
+
+    QLineEdit *fournisseurEdit = new QLineEdit(fournisseur, &dialog);
+    QLineEdit *localisationEdit = new QLineEdit(localisation, &dialog);
+    QSpinBox *quantiteEdit = new QSpinBox(&dialog);
+    quantiteEdit->setRange(0, 1000);
+    quantiteEdit->setValue(quantite);
+
+    // Add the fields to the form layout
+    form.addRow("Nom:", nomEdit);
+    form.addRow("Type:", typeEdit);
+    form.addRow("État:", etatEdit);
+    form.addRow("Fournisseur:", fournisseurEdit);
+    form.addRow("Localisation:", localisationEdit);
+    form.addRow("Quantité:", quantiteEdit);
+
+    // Buttons
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
+    form.addRow(&buttonBox);
+
+    // Connect button signals
+    connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+
+    // Show the dialog and check if the user confirmed
+    if (dialog.exec() == QDialog::Accepted) {
+        // Retrieve updated values
+        QString newNom = nomEdit->text().trimmed();
+        QString newType = typeEdit->currentText().trimmed();  // Get the selected value from the QComboBox
+        QString newEtat = etatEdit->currentText().trimmed();  // Get the selected value from the QComboBox
+        QString newFournisseur = fournisseurEdit->text().trimmed();
+        QString newLocalisation = localisationEdit->text().trimmed();
+        int newQuantite = quantiteEdit->value();
+
+        // Vérifier si les champs sont vides
+        if (newNom.isEmpty() || newType.isEmpty() || newEtat.isEmpty() || newFournisseur.isEmpty() || newLocalisation.isEmpty()) {
+            QMessageBox::warning(this, "Erreur", "Tous les champs doivent être remplis !");
+            return;
+        }
+
+        // Vérifier si les champs contiennent uniquement des lettres et espaces
+        QRegularExpression regex("^[A-Za-zÀ-ÖØ-öø-ÿ -]+$");
+        if (!regex.match(newNom).hasMatch() ||
+            !regex.match(newFournisseur).hasMatch() ||
+            !regex.match(newLocalisation).hasMatch()) {
+            QMessageBox::warning(this, "Erreur", "Seules les lettres et espaces sont autorisés !");
+            return;
+        }
+
+        // Update the resource in the database
+        if (r.modifier(id, newNom, newType, newEtat, newFournisseur, newLocalisation, newQuantite)) {
+            QMessageBox::information(this, "Succès", "Modification réussie !");
+            afficher();  // Refresh the table display
+        } else {
+            QMessageBox::critical(this, "Erreur", "Échec de la modification !");
+        }
+    }
+}
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    connect(ui->annuletri, &QPushButton::clicked, this, &MainWindow::on_annulertri_clicked);
+
+    connect(ui->trimateriel, &QPushButton::clicked, this, &MainWindow::on_trimateriel_clicked);
+    connect(ui->trilogiciel, &QPushButton::clicked, this, &MainWindow::on_trilogiciel_clicked);
+
+    connect(ui->pushButton_exporterpdf, &QPushButton::clicked, this, &MainWindow::exporterPDF);
+
+    connect(ui->pushButton_Rechercher, &QPushButton::clicked, this, &MainWindow::rechercher);
+
+    // Créer un graphique
+    QChart *chart = new QChart();
+    chart->setTitle("Graphique des ressources");
+
+    // Créer une série de barres
+    QBarSeries *series = new QBarSeries();
+
+    // Créer des ensembles de barres
+    QBarSet *set1 = new QBarSet("Matériel");
+    *set1 << 10 << 20 << 30;  // Quantités de matériel
+    QBarSet *set2 = new QBarSet("Logiciel");
+    *set2 << 5 << 15 << 25;  // Quantités de logiciels
+
+    // Ajouter les ensembles à la série
+    series->append(set1);
+    series->append(set2);
+
+    // Ajouter la série au graphique
+    chart->addSeries(series);
+
+    // Créer un axe X pour les catégories
+    QStringList categories;
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    // Créer un axe Y
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setRange(0, 50);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    // Créer un QChartView pour afficher le graphique
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    // Créer un QWidget pour contenir le layout
+    QWidget *widgetGraph = new QWidget(this);
+
+    // Créer le layout (QHBoxLayout ou QVBoxLayout)
+    QHBoxLayout *layout = new QHBoxLayout(widgetGraph);  // ou QVBoxLayout
+
+    // Ajouter le QChartView au layout
+    layout->addWidget(chartView);
+
+    // Associer le layout au QWidget
+    widgetGraph->setLayout(layout);
+
+    // Ajouter ce QWidget à l'interface principale (par exemple à un autre QWidget ou à la fenêtre principale)
+    ui->widgetGraphLayout->addWidget(widgetGraph);  // Assurez-vous q
+    QRegularExpression regex("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(regex, this);
+
+    // Appliquer le validateur sur les champs concernés
+    ui->lineEdit_Nom->setValidator(validator);
+    ui->lineEdit_Type->setValidator(validator);
+    QRegularExpression regexType("^(logiciel|materiel)$", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionValidator *validatorType = new QRegularExpressionValidator(regexType, this);
+    ui->lineEdit_Type->setValidator(validatorType);
+    ui->lineEdit_Etat->setValidator(validator);
+    QRegularExpression regexEtat("^(active|inactive|disponible|indisponible)$", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionValidator *validatorEtat = new QRegularExpressionValidator(regexEtat, this);
+    ui->lineEdit_Etat->setValidator(validatorEtat);
+    ui->lineEdit_Fournisseur->setValidator(validator);
+    ui->lineEdit_Localisation->setValidator(validator);
+    QRegularExpression regexQuantite("^[0-9]+$");
+    QRegularExpressionValidator *validatorQuantite = new QRegularExpressionValidator(regexQuantite, this);
+    ui->lineEdit_Quantite->setValidator(validatorQuantite);
+
+
+    Ressource r;
+    setupTableWidget();
+    afficher();
+    this->setWindowTitle("ELICAR");
+
+
+    // Charger et vérifier l'image de l'icône de l'application
+    QPixmap pixmap("C:/Users/tez/Desktop/dash/images/logo.png");
+    if (!pixmap.isNull()) {
+        QPixmap resizedPixmap = pixmap.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        this->setWindowIcon(QIcon(resizedPixmap));
+    } else {
+        qDebug() << "L'image du logo n'a pas pu être chargée!";
+    }
+
+    int columnActions = 7;
+    ui->tableWidget->setColumnWidth(columnActions, 200);
+
+
+
+}
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
