@@ -1,0 +1,21 @@
+# ninja log v6
+99	476	7624366256738155	archi_autogen/timestamp	48815e76569556ef
+99	476	7624366256738155	archi_autogen/mocs_compilation.cpp	48815e76569556ef
+10334	11648	7618198528045751	archi.exe	7e9ddfa77569e7aa
+99	476	7624366256738155	C:/Users/user/OneDrive/Documents/archi/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/archi_autogen/timestamp	48815e76569556ef
+99	476	7624366256738155	C:/Users/user/OneDrive/Documents/archi/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/archi_autogen/mocs_compilation.cpp	48815e76569556ef
+1265	5017	7618161592588379	CMakeFiles/archi.dir/archi_autogen/mocs_compilation.cpp.obj	f343dcf9ad8acf4c
+1272	5053	7618161592643103	CMakeFiles/archi.dir/main.cpp.obj	f0afcb14b828be05
+484	5469	7624366260591264	CMakeFiles/archi.dir/mainwindow.cpp.obj	1bfbee1d967def26
+17	1105	7624374332426165	build.ninja	8bbae1ebbaa8a6fd
+278	837	7624473986524732	archi_autogen/timestamp	48815e76569556ef
+278	837	7624473986524732	archi_autogen/mocs_compilation.cpp	48815e76569556ef
+278	837	7624473986524732	C:/Users/user/OneDrive/Documents/archi/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/archi_autogen/timestamp	48815e76569556ef
+278	837	7624473986524732	C:/Users/user/OneDrive/Documents/archi/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/archi_autogen/mocs_compilation.cpp	48815e76569556ef
+862	2052	7624473992384611	CMakeFiles/archi.dir/tache.cpp.obj	c5cdc55d4f888430
+847	17111	7624473992232317	CMakeFiles/archi.dir/mainwindow.cpp.obj	1bfbee1d967def26
+141	572	7624781332478096	archi_autogen/timestamp	48815e76569556ef
+141	572	7624781332478096	archi_autogen/mocs_compilation.cpp	48815e76569556ef
+141	572	7624781332478096	C:/Users/user/OneDrive/Documents/archi/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/archi_autogen/timestamp	48815e76569556ef
+141	572	7624781332478096	C:/Users/user/OneDrive/Documents/archi/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/archi_autogen/mocs_compilation.cpp	48815e76569556ef
+580	7303	7624781336864167	CMakeFiles/archi.dir/mainwindow.cpp.obj	1bfbee1d967def26
