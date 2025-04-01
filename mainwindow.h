@@ -23,9 +23,10 @@ public:
     int generateAutoID();
      bool estTexteValide(const QString &texte);
      void setupValidation();
-   void exporterPDF();
+   void exporterPDF(); void trierTableau(const QString& colonne, bool ascendant);
 private:
     Ui::MainWindow *ui;
+    bool ordreCroissant = true;
     bool isValidColumn(const QString &columnName);
 
     bool verifierMotDePasse(const QString &motDePasse);
@@ -42,6 +43,7 @@ private slots:
     void on_btnsupprimer_clicked();
     void modifierCellule(const QModelIndex &index);
     void on_lineEdit_Rech_textChanged(const QString &text);
+      void on_tri_clicked();
 
 
 

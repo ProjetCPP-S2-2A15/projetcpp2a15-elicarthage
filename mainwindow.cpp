@@ -43,11 +43,17 @@ int MainWindow::generateAutoID() {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
+   // if(ordreCroissant==true)
+   // ordreCroissant=true; // Initialiser à true pour le premier tri croissant
+   // trierTableau("NOM",ordreCroissant);
     connect(ui->tableView, &QTableView::clicked, this, &MainWindow::modifierCellule);
     connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
     connect(ui->lineEdit_Rech, &QLineEdit::textChanged, this, &MainWindow::on_lineEdit_Rech_textChanged);
     connect(ui->exportBtn, &QPushButton::clicked, this, &MainWindow::exporterPDF);
+    connect(ui->tri, &QPushButton::clicked, this, &MainWindow::on_tri_clicked);
+
 
 
     connect(ui->lineEdit_mail, &QLineEdit::textChanged, this, [this](const QString &text) {
@@ -58,7 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     Architecte Etmp;
+
     ui->tableView->setModel(Etmp.afficher());
+
 
 
     this->setWindowTitle("ELICAR");
@@ -459,7 +467,7 @@ void MainWindow::exporterPDF()
     const int colCount = 6;
     int colWidths[colCount] = {210, 220, 220, 220, 220, 220};
     const int lineWidth = 1;
-    const int cellPadding = 5;
+  //  const int cellPadding = 5;
 
     // Position initiale
     int yPos = margin;
@@ -573,4 +581,20 @@ void MainWindow::exporterPDF()
 
     painter.end();
     QMessageBox::information(this, "Exportation réussie", "Le fichier PDF a été exporté avec succès.");
+}
+#include <QDebug> // Inclure QDebug pour les messages de débogage
+
+void MainWindow::on_tri_clicked()
+{
+    ordreCroissant = !ordreCroissant;
+    trierTableau("NOM", ordreCroissant);
+}
+void MainWindow::trierTableau(const QString& colonne, bool ascendant)
+{
+    // Appeler la méthode afficherAvecTri de la classe Architecte pour obtenir le modèle trié
+    Architecte architecte;
+    QSqlQueryModel *model = architecte.afficherAvecTri(colonne, ascendant);
+
+    // Mettre à jour la vue (QTableView) pour afficher le modèle trié
+    ui->tableView->setModel(model); // Pas besoin de supprimer l'ancien modèle, setModel le gère
 }

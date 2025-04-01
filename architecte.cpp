@@ -170,4 +170,38 @@ QSqlQueryModel* Architecte::rechercher(const QString &keyword)
     return model;
 }
 
+QSqlQueryModel* Architecte::afficherAvecTri(const QString& colonne, bool ascendant)
+{
+    qDebug() << "afficherAvecTri: colonne =" << colonne << ", ascendant =" << ascendant;
+
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QString order = ascendant ? "ASC" : "DESC";
+    QString query = QString("SELECT * FROM ZEINEB.ARCHITECTE ORDER BY %1 %2").arg(colonne).arg(order);
+
+    qDebug() << "afficherAvecTri: requête SQL =" << query;
+
+    model->setQuery(query);
+
+    // Vérifier les erreurs SQL
+    if (model->lastError().isValid()) {
+        qDebug() << "afficherAvecTri: Erreur SQL =" << model->lastError().text();
+        delete model; // Libérer la mémoire en cas d'erreur
+        return nullptr; // Retourner nullptr pour indiquer une erreur
+    }
+
+    // Définir les en-têtes pour les colonnes
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRÉNOM"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("EMAIL"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("RÔLE"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("NBR_HEURES_SUPPLEMENTAIRES"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("MOT_DE_PASSE"));
+    model->setHeaderData(7, Qt::Horizontal, QObject::tr("QUESTION"));
+    model->setHeaderData(8, Qt::Horizontal, QObject::tr("REPONSE"));
+
+    qDebug() << "afficherAvecTri: modèle trié renvoyé.";
+
+    return model;
+}
 

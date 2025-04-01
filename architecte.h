@@ -46,9 +46,11 @@ public:
     bool supprimer(int);
     bool idExiste(int id);
     bool modifier(int id, const QString &columnName, const QString &newValue);
-    void   getNomPrenom(int id, QString &nom, QString &prenom);
+    void getNomPrenom(int id, QString &nom, QString &prenom);
     QSqlQueryModel* rechercher(const QString &keyword);
 
+    // Correction : Ne pas initialiser model ici
+    QSqlQueryModel* afficherAvecTri(const QString& colonne, bool ascendant);
 };
 
 #endif // ARCHITECTE_H
