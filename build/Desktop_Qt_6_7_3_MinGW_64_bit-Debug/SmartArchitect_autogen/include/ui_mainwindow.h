@@ -79,6 +79,7 @@ public:
     QLineEdit *project_budget;
     QLineEdit *project_etat;
     QPushButton *suppProjet;
+    QPushButton *TriButton;
     QLabel *label_88;
     QLabel *label_89;
     QLabel *label_90;
@@ -285,7 +286,7 @@ public:
         rechProjet_5->addItem(QString());
         rechProjet_5->addItem(QString());
         rechProjet_5->setObjectName("rechProjet_5");
-        rechProjet_5->setGeometry(QRect(430, 60, 121, 26));
+        rechProjet_5->setGeometry(QRect(820, 90, 121, 31));
         rechProjet_5->setStyleSheet(QString::fromUtf8("QComboBox {\n"
 "    background-color: #2C3E50;   /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;                /* Texte blanc pour un bon contraste */\n"
@@ -315,7 +316,7 @@ public:
 ""));
         BouttonRechProjet_5 = new QPushButton(groupBox_5);
         BouttonRechProjet_5->setObjectName("BouttonRechProjet_5");
-        BouttonRechProjet_5->setGeometry(QRect(740, 60, 91, 31));
+        BouttonRechProjet_5->setGeometry(QRect(610, 70, 91, 31));
         BouttonRechProjet_5->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
@@ -433,7 +434,7 @@ public:
         pushButton_36->setFlat(true);
         taperRech_5 = new QLineEdit(groupBox_5);
         taperRech_5->setObjectName("taperRech_5");
-        taperRech_5->setGeometry(QRect(560, 60, 171, 31));
+        taperRech_5->setGeometry(QRect(430, 70, 171, 31));
         taperRech_5->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
@@ -658,7 +659,7 @@ public:
 "    border: 2px solid #3498DB;    /* Bordure bleu plus clair au focus */\n"
 "    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
 "}"));
-        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(14, 0, 0)));
+        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(13, 0, 0)));
         project_date_deb->setMinimumDate(QDate(2024, 1, 1));
         label_6 = new QLabel(widget_4);
         label_6->setObjectName("label_6");
@@ -714,6 +715,37 @@ public:
         suppProjet->setObjectName("suppProjet");
         suppProjet->setGeometry(QRect(50, 400, 91, 31));
         suppProjet->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
+"    color: white;               /* Texte blanc pour un bon contraste */\n"
+"    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
+"    padding: 6px 12px;          /* Espacement r\303\251duit pour un design plus compact */\n"
+"    font-size: 13px;            /* Texte plus petit et plus \303\251l\303\251gant */\n"
+"    font-weight: normal;        /* Texte normal pour un style minimaliste */\n"
+"    border: 1px solid #1A252F;  /* Bordure discr\303\250te l\303\251g\303\250rement plus fonc\303\251e */\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #34495E;  /* Bleu l\303\251g\303\250rement plus clair au survol */\n"
+"    border: 1px solid #2C3E50;  /* Bordure harmonis\303\251e */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #1A252F;  /* Bleu encore plus fonc\303\251 lorsqu'on clique */\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    background-color: "
+                        "#95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
+"    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
+"    border: 1px solid #7F8C8D;\n"
+"}\n"
+""));
+        TriButton = new QPushButton(groupBox_5);
+        TriButton->setObjectName("TriButton");
+        TriButton->setGeometry(QRect(950, 90, 91, 31));
+        TriButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
 "    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
@@ -862,9 +894,9 @@ public:
 
         pushButton_25->setText(QString());
         label_83->setText(QCoreApplication::translate("MainWindow", "Trier selon", nullptr));
-        rechProjet_5->setItemText(0, QCoreApplication::translate("MainWindow", "ID_PROJET", nullptr));
-        rechProjet_5->setItemText(1, QCoreApplication::translate("MainWindow", "NOM", nullptr));
-        rechProjet_5->setItemText(2, QCoreApplication::translate("MainWindow", "ETAT", nullptr));
+        rechProjet_5->setItemText(0, QCoreApplication::translate("MainWindow", "NOM", nullptr));
+        rechProjet_5->setItemText(1, QCoreApplication::translate("MainWindow", "BUDGET", nullptr));
+        rechProjet_5->setItemText(2, QCoreApplication::translate("MainWindow", "DATE_DEBUT", nullptr));
 
         BouttonRechProjet_5->setText(QCoreApplication::translate("MainWindow", "Rechercher", nullptr));
         pdfProjet->setText(QCoreApplication::translate("MainWindow", "Exporter pdf", nullptr));
@@ -892,6 +924,7 @@ public:
         label_7->setText(QCoreApplication::translate("MainWindow", "Budget", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "etat", nullptr));
         suppProjet->setText(QCoreApplication::translate("MainWindow", "Supprimer", nullptr));
+        TriButton->setText(QCoreApplication::translate("MainWindow", "Trier", nullptr));
         tabWidget_6->setTabText(tabWidget_6->indexOf(tab_7), QCoreApplication::translate("MainWindow", "Gestion projets", nullptr));
         label_88->setText(QString());
         label_89->setText(QString());

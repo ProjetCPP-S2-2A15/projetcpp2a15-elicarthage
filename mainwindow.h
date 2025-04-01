@@ -30,6 +30,8 @@ private slots:
 
     void on_searchButton_clicked();
 
+    void on_TriButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     void refreshTable();

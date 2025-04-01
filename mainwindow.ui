@@ -483,10 +483,10 @@ background-color: rgb(170, 170, 255);</string>
          <widget class="QComboBox" name="rechProjet_5">
           <property name="geometry">
            <rect>
-            <x>430</x>
-            <y>60</y>
+            <x>820</x>
+            <y>90</y>
             <width>121</width>
-            <height>26</height>
+            <height>31</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -520,25 +520,25 @@ QComboBox QAbstractItemView {
           </property>
           <item>
            <property name="text">
-            <string>ID_PROJET</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
             <string>NOM</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>ETAT</string>
+            <string>BUDGET</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DATE_DEBUT</string>
            </property>
           </item>
          </widget>
          <widget class="QPushButton" name="BouttonRechProjet_5">
           <property name="geometry">
            <rect>
-            <x>740</x>
-            <y>60</y>
+            <x>610</x>
+            <y>70</y>
             <width>91</width>
             <height>31</height>
            </rect>
@@ -752,8 +752,8 @@ QComboBox QAbstractItemView {
          <widget class="QLineEdit" name="taperRech_5">
           <property name="geometry">
            <rect>
-            <x>560</x>
-            <y>60</y>
+            <x>430</x>
+            <y>70</y>
             <width>171</width>
             <height>31</height>
            </rect>
@@ -1181,7 +1181,7 @@ QLineEdit:focus {
            </property>
            <property name="minimumDateTime">
             <datetime>
-             <hour>14</hour>
+             <hour>13</hour>
              <minute>0</minute>
              <second>0</second>
              <year>2024</year>
@@ -1349,6 +1349,48 @@ QPushButton:disabled {
             <string>Supprimer</string>
            </property>
           </widget>
+         </widget>
+         <widget class="QPushButton" name="TriButton">
+          <property name="geometry">
+           <rect>
+            <x>950</x>
+            <y>90</y>
+            <width>91</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    background-color: #2C3E50;  /* Bleu foncé professionnel */
+    color: white;               /* Texte blanc pour un bon contraste */
+    border-radius: 6px;         /* Coins légèrement arrondis */
+    padding: 6px 12px;          /* Espacement réduit pour un design plus compact */
+    font-size: 13px;            /* Texte plus petit et plus élégant */
+    font-weight: normal;        /* Texte normal pour un style minimaliste */
+    border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
+    
+}
+
+QPushButton:hover {
+    background-color: #34495E;  /* Bleu légèrement plus clair au survol */
+    border: 1px solid #2C3E50;  /* Bordure harmonisée */
+}
+
+QPushButton:pressed {
+    background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
+    
+}
+
+QPushButton:disabled {
+    background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
+    color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
+    border: 1px solid #7F8C8D;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>Trier</string>
+          </property>
          </widget>
         </widget>
        </widget>

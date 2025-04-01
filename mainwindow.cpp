@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
      refreshTable();
     connect(ui->projectTable, &QTableWidget::cellClicked, this, &MainWindow::on_projectTable_cellClicked);
     connect(ui->BouttonRechProjet_5, &QPushButton::clicked, this, &MainWindow::on_searchButton_clicked);
+    connect(ui->TriButton, &QPushButton::clicked, this, &MainWindow::on_TriButton_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -385,3 +386,22 @@ void MainWindow::on_searchButton_clicked() {
         ui->projectTable->setRowHidden(row, !matchFound);
     }
 }
+
+void MainWindow::on_TriButton_clicked()
+{
+    QString colonneTri = ui->rechProjet_5->currentText();
+
+    if (colonneTri == "NOM") {
+        // Tri alphabétique
+        ui->projectTable->sortByColumn(1, Qt::AscendingOrder);
+    }
+    else if (colonneTri == "BUDGET") {
+        // Tri du budget (du plus élevé au plus bas)
+        ui->projectTable->sortByColumn(5, Qt::DescendingOrder);
+    }
+    else if (colonneTri == "DATE_DEBUT") {
+        // Tri par date (du plus récent au plus ancien)
+        ui->projectTable->sortByColumn(3, Qt::DescendingOrder);
+    }
+}
+
