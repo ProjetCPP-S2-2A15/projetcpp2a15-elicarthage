@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
      refreshTable();
     connect(ui->projectTable, &QTableWidget::cellClicked, this, &MainWindow::on_projectTable_cellClicked);
-
+    connect(ui->BouttonRechProjet_5, &QPushButton::clicked, this, &MainWindow::on_searchButton_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -256,7 +256,6 @@ void MainWindow::on_projectTable_cellClicked(int row, int column)
     ui->project_etat->setText(itemEtat->text());
 }
 
-
 void MainWindow::on_pdfProjet_clicked()
 { // Sélection du chemin et du nom du fichier PDF
     QString filePath = QFileDialog::getSaveFileName(this, "Enregistrer le PDF", "", "*.pdf");
@@ -366,4 +365,23 @@ void MainWindow::on_pdfProjet_clicked()
 
     // Message de succès
     QMessageBox::information(this, "Succès", "Le fichier PDF a été exporté avec succès !");
+}
+
+void MainWindow::on_searchButton_clicked() {
+    QString searchText = ui->taperRech_5->text().trimmed().toLower(); // Get search text (case-insensitive)
+    int rowCount = ui->projectTable->rowCount();
+    int columnCount = ui->projectTable->columnCount();
+
+    for (int row = 0; row < rowCount; ++row) {
+        bool matchFound = false;
+        for (int col = 0; col < columnCount; ++col) {
+            QTableWidgetItem *item = ui->projectTable->item(row, col);
+            if (item && item->text().toLower().contains(searchText)) {
+                matchFound = true;
+                break;
+            }
+        }
+        // Show/hide row based on match
+        ui->projectTable->setRowHidden(row, !matchFound);
+    }
 }

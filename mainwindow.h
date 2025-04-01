@@ -24,11 +24,11 @@ private slots:
 
     void on_suppProjet_clicked();
 
-
-
     void on_projectTable_cellClicked(int row, int column);
 
     void on_pdfProjet_clicked();
+
+    void on_searchButton_clicked();
 
 private:
     Ui::MainWindow *ui;
