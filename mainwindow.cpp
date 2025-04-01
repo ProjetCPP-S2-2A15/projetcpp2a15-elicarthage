@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->tableView, &QTableView::clicked, this, &MainWindow::modifierCellule);
     connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
+    connect(ui->lineEdit_Rech, &QLineEdit::textChanged, this, &MainWindow::on_lineEdit_Rech_textChanged);
+
     connect(ui->lineEdit_mail, &QLineEdit::textChanged, this, [this](const QString &text) {
         validateEmail(text, false);
     });
@@ -293,7 +295,6 @@ void MainWindow::on_btnsupprimer_clicked()
 
 //----------------------------CRUD MODIFIER--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
 void MainWindow::modifierCellule(const QModelIndex &index)
 {
     QSqlQueryModel *model = qobject_cast<QSqlQueryModel *>(ui->tableView->model());
@@ -399,4 +400,16 @@ bool MainWindow::estTexteValide(const QString &texte)
     static QRegularExpression regex("^[A-Za-z\\s]+$");
 
     return regex.match(texte).hasMatch();
+}
+
+void MainWindow::on_lineEdit_Rech_textChanged(const QString &text)
+{
+    Architecte A;
+    QSqlQueryModel *model = A.rechercher(text);
+
+    if (model) {
+        ui->tableView->setModel(model);
+    } else {
+        QMessageBox::warning(this, "Erreur", "Une erreur s'est produite lors de la recherche.");
+    }
 }

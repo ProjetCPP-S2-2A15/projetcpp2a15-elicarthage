@@ -41,6 +41,9 @@ private slots:
     void on_annulerEvent_clicked();
     void on_btnsupprimer_clicked();
     void modifierCellule(const QModelIndex &index);
+    void on_lineEdit_Rech_textChanged(const QString &text);
+
+
 
 
 

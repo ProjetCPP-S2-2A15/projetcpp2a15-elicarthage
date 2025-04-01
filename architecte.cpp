@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QCryptographicHash>
 
-// Constructeur avec paramètres
+
 Architecte::Architecte(int id, const QString& nom, const QString& prenom,
                        const QString& mail, const QString& role, const QString& motDePasse,
                        const QString& question, const QString& reponse, int heuresSupplementaires)
@@ -20,17 +20,17 @@ Architecte::Architecte(int id, const QString& nom, const QString& prenom,
     this->nombreHeuresSupplementaires = heuresSupplementaires;
 }
 
-// Fonction pour ajouter toutes les informations en une seule fois
+
 bool Architecte::ajouter()
 {
     QSqlQuery query;
 
-    // Préparer la requête d'insertion
+
     query.prepare("INSERT INTO architecte (id, nom, PRÉNOM, EMAIL, RÔLE, MOT_DE_PASSE, question, reponse, NBR_HEURES_SUPPLEMENTAIRES) "
                   "VALUES (:id, :nom, :prenom, :mail, :role, :motDePasse, :question, :reponse, COALESCE(:heuresSupplementaires, 0))");
 
-    // Lier les valeurs aux paramètres de la requête
-    query.bindValue(":id", architectID);  // ID déjà passé en paramètre
+
+    query.bindValue(":id", architectID);
     query.bindValue(":nom", architectNom);
     query.bindValue(":prenom", architectPrenom);
     query.bindValue(":mail", architectMail);
@@ -39,10 +39,10 @@ bool Architecte::ajouter()
     query.bindValue(":question", question);
     query.bindValue(":reponse", reponse);
 
-    // Si heures supplémentaires sont spécifiées, utiliser leur valeur. Sinon, 0
+
     query.bindValue(":heuresSupplementaires", nombreHeuresSupplementaires == 0 ? QVariant(0) : nombreHeuresSupplementaires);
 
-    // Exécuter la requête et vérifier si elle est réussie
+
     if (!query.exec()) {
         qDebug() << "Erreur lors de l'ajout de l'architecte:" << query.lastError().text();
         return false;
@@ -58,7 +58,7 @@ QSqlQueryModel* Architecte::afficher()
 {
     QSqlQueryModel *model = new QSqlQueryModel();
 
-    // Exécuter la requête SQL pour récupérer les données
+
     model->setQuery("SELECT * FROM ZEINEB.ARCHITECTE");
 
     // Définir les en-têtes pour les colonnes
@@ -78,10 +78,10 @@ QSqlQueryModel* Architecte::afficher()
 bool Architecte::supprimer(int id)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM ZEINEB.ARCHITECTE WHERE id = :id"); // Préparer la requête SQL
-    query.bindValue(":id", id); // Associer l'ID directement (pas besoin de conversion)
+    query.prepare("DELETE FROM ZEINEB.ARCHITECTE WHERE id = :id");
+    query.bindValue(":id", id);
 
-    // Exécuter la requête et vérifier si elle est exécutée avec succès
+
     if (!query.exec()) {
         qDebug() << "Erreur lors de la suppression de l'architecte:" << query.lastError().text();
         return false;
@@ -96,13 +96,13 @@ bool Architecte::modifier(int id, const QString &columnName, const QString &newV
         return false;
     }
 
-    // Créer une requête SQL pour mettre à jour la valeur dans la base de données
+
     QSqlQuery query;
     query.prepare(QString("UPDATE ZEINEB.ARCHITECTE SET \"%1\" = :value WHERE ID = :id").arg(columnName));
     query.bindValue(":value", newValue);
     query.bindValue(":id", id);
 
-    // Exécuter la requête
+
     if (query.exec()) {
         qDebug() << "Modification réussie!";
         return true;
@@ -123,9 +123,51 @@ bool Architecte::idExiste(int id)
         if (query.next())
         {
             int count = query.value(0).toInt();
-            return count > 0;  // Retourner true si l'ID existe, sinon false
+            return count > 0;
         }
     }
     qDebug() << "Erreur SQL: " << query.lastError().text();
-    return false; // Si la requête échoue, on retourne false
+    return false;
 }
+
+void Architecte::getNomPrenom(int id, QString &nom, QString &prenom) {
+    QSqlQuery query;
+    query.prepare("SELECT NOM, PRÉNOM FROM ZEINEB.ARCHITECTE WHERE id = :id");
+    query.bindValue(":id", id);
+
+    if (!query.exec()) {
+        qDebug() << "Erreur de requête SQL:" << query.lastError().text();
+        return;
+    }
+
+    if (query.next()) {
+        nom = query.value("NOM").toString();
+        prenom = query.value("PRÉNOM").toString();
+    } else {
+        qDebug() << "Aucun résultat trouvé pour l'ID:" << id;
+    }
+}
+
+QSqlQueryModel* Architecte::rechercher(const QString &keyword)
+{
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery query;
+
+    query.prepare("SELECT * FROM ZEINEB.ARCHITECTE WHERE "
+                  "LOWER(NOM) LIKE LOWER(:keyword) OR "
+                  "LOWER(PRÉNOM) LIKE LOWER(:keyword)");
+
+    query.bindValue(":keyword", "%" + keyword + "%");
+
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de la recherche:" << query.lastError().text();
+        return nullptr;
+    }
+
+    // Utiliser std::move pour éviter la copie
+    model->setQuery(std::move(query));
+
+    return model;
+}
+
+

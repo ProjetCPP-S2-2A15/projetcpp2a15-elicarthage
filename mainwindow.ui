@@ -848,7 +848,7 @@ QPushButton#exportProjet:disabled {
       <string>Exporter pdf</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="BouttonRechProjet">
+    <widget class="QPushButton" name="BouttonRech">
      <property name="geometry">
       <rect>
        <x>870</x>
@@ -858,7 +858,7 @@ QPushButton#exportProjet:disabled {
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton#BouttonRechProjet {
+      <string notr="true">QPushButton#BouttonRech {
     background-color: #2C3E50;  /* Bleu foncé professionnel */
     color: white;               /* Texte blanc pour un bon contraste */
     border-radius: 6px;         /* Coins légèrement arrondis */
@@ -868,16 +868,16 @@ QPushButton#exportProjet:disabled {
     border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
 }
 
-QPushButton#BouttonRechProjet:hover {
+QPushButton#BouttonRech:hover {
     background-color: #34495E;  /* Bleu légèrement plus clair au survol */
     border: 1px solid #2C3E50;  /* Bordure harmonisée */
 }
 
-QPushButton#BouttonRechProjet:pressed {
+QPushButton#BouttonRech:pressed {
     background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
 }
 
-QPushButton#BouttonRechProjet:disabled {
+QPushButton#BouttonRech:disabled {
     background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
     color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
     border: 1px solid #7F8C8D;
@@ -888,7 +888,7 @@ QPushButton#BouttonRechProjet:disabled {
       <string>Rechercher</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="taperRech">
+    <widget class="QLineEdit" name="lineEdit_Rech">
      <property name="geometry">
       <rect>
        <x>650</x>
