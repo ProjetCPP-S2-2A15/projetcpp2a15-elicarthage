@@ -23,7 +23,7 @@ public:
     int generateAutoID();
      bool estTexteValide(const QString &texte);
      void setupValidation();
-
+   void exporterPDF();
 private:
     Ui::MainWindow *ui;
     bool isValidColumn(const QString &columnName);

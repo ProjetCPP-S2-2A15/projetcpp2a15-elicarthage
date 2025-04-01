@@ -808,7 +808,7 @@ QLineEdit:focus {
      <zorder>labelErreur</zorder>
      <zorder>label_4</zorder>
     </widget>
-    <widget class="QPushButton" name="exportProjet">
+    <widget class="QPushButton" name="exportBtn">
      <property name="geometry">
       <rect>
        <x>410</x>
@@ -818,7 +818,7 @@ QLineEdit:focus {
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton#exportProjet {
+      <string notr="true">QPushButton#exportBtn {
     background-color: #2C3E50;  /* Bleu foncé professionnel */
     color: white;               /* Texte blanc pour un bon contraste */
     border-radius: 6px;         /* Coins légèrement arrondis */
@@ -828,16 +828,16 @@ QLineEdit:focus {
     border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
 }
 
-QPushButton#exportProjet:hover {
+QPushButton#exportBtn:hover {
     background-color: #34495E;  /* Bleu légèrement plus clair au survol */
     border: 1px solid #2C3E50;  /* Bordure harmonisée */
 }
 
-QPushButton#exportProjet:pressed {
+QPushButton#exportBtn:pressed {
     background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
 }
 
-QPushButton#exportProjet:disabled {
+QPushButton#exportBtn:disabled {
     background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
     color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
     border: 1px solid #7F8C8D;
