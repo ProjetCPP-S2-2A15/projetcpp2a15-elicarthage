@@ -18,6 +18,13 @@
 #include <QSqlQuery>
 #include <QFileDialog>
 #include <QPageSize>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QChart>
+#include <QtCharts>
+#include <QSpacerItem>
+QT_USE_NAMESPACE
 
 //------------------------------------------------------------------------------------------------------------------------
 int MainWindow::generateAutoID() {
@@ -66,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
     Architecte Etmp;
 
     ui->tableView->setModel(Etmp.afficher());
+     afficherStatistiques();
 
 
 
@@ -357,6 +365,11 @@ void MainWindow::modifierCellule(const QModelIndex &index)
             if (success) {
                 model->setData(index, newValue);
                 ui->tableView->setModel(etmp.afficher());
+
+                // Mettre à jour les statistiques si on a modifié les heures supplémentaires
+                if (columnName == "NBR_HEURES_SUPPLEMENTAIRES") {
+                    afficherStatistiques();
+                }
             } else {
                 QMessageBox::warning(this, tr("Erreur de mise à jour"), tr("La mise à jour a échoué. Veuillez vérifier les données."));
             }
@@ -597,4 +610,109 @@ void MainWindow::trierTableau(const QString& colonne, bool ascendant)
 
     // Mettre à jour la vue (QTableView) pour afficher le modèle trié
     ui->tableView->setModel(model); // Pas besoin de supprimer l'ancien modèle, setModel le gère
+}
+
+void MainWindow::afficherStatistiques() {
+    // Nettoyer le layout existant
+    QLayoutItem* child;
+    while ((child = ui->statistiquesLayout->takeAt(0)) != nullptr) {
+        if (child->widget()) {
+            child->widget()->deleteLater();
+        }
+        delete child;
+    }
+
+
+    // Récupération des données
+    int plus50 = 0, moins20 = 0, entre20et50 = 0;
+    QSqlQuery query("SELECT NBR_HEURES_SUPPLEMENTAIRES FROM ARCHITECTE");
+    while (query.next()) {
+        int heures = query.value(0).toInt();
+        if (heures > 50) plus50++;
+        else if (heures < 20) moins20++;
+        else entre20et50++;
+    }
+
+    // Création du diagramme circulaire
+    QPieSeries *series = new QPieSeries();
+
+    // Calcul du total
+    int total = plus50 + moins20 + entre20et50;
+    if (total == 0) {
+        QLabel *noDataLabel = new QLabel("Aucune donnée disponible");
+        noDataLabel->setAlignment(Qt::AlignCenter);
+        ui->statistiquesLayout->addWidget(noDataLabel);
+        return;
+    }
+
+    // Configuration des tranches avec les nouvelles couleurs
+    if (plus50 > 0) {
+        QPieSlice *slice = series->append("", plus50);
+        slice->setColor(QColor("#1f4e78")); // Bleu foncé (correspond à "plus de 50 heures")
+        slice->setLabel(QString("%1%").arg(QString::number((plus50 * 100.0 / total), 'f', 1)));
+        slice->setLabelVisible(true);
+        slice->setLabelPosition(QPieSlice::LabelOutside);
+        slice->setProperty("legendText", "plus de 50 heures"); // Libellé de la légende
+    }
+    if (moins20 > 0) {
+        QPieSlice *slice = series->append("", moins20);
+        slice->setColor(QColor("#eee5d3")); // Beige clair (correspond à "moins de 20 heures")
+        slice->setLabel(QString("%1%").arg(QString::number((moins20 * 100.0 / total), 'f', 1)));
+        slice->setLabelVisible(true);
+        slice->setLabelPosition(QPieSlice::LabelOutside);
+        slice->setProperty("legendText", "moins de 20 heures"); // Libellé de la légende
+    }
+    if (entre20et50 > 0) {
+        QPieSlice *slice = series->append("", entre20et50);
+        slice->setColor(QColor("#222d52")); // Bleu nuit (correspond à "entre 20 et 50 heures")
+        slice->setLabel(QString("%1%").arg(QString::number((entre20et50 * 100.0 / total), 'f', 1)));
+        slice->setLabelVisible(true);
+        slice->setLabelPosition(QPieSlice::LabelOutside);
+        slice->setProperty("legendText", "entre 20 et 50 heures"); // Libellé de la légende
+    }
+
+    // Configuration du graphique
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle("Statistiques sur les heures supplémentaires des architectes");
+
+    // Style du titre
+    chart->setTitleBrush(QBrush(Qt::black));
+    QFont titleFont;
+    titleFont.setBold(true);
+    titleFont.setPointSize(9);
+    chart->setTitleFont(titleFont);
+
+    // Ajuster les marges pour décaler le titre
+    chart->setMargins(QMargins(-10, 0, 0, 0)); // Gauche, Haut, Droite, Bas
+
+    // Définir la couleur de fond
+    chart->setBackgroundBrush(QBrush(QColor("#e0e0e0"))); // Gris clair
+    chart->setBackgroundVisible(true);
+
+    // Configuration de la légende
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignRight);
+    chart->legend()->setBackgroundVisible(true);
+    chart->legend()->setBrush(QBrush(QColor("#e0e0e0"))); // Même fond que le graphique
+    chart->setAnimationOptions(QChart::AllAnimations);
+
+    // Personnalisation des libellés de la légende
+    QList<QLegendMarker*> markers = chart->legend()->markers(series);
+    for (int i = 0; i < markers.size(); ++i) {
+        QPieSlice *slice = series->slices().at(i);
+        markers.at(i)->setLabel(slice->property("legendText").toString());
+    }
+
+    // Création de la vue
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(300, 200);
+
+    // Définir le fond du widget
+    chartView->setBackgroundBrush(QBrush(QColor("#e0e0e0")));
+    chartView->setAutoFillBackground(true);
+
+    // Ajout au layout
+    ui->statistiquesLayout->addWidget(chartView);
 }

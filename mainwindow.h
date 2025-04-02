@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QLabel>
-
+#include <QtCharts>
 #include <QMainWindow>
 #include <QTableWidget>
 #include <QPushButton>
@@ -23,7 +23,9 @@ public:
     int generateAutoID();
      bool estTexteValide(const QString &texte);
      void setupValidation();
-   void exporterPDF(); void trierTableau(const QString& colonne, bool ascendant);
+   void exporterPDF();
+     void trierTableau(const QString& colonne, bool ascendant);
+    void afficherStatistiques();
 private:
     Ui::MainWindow *ui;
     bool ordreCroissant = true;

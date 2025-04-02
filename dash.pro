@@ -24,3 +24,8 @@ CONFIG += c++11
 
 # Ajouter les modules nécessaires de Qt
 QT += widgets sql
+QT += charts
+QT += pdf
+
+
+
