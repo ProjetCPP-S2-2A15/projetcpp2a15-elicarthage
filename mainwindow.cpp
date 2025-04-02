@@ -324,64 +324,84 @@ void MainWindow::on_btnsupprimer_clicked()
 
 void MainWindow::modifierCellule(const QModelIndex &index)
 {
-    QSqlQueryModel *model = qobject_cast<QSqlQueryModel *>(ui->tableView->model());
+    // Obtenir le modèle source à travers le proxyModel
+    QSortFilterProxyModel *proxy = qobject_cast<QSortFilterProxyModel*>(ui->tableView->model());
+    if (!proxy) {
+        qDebug() << "Le modèle n'est pas un QSortFilterProxyModel.";
+        return;
+    }
 
-    if (model) {
+    QSqlQueryModel *sourceModel = qobject_cast<QSqlQueryModel*>(proxy->sourceModel());
+    if (!sourceModel) {
+        qDebug() << "Le modèle source n'est pas de type QSqlQueryModel.";
+        return;
+    }
 
-        if (index.column() == 0 || index.column() == 6 || index.column() == 7 || index.column() == 8) {
-            QMessageBox::warning(this, tr("Modification non autorisée"), tr("Vous ne pouvez pas modifier cette colonne."));
+    // Obtenir l'index source correspondant
+    QModelIndex sourceIndex = proxy->mapToSource(index);
+
+    if (sourceIndex.column() == 0 || sourceIndex.column() == 6 || sourceIndex.column() == 7 || sourceIndex.column() == 8) {
+        QMessageBox::warning(this, tr("Modification non autorisée"), tr("Vous ne pouvez pas modifier cette colonne."));
+        return;
+    }
+
+    QString columnName = sourceModel->headerData(sourceIndex.column(), Qt::Horizontal).toString();
+    QString oldValue = sourceModel->data(sourceIndex).toString();
+
+    QString newValue = QInputDialog::getText(this, tr("Modifier la valeur"), tr("Nouvelle valeur :"), QLineEdit::Normal, oldValue);
+
+    if (!newValue.isEmpty() && newValue != oldValue) {
+        // Validation des colonnes
+        if (columnName.isEmpty() || !isValidColumn(columnName)) {
+            QMessageBox::warning(this, tr("Erreur"), tr("Le nom de la colonne est invalide."));
             return;
         }
 
-        QString columnName = model->headerData(index.column(), Qt::Horizontal).toString();
-        QString oldValue = model->data(index).toString();
-
-        QString newValue = QInputDialog::getText(this, tr("Modifier la valeur"), tr("Nouvelle valeur :"), QLineEdit::Normal, oldValue);
-
-        if (!newValue.isEmpty() && newValue != oldValue) {
-
-            if (columnName.isEmpty() || !isValidColumn(columnName)) {
-                QMessageBox::warning(this, tr("Erreur"), tr("Le nom de la colonne est invalide."));
-                return;
-            }
-
-            // Validation de l'email en mode modification sans afficher le message d'erreur
-            if (columnName == "EMAIL" && !validateEmail(newValue, true)) {
-                QMessageBox::warning(this, tr("Erreur de saisie"), tr("L'email saisi est invalide."));
-                return;
-            }
-
-            if (columnName == "NBR_HEURES_SUPPLEMENTAIRES" && !isValidSupplementaryHours(newValue)) {
-                QMessageBox::warning(this, tr("Erreur de saisie"), tr("Les heures supplémentaires doivent être un nombre valide."));
-                return;
-            }
-
-            if ((columnName == "NOM" || columnName == "PRÉNOM" || columnName == "RÔLE") && !estTexteValide(newValue)) {
-                QMessageBox::warning(this, tr("Erreur de saisie"), tr("Le champ doit contenir uniquement des lettres et un minimum de 3 caractères."));
-                return;
-            }
-
-            int id = model->data(model->index(index.row(), 0)).toInt();
-            Architecte etmp;
-            bool success = etmp.modifier(id, columnName, newValue); // Appel à la méthode modifier
-
-            if (success) {
-                model->setData(index, newValue);
-                ui->tableView->setModel(etmp.afficher());
-
-                // Mettre à jour les statistiques si on a modifié les heures supplémentaires
-                if (columnName == "NBR_HEURES_SUPPLEMENTAIRES") {
-                    afficherStatistiques();
-                }
-            } else {
-                QMessageBox::warning(this, tr("Erreur de mise à jour"), tr("La mise à jour a échoué. Veuillez vérifier les données."));
-            }
+        // Validation spécifique selon le type de colonne
+        if (columnName == "EMAIL" && !validateEmail(newValue, true)) {
+            QMessageBox::warning(this, tr("Erreur de saisie"), tr("L'email saisi est invalide.\nVeuillez respecter le format standard de l'email."));
+            return;
         }
-    } else {
-        qDebug() << "Le modèle n'est pas de type QSqlQueryModel.";
+
+        if (columnName == "NBR_HEURES_SUPPLEMENTAIRES" && !isValidSupplementaryHours(newValue)) {
+            QMessageBox::warning(this, tr("Erreur de saisie"), tr("Les heures supplémentaires doivent être un nombre valide."));
+            return;
+        }
+
+        if ((columnName == "NOM" || columnName == "PRÉNOM" || columnName == "RÔLE") && !estTexteValide(newValue)) {
+            QMessageBox::warning(this, tr("Erreur de saisie"), tr("Le champ doit contenir uniquement des lettres et un minimum de 3 caractères."));
+            return;
+        }
+
+        // Validation du mot de passe si c'est la colonne MOT_DE_PASSE
+        if (columnName == "MOT_DE_PASSE" && !verifierMotDePasse(newValue)) {
+            QMessageBox::warning(this, tr("Erreur de saisie"), tr("Le mot de passe doit respecter les critères de sécurité."));
+            return;
+        }
+
+        int id = sourceModel->data(sourceModel->index(sourceIndex.row(), 0)).toInt();
+        Architecte etmp;
+
+        // Hasher le mot de passe si c'est la colonne MOT_DE_PASSE
+        if (columnName == "MOT_DE_PASSE") {
+            newValue = hasherMotDePasse(newValue);
+        }
+
+        bool success = etmp.modifier(id, columnName, newValue);
+
+        if (success) {
+            // Rafraîchir les données
+            sourceModel->setQuery(sourceModel->query().lastQuery());
+
+            // Mettre à jour les statistiques si on a modifié les heures supplémentaires
+            if (columnName == "NBR_HEURES_SUPPLEMENTAIRES") {
+                afficherStatistiques();
+            }
+        } else {
+            QMessageBox::warning(this, tr("Erreur de mise à jour"), tr("La mise à jour a échoué. Veuillez vérifier les données."));
+        }
     }
 }
-
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bool MainWindow::isValidColumn(const QString &columnName)
