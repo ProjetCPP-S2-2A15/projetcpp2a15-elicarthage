@@ -6,15 +6,22 @@ TEMPLATE = app
 SOURCES += main.cpp \
            architecte.cpp \
            connexion.cpp \
+           login.cpp \
            mainwindow.cpp
+
 
 # Fichiers d'en-têtes
 HEADERS += mainwindow.h \
     architecte.h \
-    connexion.h
+    connexion.h \
+    login.h
+
 
 # Fichier de formulaire Qt Designer
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+    login.ui
+
+
 
 # Ressources (si vous en avez)
 # RESOURCES += ressources.qrc

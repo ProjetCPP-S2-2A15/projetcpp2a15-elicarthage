@@ -20,6 +20,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -60,21 +61,17 @@ public:
     QLabel *label_12;
     QLineEdit *lineEdit_motDePasse;
     QLabel *labelErreur;
-    QPushButton *exportProjet;
-    QPushButton *BouttonRechProjet;
-    QLineEdit *taperRech;
-    QPushButton *tri;
+    QPushButton *exportBtn;
+    QLineEdit *lineEdit_Rech;
+    QPushButton *triDecroissantButton;
     QLabel *label;
-    QWidget *widget_4;
-    QLabel *label_6;
-    QLabel *label_7;
-    QLabel *label_8;
-    QLabel *label_9;
-    QLabel *label_10;
     QLabel *label_11;
     QTableView *tableView;
     QLineEdit *lineEdit_IDS;
     QPushButton *btnsupprimer;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *statistiquesLayout;
+    QPushButton *triCroissantButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -87,7 +84,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         widget = new QWidget(centralwidget);
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 0, 1251, 600));
+        widget->setGeometry(QRect(0, -10, 1251, 600));
         widget->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "    background-color: rgba(240, 240, 240, 1); /* Gris tr\303\250s clair */\n"
 "}\n"
@@ -235,91 +232,110 @@ public:
 ""));
         widget_3 = new QWidget(widget);
         widget_3->setObjectName("widget_3");
-        widget_3->setGeometry(QRect(150, 40, 241, 531));
+        widget_3->setGeometry(QRect(150, 40, 241, 521));
         widget_3->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "    background-color: #eee5d3; \n"
 "    border: 1px solid black;   /* Cadre noir fin (1px) */\n"
-"      border-radius: 20px; /* Coins arrondis */      /* Coins arrondis */\n"
+"    border-radius: 20px; /* Coins arrondis */\n"
 "}\n"
 "\n"
 "QWidget > * {\n"
-"    border: none;              /* D\303\251sactive la bordure pour les \303\251l\303\251ments enfants */\n"
+"    border: none; /* D\303\251sactive la bordure pour les \303\251l\303\251ments enfants */\n"
 "}\n"
-""));
+"\n"
+"/* Gestion de la position des \303\251l\303\251ments */\n"
+"QGridLayout {\n"
+"    spacing: 10px;  /* Espacement entre les widgets */\n"
+"    margin: 20px;   /* Marge autour du layout */\n"
+"}\n"
+"\n"
+"QLabel {\n"
+"    qproperty-alignment: AlignRight | AlignVCenter; /* Alignement des labels */\n"
+"}\n"
+"\n"
+"QLineEdit, QComboBox {\n"
+"    qproperty-alignment: AlignLeft | AlignVCenter; /* Alignement des champs */\n"
+"    min-width: 200px;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"    qproperty-alignment: AlignCenter; /* Centrage des boutons */\n"
+"    margin-top: 20px;\n"
+"}"));
         lineEdit_nom = new QLineEdit(widget_3);
         lineEdit_nom->setObjectName("lineEdit_nom");
-        lineEdit_nom->setGeometry(QRect(10, 28, 141, 31));
+        lineEdit_nom->setGeometry(QRect(10, 28, 141, 32));
         lineEdit_nom->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
 "    border-radius: 6px;           /* Coins arrondis */\n"
 "    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
 "    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
 "    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
 "}\n"
 "\n"
 "QLineEdit:focus {\n"
-"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
-"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
+"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
 "}\n"
 ""));
         lineEdit_prenom = new QLineEdit(widget_3);
         lineEdit_prenom->setObjectName("lineEdit_prenom");
-        lineEdit_prenom->setGeometry(QRect(10, 90, 141, 31));
+        lineEdit_prenom->setGeometry(QRect(10, 90, 141, 32));
         lineEdit_prenom->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
 "    border-radius: 6px;           /* Coins arrondis */\n"
 "    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
 "    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
 "    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
 "}\n"
 "\n"
 "QLineEdit:focus {\n"
-"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
-"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
+"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
 "}\n"
 ""));
         lineEdit_role = new QLineEdit(widget_3);
         lineEdit_role->setObjectName("lineEdit_role");
-        lineEdit_role->setGeometry(QRect(10, 160, 141, 31));
+        lineEdit_role->setGeometry(QRect(10, 152, 141, 32));
         lineEdit_role->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
 "    border-radius: 6px;           /* Coins arrondis */\n"
 "    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
 "    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
 "    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
 "}\n"
 "\n"
 "QLineEdit:focus {\n"
-"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
-"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
+"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
 "}\n"
 ""));
         lineEdit_mail = new QLineEdit(widget_3);
         lineEdit_mail->setObjectName("lineEdit_mail");
-        lineEdit_mail->setGeometry(QRect(10, 230, 141, 31));
+        lineEdit_mail->setGeometry(QRect(10, 214, 141, 32));
         lineEdit_mail->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
 "    border-radius: 6px;           /* Coins arrondis */\n"
 "    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
 "    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
 "    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
 "}\n"
 "\n"
 "QLineEdit:focus {\n"
-"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
-"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
+"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
 "}\n"
 ""));
         label_2 = new QLabel(widget_3);
@@ -334,40 +350,40 @@ public:
         label_3->setFont(font);
         label_4 = new QLabel(widget_3);
         label_4->setObjectName("label_4");
-        label_4->setGeometry(QRect(10, 210, 31, 16));
+        label_4->setGeometry(QRect(10, 198, 31, 16));
         label_4->setFont(font);
         label_5 = new QLabel(widget_3);
         label_5->setObjectName("label_5");
-        label_5->setGeometry(QRect(10, 140, 31, 16));
+        label_5->setGeometry(QRect(10, 136, 31, 16));
         label_5->setFont(font);
         label_14 = new QLabel(widget_3);
         label_14->setObjectName("label_14");
-        label_14->setGeometry(QRect(10, 310, 221, 16));
+        label_14->setGeometry(QRect(3, 285, 221, 16));
         QFont font1;
         font1.setBold(true);
         font1.setItalic(false);
         label_14->setFont(font1);
         labelEmailStatus = new QLabel(widget_3);
         labelEmailStatus->setObjectName("labelEmailStatus");
-        labelEmailStatus->setGeometry(QRect(10, 268, 191, 16));
+        labelEmailStatus->setGeometry(QRect(10, 248, 191, 16));
         labelNomErreur = new QLabel(widget_3);
         labelNomErreur->setObjectName("labelNomErreur");
-        labelNomErreur->setGeometry(QRect(0, 60, 231, 16));
+        labelNomErreur->setGeometry(QRect(8, 60, 215, 16));
         labelPrenomErreur = new QLabel(widget_3);
         labelPrenomErreur->setObjectName("labelPrenomErreur");
-        labelPrenomErreur->setGeometry(QRect(0, 120, 231, 16));
+        labelPrenomErreur->setGeometry(QRect(0, 122, 231, 16));
         labelRoleErreur = new QLabel(widget_3);
         labelRoleErreur->setObjectName("labelRoleErreur");
-        labelRoleErreur->setGeometry(QRect(10, 196, 221, 16));
+        labelRoleErreur->setGeometry(QRect(0, 184, 221, 16));
         labelReponseErreur = new QLabel(widget_3);
         labelReponseErreur->setObjectName("labelReponseErreur");
-        labelReponseErreur->setGeometry(QRect(10, 360, 221, 16));
+        labelReponseErreur->setGeometry(QRect(0, 340, 221, 16));
         comboBox_question = new QComboBox(widget_3);
         comboBox_question->addItem(QString::fromUtf8("Quel est le nom de votre premier animal ?"));
         comboBox_question->addItem(QString());
         comboBox_question->addItem(QString());
         comboBox_question->setObjectName("comboBox_question");
-        comboBox_question->setGeometry(QRect(0, 281, 221, 21));
+        comboBox_question->setGeometry(QRect(0, 263, 221, 21));
         comboBox_question->setStyleSheet(QString::fromUtf8("QComboBox {\n"
 "    font-weight: bold;      /* Texte en gras */\n"
 "    font-size: 10.5px;      /* Taille de la police dans la zone de saisie */\n"
@@ -382,26 +398,26 @@ public:
 ""));
         lineEdit_response = new QLineEdit(widget_3);
         lineEdit_response->setObjectName("lineEdit_response");
-        lineEdit_response->setGeometry(QRect(10, 330, 141, 31));
+        lineEdit_response->setGeometry(QRect(10, 310, 141, 32));
         lineEdit_response->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
 "    border-radius: 6px;           /* Coins arrondis */\n"
 "    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
 "    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
 "    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
 "}\n"
 "\n"
 "QLineEdit:focus {\n"
-"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
-"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
+"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
 "}\n"
 ""));
         btnAjouter = new QPushButton(widget_3);
         btnAjouter->setObjectName("btnAjouter");
-        btnAjouter->setGeometry(QRect(10, 480, 80, 31));
+        btnAjouter->setGeometry(QRect(10, 460, 80, 31));
         btnAjouter->setStyleSheet(QString::fromUtf8("QPushButton#btnAjouter {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
@@ -430,7 +446,7 @@ public:
 ""));
         annulerEvent = new QPushButton(widget_3);
         annulerEvent->setObjectName("annulerEvent");
-        annulerEvent->setGeometry(QRect(120, 480, 80, 31));
+        annulerEvent->setGeometry(QRect(120, 460, 80, 31));
         annulerEvent->setStyleSheet(QString::fromUtf8("QPushButton#annulerEvent {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
@@ -459,35 +475,56 @@ public:
 ""));
         label_12 = new QLabel(widget_3);
         label_12->setObjectName("label_12");
-        label_12->setGeometry(QRect(10, 380, 81, 16));
+        label_12->setGeometry(QRect(10, 360, 81, 16));
         label_12->setFont(font);
         lineEdit_motDePasse = new QLineEdit(widget_3);
         lineEdit_motDePasse->setObjectName("lineEdit_motDePasse");
-        lineEdit_motDePasse->setGeometry(QRect(10, 400, 141, 31));
+        lineEdit_motDePasse->setGeometry(QRect(10, 380, 141, 32));
         lineEdit_motDePasse->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
 "    border-radius: 6px;           /* Coins arrondis */\n"
 "    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
 "    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
 "    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
 "}\n"
 "\n"
 "QLineEdit:focus {\n"
-"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
-"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
+"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
 "}\n"
 ""));
         lineEdit_motDePasse->setEchoMode(QLineEdit::EchoMode::Password);
         labelErreur = new QLabel(widget_3);
         labelErreur->setObjectName("labelErreur");
-        labelErreur->setGeometry(QRect(10, 440, 231, 31));
-        exportProjet = new QPushButton(widget);
-        exportProjet->setObjectName("exportProjet");
-        exportProjet->setGeometry(QRect(410, 30, 131, 31));
-        exportProjet->setStyleSheet(QString::fromUtf8("QPushButton#exportProjet {\n"
+        labelErreur->setGeometry(QRect(4, 420, 231, 31));
+        lineEdit_nom->raise();
+        lineEdit_prenom->raise();
+        lineEdit_role->raise();
+        lineEdit_mail->raise();
+        label_2->raise();
+        label_3->raise();
+        label_5->raise();
+        label_14->raise();
+        labelEmailStatus->raise();
+        labelNomErreur->raise();
+        labelPrenomErreur->raise();
+        labelRoleErreur->raise();
+        labelReponseErreur->raise();
+        comboBox_question->raise();
+        lineEdit_response->raise();
+        btnAjouter->raise();
+        annulerEvent->raise();
+        label_12->raise();
+        lineEdit_motDePasse->raise();
+        labelErreur->raise();
+        label_4->raise();
+        exportBtn = new QPushButton(widget);
+        exportBtn->setObjectName("exportBtn");
+        exportBtn->setGeometry(QRect(410, 20, 131, 31));
+        exportBtn->setStyleSheet(QString::fromUtf8("QPushButton#exportBtn {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
 "    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
@@ -497,55 +534,26 @@ public:
 "    border: 1px solid #1A252F;  /* Bordure discr\303\250te l\303\251g\303\250rement plus fonc\303\251e */\n"
 "}\n"
 "\n"
-"QPushButton#exportProjet:hover {\n"
+"QPushButton#exportBtn:hover {\n"
 "    background-color: #34495E;  /* Bleu l\303\251g\303\250rement plus clair au survol */\n"
 "    border: 1px solid #2C3E50;  /* Bordure harmonis\303\251e */\n"
 "}\n"
 "\n"
-"QPushButton#exportProjet:pressed {\n"
+"QPushButton#exportBtn:pressed {\n"
 "    background-color: #1A252F;  /* Bleu encore plus fonc\303\251 lorsqu'on clique */\n"
 "}\n"
 "\n"
-"QPushButton#exportProjet:dis"
-                        "abled {\n"
-"    background-color: #95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
+"QPushButton#exportBtn:disabled {\n"
+""
+                        "    background-color: #95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
 "    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
 "    border: 1px solid #7F8C8D;\n"
 "}\n"
 ""));
-        BouttonRechProjet = new QPushButton(widget);
-        BouttonRechProjet->setObjectName("BouttonRechProjet");
-        BouttonRechProjet->setGeometry(QRect(870, 30, 141, 31));
-        BouttonRechProjet->setStyleSheet(QString::fromUtf8("QPushButton#BouttonRechProjet {\n"
-"    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
-"    color: white;               /* Texte blanc pour un bon contraste */\n"
-"    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
-"    padding: 6px 12px;          /* Espacement r\303\251duit pour un design plus compact */\n"
-"    font-size: 13px;            /* Texte plus petit et plus \303\251l\303\251gant */\n"
-"    font-weight: normal;        /* Texte normal pour un style minimaliste */\n"
-"    border: 1px solid #1A252F;  /* Bordure discr\303\250te l\303\251g\303\250rement plus fonc\303\251e */\n"
-"}\n"
-"\n"
-"QPushButton#BouttonRechProjet:hover {\n"
-"    background-color: #34495E;  /* Bleu l\303\251g\303\250rement plus clair au survol */\n"
-"    border: 1px solid #2C3E50;  /* Bordure harmonis\303\251e */\n"
-"}\n"
-"\n"
-"QPushButton#BouttonRechProjet:pressed {\n"
-"    background-color: #1A252F;  /* Bleu encore plus fonc\303\251 lorsqu'on clique */\n"
-"}\n"
-"\n"
-"QPushButton#B"
-                        "outtonRechProjet:disabled {\n"
-"    background-color: #95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
-"    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
-"    border: 1px solid #7F8C8D;\n"
-"}\n"
-""));
-        taperRech = new QLineEdit(widget);
-        taperRech->setObjectName("taperRech");
-        taperRech->setGeometry(QRect(650, 30, 191, 31));
-        taperRech->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
+        lineEdit_Rech = new QLineEdit(widget);
+        lineEdit_Rech->setObjectName("lineEdit_Rech");
+        lineEdit_Rech->setGeometry(QRect(700, 20, 201, 31));
+        lineEdit_Rech->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
@@ -563,18 +571,18 @@ public:
 "    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
 "}\n"
 ""));
-        tri = new QPushButton(widget);
-        tri->setObjectName("tri");
-        tri->setGeometry(QRect(1190, 30, 31, 41));
-        tri->setStyleSheet(QString::fromUtf8("QPushButton#tri {\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/tri.png);\n"
+        triDecroissantButton = new QPushButton(widget);
+        triDecroissantButton->setObjectName("triDecroissantButton");
+        triDecroissantButton->setGeometry(QRect(1201, 20, 16, 41));
+        triDecroissantButton->setStyleSheet(QString::fromUtf8("QPushButton#triDecroissantButton {\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triDecroissant.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
 "    background-color: transparent;\n"
 "    border: none;\n"
 "    padding: 10px;\n"
 "}\n"
 "\n"
-"QPushButton#tri:pressed {\n"
+"QPushButton#triDecroissantButton:pressed {\n"
 "    qproperty-iconSize: 32px 32px; /* Agrandit l'ic\303\264ne */\n"
 "    padding: 5px; /* R\303\251duit l\342\200\231espace autour pour l\342\200\231effet d\342\200\231agrandissement */\n"
 "    margin: -5px; /* Compense pour \303\251viter le d\303\251placement */\n"
@@ -593,48 +601,14 @@ public:
 "    text-align: center; /* Centrage du texte */\n"
 "}\n"
 ""));
-        widget_4 = new QWidget(widget);
-        widget_4->setObjectName("widget_4");
-        widget_4->setGeometry(QRect(490, 420, 751, 141));
-        widget_4->setStyleSheet(QString::fromUtf8("QWidget {\n"
-"    background-color: #E0E0E0;  /* Fond gris plus clair */\n"
-"    border: 1px solid black;    /* Cadre noir fin (1px) */\n"
-"    border-radius: 20px;        /* Coins arrondis */\n"
-"}\n"
-"\n"
-"QWidget > * {\n"
-"    border: none;               /* D\303\251sactive la bordure pour les \303\251l\303\251ments enfants */\n"
-"}\n"
-""));
-        label_6 = new QLabel(widget_4);
-        label_6->setObjectName("label_6");
-        label_6->setGeometry(QRect(20, 20, 621, 131));
-        label_6->setStyleSheet(QString::fromUtf8("QLabel {\n"
-"    background-image: url(\"C:/Users/Admin/Desktop/projet/images/stat.png\");\n"
-"    background-repeat: no-repeat;\n"
-"    background-position: center;\n"
-"}\n"
-""));
-        label_7 = new QLabel(widget_4);
-        label_7->setObjectName("label_7");
-        label_7->setGeometry(QRect(20, 10, 331, 16));
-        label_7->setFont(font);
-        label_8 = new QLabel(widget_4);
-        label_8->setObjectName("label_8");
-        label_8->setGeometry(QRect(450, 34, 111, 16));
-        label_9 = new QLabel(widget_4);
-        label_9->setObjectName("label_9");
-        label_9->setGeometry(QRect(450, 110, 111, 16));
-        label_10 = new QLabel(widget_4);
-        label_10->setObjectName("label_10");
-        label_10->setGeometry(QRect(450, 72, 111, 16));
         label_11 = new QLabel(widget);
         label_11->setObjectName("label_11");
-        label_11->setGeometry(QRect(1100, 43, 93, 16));
+        label_11->setGeometry(QRect(1090, 30, 93, 16));
         label_11->setFont(font);
         tableView = new QTableView(widget);
         tableView->setObjectName("tableView");
-        tableView->setGeometry(QRect(420, 80, 831, 261));
+        tableView->setEnabled(true);
+        tableView->setGeometry(QRect(410, 70, 831, 261));
         tableView->setStyleSheet(QString::fromUtf8("QTableView {\n"
 "    background-color: #F8F9FA;   /* Fond gris tr\303\250s clair */\n"
 "    color: #1B2631;              /* Texte bleu fonc\303\251 */\n"
@@ -701,7 +675,7 @@ public:
 ""));
         lineEdit_IDS = new QLineEdit(widget);
         lineEdit_IDS->setObjectName("lineEdit_IDS");
-        lineEdit_IDS->setGeometry(QRect(990, 360, 113, 31));
+        lineEdit_IDS->setGeometry(QRect(980, 350, 113, 31));
         lineEdit_IDS->setStyleSheet(QString::fromUtf8("/* Style par d\303\251faut du QLineEdit */\n"
 "QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
@@ -728,7 +702,7 @@ public:
 ""));
         btnsupprimer = new QPushButton(widget);
         btnsupprimer->setObjectName("btnsupprimer");
-        btnsupprimer->setGeometry(QRect(1120, 360, 101, 31));
+        btnsupprimer->setGeometry(QRect(1120, 350, 101, 31));
         btnsupprimer->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
@@ -756,6 +730,29 @@ public:
 "    background-color: #95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
 "    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
 "    border: 1px solid #7F8C8D;  /* Bordure gris clair pour l'inactivit\303\251 */\n"
+"}\n"
+""));
+        verticalLayoutWidget = new QWidget(widget);
+        verticalLayoutWidget->setObjectName("verticalLayoutWidget");
+        verticalLayoutWidget->setGeometry(QRect(450, 390, 781, 191));
+        statistiquesLayout = new QVBoxLayout(verticalLayoutWidget);
+        statistiquesLayout->setObjectName("statistiquesLayout");
+        statistiquesLayout->setContentsMargins(0, 0, 0, 0);
+        triCroissantButton = new QPushButton(widget);
+        triCroissantButton->setObjectName("triCroissantButton");
+        triCroissantButton->setGeometry(QRect(1180, 20, 20, 41));
+        triCroissantButton->setStyleSheet(QString::fromUtf8("QPushButton#triCroissantButton{\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triCroissant.png);\n"
+"    qproperty-iconSize: 24px 24px;\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"    padding: 10px;\n"
+"}\n"
+"\n"
+"QPushButton#triCroissantButton:pressed {\n"
+"    qproperty-iconSize: 32px 32px; /* Agrandit l'ic\303\264ne */\n"
+"    padding: 5px; /* R\303\251duit l\342\200\231espace autour pour l\342\200\231effet d\342\200\231agrandissement */\n"
+"    margin: -5px; /* Compense pour \303\251viter le d\303\251placement */\n"
 "}\n"
 ""));
         MainWindow->setCentralWidget(centralwidget);
@@ -797,25 +794,20 @@ public:
         comboBox_question->setItemText(1, QCoreApplication::translate("MainWindow", "Dans quelle ville \303\252tes-vous n\303\251(e) ?", nullptr));
         comboBox_question->setItemText(2, QCoreApplication::translate("MainWindow", "Quel est le nom de votre meilleur ami ?", nullptr));
 
-        lineEdit_response->setPlaceholderText(QCoreApplication::translate("MainWindow", "reponse", nullptr));
+        lineEdit_response->setPlaceholderText(QCoreApplication::translate("MainWindow", "r\303\251ponse", nullptr));
         btnAjouter->setText(QCoreApplication::translate("MainWindow", "Ajouter", nullptr));
         annulerEvent->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "Mot de passe", nullptr));
         labelErreur->setText(QString());
-        exportProjet->setText(QCoreApplication::translate("MainWindow", "Exporter pdf", nullptr));
-        BouttonRechProjet->setText(QCoreApplication::translate("MainWindow", "Rechercher", nullptr));
-        taperRech->setText(QString());
-        taperRech->setPlaceholderText(QCoreApplication::translate("MainWindow", "Entrez un nom ou un pr\303\251nom", nullptr));
-        tri->setText(QString());
+        exportBtn->setText(QCoreApplication::translate("MainWindow", "Exporter pdf", nullptr));
+        lineEdit_Rech->setText(QString());
+        lineEdit_Rech->setPlaceholderText(QCoreApplication::translate("MainWindow", "Chercher par nom ou pr\303\251nom", nullptr));
+        triDecroissantButton->setText(QString());
         label->setText(QCoreApplication::translate("MainWindow", "Ajouter un architecte", nullptr));
-        label_6->setText(QString());
-        label_7->setText(QCoreApplication::translate("MainWindow", "Statistiques sur les heures suppl\303\251mentaires des architectes", nullptr));
-        label_8->setText(QCoreApplication::translate("MainWindow", "plus de 50 heures", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "entre 20 et 50 heures", nullptr));
-        label_10->setText(QCoreApplication::translate("MainWindow", " moins de 20 heures", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#222d52;\">Trier par Nom:</span></p></body></html>", nullptr));
         lineEdit_IDS->setPlaceholderText(QCoreApplication::translate("MainWindow", "ID", nullptr));
         btnsupprimer->setText(QCoreApplication::translate("MainWindow", "supprimer", nullptr));
+        triCroissantButton->setText(QString());
     } // retranslateUi
 
 };
