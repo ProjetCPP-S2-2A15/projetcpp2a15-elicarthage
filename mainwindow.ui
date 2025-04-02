@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-10</y>
       <width>1251</width>
       <height>600</height>
      </rect>
@@ -848,52 +848,12 @@ QPushButton#exportBtn:disabled {
       <string>Exporter pdf</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="BouttonRech">
-     <property name="geometry">
-      <rect>
-       <x>860</x>
-       <y>20</y>
-       <width>141</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton#BouttonRech {
-    background-color: #2C3E50;  /* Bleu foncé professionnel */
-    color: white;               /* Texte blanc pour un bon contraste */
-    border-radius: 6px;         /* Coins légèrement arrondis */
-    padding: 6px 12px;          /* Espacement réduit pour un design plus compact */
-    font-size: 13px;            /* Texte plus petit et plus élégant */
-    font-weight: normal;        /* Texte normal pour un style minimaliste */
-    border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
-}
-
-QPushButton#BouttonRech:hover {
-    background-color: #34495E;  /* Bleu légèrement plus clair au survol */
-    border: 1px solid #2C3E50;  /* Bordure harmonisée */
-}
-
-QPushButton#BouttonRech:pressed {
-    background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
-}
-
-QPushButton#BouttonRech:disabled {
-    background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
-    color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
-    border: 1px solid #7F8C8D;
-}
-</string>
-     </property>
-     <property name="text">
-      <string>Rechercher</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="lineEdit_Rech">
      <property name="geometry">
       <rect>
-       <x>640</x>
+       <x>700</x>
        <y>20</y>
-       <width>191</width>
+       <width>201</width>
        <height>31</height>
       </rect>
      </property>
@@ -921,28 +881,28 @@ QLineEdit:focus {
       <string/>
      </property>
      <property name="placeholderText">
-      <string>Entrez un nom ou un prénom</string>
+      <string>Chercher par nom ou prénom</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="tri">
+    <widget class="QPushButton" name="triDecroissantButton">
      <property name="geometry">
       <rect>
-       <x>1190</x>
+       <x>1201</x>
        <y>20</y>
-       <width>31</width>
+       <width>16</width>
        <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton#tri {
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/tri.png);
+      <string notr="true">QPushButton#triDecroissantButton {
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triDecroissant.png);
     qproperty-iconSize: 24px 24px;
     background-color: transparent;
     border: none;
     padding: 10px;
 }
 
-QPushButton#tri:pressed {
+QPushButton#triDecroissantButton:pressed {
     qproperty-iconSize: 32px 32px; /* Agrandit l'icône */
     padding: 5px; /* Réduit l’espace autour pour l’effet d’agrandissement */
     margin: -5px; /* Compense pour éviter le déplacement */
@@ -1169,6 +1129,35 @@ QPushButton:disabled {
        <number>0</number>
       </property>
      </layout>
+    </widget>
+    <widget class="QPushButton" name="triCroissantButton">
+     <property name="geometry">
+      <rect>
+       <x>1180</x>
+       <y>20</y>
+       <width>20</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#triCroissantButton{
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triCroissant.png);
+    qproperty-iconSize: 24px 24px;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+}
+
+QPushButton#triCroissantButton:pressed {
+    qproperty-iconSize: 32px 32px; /* Agrandit l'icône */
+    padding: 5px; /* Réduit l’espace autour pour l’effet d’agrandissement */
+    margin: -5px; /* Compense pour éviter le déplacement */
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </widget>
   </widget>

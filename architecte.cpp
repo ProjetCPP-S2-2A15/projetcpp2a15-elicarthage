@@ -172,13 +172,20 @@ QSqlQueryModel* Architecte::rechercher(const QString &keyword)
 
 QSqlQueryModel* Architecte::afficherAvecTri(const QString& colonne, bool ascendant)
 {
-    qDebug() << "afficherAvecTri: colonne =" << colonne << ", ascendant =" << ascendant;
+
 
     QSqlQueryModel *model = new QSqlQueryModel();
     QString order = ascendant ? "ASC" : "DESC";
-    QString query = QString("SELECT * FROM ZEINEB.ARCHITECTE ORDER BY %1 %2").arg(colonne).arg(order);
 
-    qDebug() << "afficherAvecTri: requête SQL =" << query;
+    // Modifier la requête pour trier par la première lettre du nom
+    QString query;
+    if (colonne == "NOM") {
+        query = QString("SELECT * FROM ZEINEB.ARCHITECTE ORDER BY SUBSTR(%1, 1, 1) %2").arg(colonne).arg(order);
+    } else {
+        query = QString("SELECT * FROM ZEINEB.ARCHITECTE ORDER BY %1 %2").arg(colonne).arg(order);
+    }
+
+
 
     model->setQuery(query);
 
@@ -200,8 +207,7 @@ QSqlQueryModel* Architecte::afficherAvecTri(const QString& colonne, bool ascenda
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("QUESTION"));
     model->setHeaderData(8, Qt::Horizontal, QObject::tr("REPONSE"));
 
-    qDebug() << "afficherAvecTri: modèle trié renvoyé.";
+
 
     return model;
 }
-

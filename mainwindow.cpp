@@ -24,6 +24,7 @@
 #include <QtCharts/QChart>
 #include <QtCharts>
 #include <QSpacerItem>
+#include <QSqlRecord>  // Ajoutez cette ligne
 QT_USE_NAMESPACE
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -59,7 +60,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
     connect(ui->lineEdit_Rech, &QLineEdit::textChanged, this, &MainWindow::on_lineEdit_Rech_textChanged);
     connect(ui->exportBtn, &QPushButton::clicked, this, &MainWindow::exporterPDF);
-    connect(ui->tri, &QPushButton::clicked, this, &MainWindow::on_tri_clicked);
+    connect(ui->triCroissantButton, &QPushButton::clicked, this, &MainWindow::on_triCroissantButton_clicked);
+    connect(ui->triDecroissantButton, &QPushButton::clicked, this, &MainWindow::on_triDecroissantButton_clicked);
 
 
 
@@ -70,9 +72,10 @@ MainWindow::MainWindow(QWidget *parent)
     setupValidation();
 
 
+    proxyModel = new QSortFilterProxyModel(this);
     Architecte Etmp;
-
-    ui->tableView->setModel(Etmp.afficher());
+    proxyModel->setSourceModel(Etmp.afficher());
+    ui->tableView->setModel(proxyModel);
      afficherStatistiques();
 
 
@@ -430,21 +433,50 @@ bool MainWindow::estTexteValide(const QString &texte)
 
     return regex.match(texte).hasMatch();
 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::on_lineEdit_Rech_textChanged(const QString &text)
 {
     Architecte A;
     QSqlQueryModel *model = A.rechercher(text);
 
     if (model) {
-        ui->tableView->setModel(model);
+        if (model->rowCount() == 0) {
+            // Créer un modèle temporaire avec les mêmes colonnes
+            QStandardItemModel *emptyModel = new QStandardItemModel(1, model->columnCount(), this);
+
+            // Copier les en-têtes
+            for (int col = 0; col < model->columnCount(); ++col) {
+                emptyModel->setHorizontalHeaderItem(col,
+                                                    new QStandardItem(model->headerData(col, Qt::Horizontal).toString()));
+            }
+
+            // Message d'erreur dans la première cellule
+            QStandardItem *item = new QStandardItem("Architecte n'existe pas !");
+            item->setForeground(Qt::red);
+            item->setTextAlignment(Qt::AlignCenter);
+            emptyModel->setItem(0, 0, item);
+
+            ui->tableView->setModel(emptyModel);
+
+            // Fusionner toutes les cellules de la première ligne
+            ui->tableView->setSpan(0, 0, 1, model->columnCount());
+
+            // Étirer toutes les colonnes
+            for (int col = 0; col < model->columnCount(); ++col) {
+                ui->tableView->horizontalHeader()->setSectionResizeMode(col, QHeaderView::Stretch);
+            }
+        } else {
+            // Réinitialiser les fusions avant de changer le modèle
+            ui->tableView->clearSpans();
+            ui->tableView->setModel(model);
+            // Réinitialiser les paramètres de redimensionnement
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+        }
     } else {
         QMessageBox::warning(this, "Erreur", "Une erreur s'est produite lors de la recherche.");
     }
 }
-
-
-
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::exporterPDF()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Exporter en PDF", "", "Fichiers PDF (*.pdf)");
@@ -596,22 +628,41 @@ void MainWindow::exporterPDF()
     QMessageBox::information(this, "Exportation réussie", "Le fichier PDF a été exporté avec succès.");
 }
 #include <QDebug> // Inclure QDebug pour les messages de débogage
-
-void MainWindow::on_tri_clicked()
-{
-    ordreCroissant = !ordreCroissant;
-    trierTableau("NOM", ordreCroissant);
-}
-void MainWindow::trierTableau(const QString& colonne, bool ascendant)
-{
-    // Appeler la méthode afficherAvecTri de la classe Architecte pour obtenir le modèle trié
-    Architecte architecte;
-    QSqlQueryModel *model = architecte.afficherAvecTri(colonne, ascendant);
-
-    // Mettre à jour la vue (QTableView) pour afficher le modèle trié
-    ui->tableView->setModel(model); // Pas besoin de supprimer l'ancien modèle, setModel le gère
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+void MainWindow::on_triCroissantButton_clicked()
+{ui->lineEdit_Rech->clear();
+    Architecte A;
+    QSqlQueryModel *model = A.afficherAvecTri("NOM", true);
+    if (model) {
+        proxyModel->setSourceModel(model);
+        ui->tableView->setModel(proxyModel);
+    }
 }
 
+void MainWindow::on_triDecroissantButton_clicked()
+{ui->lineEdit_Rech->clear();
+    Architecte A;
+    QSqlQueryModel *model = A.afficherAvecTri("NOM", false);
+    if (model) {
+        proxyModel->setSourceModel(model);
+        ui->tableView->setModel(proxyModel);
+    }
+}
+
+void MainWindow::trierTableau(const QString& colonne, Qt::SortOrder order)
+{
+    QSqlQueryModel *sourceModel = qobject_cast<QSqlQueryModel*>(proxyModel->sourceModel());
+    if (sourceModel) {
+        int columnIndex = sourceModel->record().indexOf(colonne);
+        if (columnIndex >= 0) {
+            proxyModel->setSortRole(Qt::DisplayRole);
+            proxyModel->sort(columnIndex, order);
+        } else {
+            qDebug() << "Colonne non trouvée :" << colonne;
+        }
+    }
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::afficherStatistiques() {
     // Nettoyer le layout existant
     QLayoutItem* child;
@@ -621,7 +672,6 @@ void MainWindow::afficherStatistiques() {
         }
         delete child;
     }
-
 
     // Récupération des données
     int plus50 = 0, moins20 = 0, entre20et50 = 0;
@@ -634,7 +684,7 @@ void MainWindow::afficherStatistiques() {
     }
 
     // Création du diagramme circulaire
-    QPieSeries *series = new QPieSeries();
+    QPieSeries *series = new QPieSeries();  // Création classique sans QScopedPointer
 
     // Calcul du total
     int total = plus50 + moins20 + entre20et50;
@@ -642,33 +692,34 @@ void MainWindow::afficherStatistiques() {
         QLabel *noDataLabel = new QLabel("Aucune donnée disponible");
         noDataLabel->setAlignment(Qt::AlignCenter);
         ui->statistiquesLayout->addWidget(noDataLabel);
+
         return;
     }
 
     // Configuration des tranches avec les nouvelles couleurs
     if (plus50 > 0) {
         QPieSlice *slice = series->append("", plus50);
-        slice->setColor(QColor("#1f4e78")); // Bleu foncé (correspond à "plus de 50 heures")
+        slice->setColor(QColor(31, 78, 120)); // Bleu foncé
         slice->setLabel(QString("%1%").arg(QString::number((plus50 * 100.0 / total), 'f', 1)));
         slice->setLabelVisible(true);
         slice->setLabelPosition(QPieSlice::LabelOutside);
-        slice->setProperty("legendText", "plus de 50 heures"); // Libellé de la légende
+        slice->setProperty("legendText", "plus de 50 heures");
     }
     if (moins20 > 0) {
         QPieSlice *slice = series->append("", moins20);
-        slice->setColor(QColor("#eee5d3")); // Beige clair (correspond à "moins de 20 heures")
+        slice->setColor(QColor(238, 229, 211)); // Beige clair
         slice->setLabel(QString("%1%").arg(QString::number((moins20 * 100.0 / total), 'f', 1)));
         slice->setLabelVisible(true);
         slice->setLabelPosition(QPieSlice::LabelOutside);
-        slice->setProperty("legendText", "moins de 20 heures"); // Libellé de la légende
+        slice->setProperty("legendText", "moins de 20 heures");
     }
     if (entre20et50 > 0) {
         QPieSlice *slice = series->append("", entre20et50);
-        slice->setColor(QColor("#222d52")); // Bleu nuit (correspond à "entre 20 et 50 heures")
+        slice->setColor(QColor(34, 45, 82)); // Bleu nuit
         slice->setLabel(QString("%1%").arg(QString::number((entre20et50 * 100.0 / total), 'f', 1)));
         slice->setLabelVisible(true);
         slice->setLabelPosition(QPieSlice::LabelOutside);
-        slice->setProperty("legendText", "entre 20 et 50 heures"); // Libellé de la légende
+        slice->setProperty("legendText", "entre 20 et 50 heures");
     }
 
     // Configuration du graphique
@@ -684,17 +735,17 @@ void MainWindow::afficherStatistiques() {
     chart->setTitleFont(titleFont);
 
     // Ajuster les marges pour décaler le titre
-    chart->setMargins(QMargins(-10, 0, 0, 0)); // Gauche, Haut, Droite, Bas
+    chart->setMargins(QMargins(-10, 0, 0, 0));
 
     // Définir la couleur de fond
-    chart->setBackgroundBrush(QBrush(QColor("#e0e0e0"))); // Gris clair
+chart->setBackgroundBrush(QBrush(QColor(224, 224, 224)));
     chart->setBackgroundVisible(true);
 
     // Configuration de la légende
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignRight);
     chart->legend()->setBackgroundVisible(true);
-    chart->legend()->setBrush(QBrush(QColor("#e0e0e0"))); // Même fond que le graphique
+   chart->legend()->setBrush(QBrush(QColor(224, 224, 224))); // Même fond que le graphique
     chart->setAnimationOptions(QChart::AllAnimations);
 
     // Personnalisation des libellés de la légende
@@ -710,7 +761,7 @@ void MainWindow::afficherStatistiques() {
     chartView->setMinimumSize(300, 200);
 
     // Définir le fond du widget
-    chartView->setBackgroundBrush(QBrush(QColor("#e0e0e0")));
+  chartView->setBackgroundBrush(QBrush(QColor(224, 224, 224)));
     chartView->setAutoFillBackground(true);
 
     // Ajout au layout
