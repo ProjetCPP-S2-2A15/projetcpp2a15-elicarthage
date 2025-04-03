@@ -4,6 +4,9 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <QPixmap>
+#include <QCryptographicHash>
+#include <QSqlQuery>
+#include <QSqlError>
 login::login(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::login)
@@ -50,29 +53,39 @@ login::login(QWidget *parent)
 }
 
 
+
 void login::on_btnConnecter_clicked()
 {
-    QString username = ui->lineEditEmail->text().trimmed();
+    QString email = ui->lineEditEmail->text().trimmed();
     QString password = ui->lineEditPassword->text();
 
-    if (username.isEmpty() || password.isEmpty()) {
+    if (email.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Erreur", "Veuillez remplir tous les champs");
         return;
     }
 
-    if (authenticate(username, password)) {
+    if (authenticate(email, password)) {
         emit loginSuccess();
     } else {
-        QMessageBox::critical(this, "Erreur", "Identifiants incorrects");
+        QMessageBox::critical(this, "Erreur", "Email ou mot de passe incorrect. Veuillez vérifier vos identifiants.");
         ui->lineEditPassword->clear();
         ui->lineEditEmail->setFocus();
     }
 }
 
-bool login::authenticate(const QString &username, const QString &password)
+bool login::authenticate(const QString &email, const QString &password)
 {
-    // Exemple simple - À remplacer par votre logique d'authentification
-    return (username == "admin" && password == "admin123");
+    QSqlQuery query;
+    query.prepare("SELECT MOT_DE_PASSE FROM ZEINEB.ARCHITECTE WHERE EMAIL = :email");
+    query.bindValue(":email", email.trimmed().toLower());
+
+    if (!query.exec() || !query.next()) return false;
+
+    QString storedPassword = query.value(0).toString();
+    QString inputPassword = QString::fromUtf8(QCryptographicHash::hash(password.toUtf8(),
+                                                                       QCryptographicHash::Sha256).toBase64());
+
+    return (inputPassword == storedPassword);
 }
 
 void login::on_btnMotDePasse_clicked()
