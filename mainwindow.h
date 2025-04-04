@@ -24,8 +24,8 @@ public:
      bool estTexteValide(const QString &texte);
      void setupValidation();
    void exporterPDF();
-
-
+ public:
+     bool verifierMotDePasse(const QString &motDePasse, QLabel* labelErreur = nullptr);
 
     void afficherStatistiques();
 private:
@@ -34,7 +34,7 @@ private:
     void trierTableau(const QString& colonne, Qt::SortOrder order);
     bool isValidColumn(const QString &columnName);
 
-    bool verifierMotDePasse(const QString &motDePasse);
+
 
     bool validateEmail(const QString &email, bool isModification = false);
 

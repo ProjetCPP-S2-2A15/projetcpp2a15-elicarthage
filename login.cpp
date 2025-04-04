@@ -7,18 +7,21 @@
 #include <QCryptographicHash>
 #include <QSqlQuery>
 #include <QSqlError>
-login::login(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::login)
+#include <QTimer>
+#include "mainwindow.h"
+#include "architecte.h"
+login::login(MainWindow* mainWindow, QWidget *parent)
+    : QWidget(parent), ui(new Ui::login), m_mainWindow(mainWindow)
 {
     ui->setupUi(this);
+    ui->loginWidget->setVisible(true);  // Seul le widget de login visible au départ
+    ui->mot_de_passe_oublie->setVisible(false);
+    ui->widgetQuestion->setVisible(false);  // Assurez-vous que ce nom correspond à votre UI
+    ui->widgetRei->setVisible(false);
+
+
     this->setWindowTitle("Authentification - ELICAR");
-
-
-
-
-
-    // Charger et vérifier l'image de l'icône de l'application
+connect(ui->btnRetour, &QPushButton::clicked, this, &login::on_btnRetour_clicked);
     QPixmap pixmap("C:/Users/Admin/Desktop/projet/images/logo.png");
     if (!pixmap.isNull()) {
         QPixmap resizedPixmap = pixmap.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -36,7 +39,13 @@ login::login(QWidget *parent)
         qDebug() << "L'image pour le login n'a pas pu être chargée!";
     }
 
-
+    // Dans login::login(), assurez-vous d'avoir UNE SEULE de ces connexions :
+    // Soit la connexion automatique (nommage standard)
+    // OU
+ //   connect(ui->btnquestion, &QPushButton::clicked, this, &login::on_btnquestion_clicked);
+    // Mais pas les deux en même temps
+    // Dans le constructeur login::login()
+  //  connect(ui->btnReinitialiser, &QPushButton::clicked, this, &login::on_btnReinitialiser_clicked);
 
     // Positionnement
     ui->loginWidget->setGeometry(510, 40, ui->loginWidget->width(), ui->loginWidget->height());
@@ -48,10 +57,171 @@ login::login(QWidget *parent)
 
     // Configuration champs
     ui->lineEditPassword->setEchoMode(QLineEdit::Password);
-    //  ui->lineEditUsername->setPlaceholderText("Nom d'utilisateur");
+
     ui->lineEditPassword->setPlaceholderText("Mot de passe");
+
+
+    connect(ui->nvPass, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (m_mainWindow) {
+            m_mainWindow->verifierMotDePasse(text, ui->labelErreur);
+        }
+    });
+
 }
 
+
+
+void login::on_btnValider_clicked()
+{
+    QString email = ui->lineEditemailR->text().trimmed();
+
+    // Vérification email vide
+    if (email.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Veuillez entrer votre email");
+        return;
+    }
+
+    // Vérification existence email
+    Architecte A; // Créez une instance d'Architecte
+    if (!A.emailExists(email)) {
+        QMessageBox::critical(this, "Erreur", "Email non trouvé. Veuillez vérifier votre email.");
+        ui->lineEditemailR->clear();
+        ui->lineEditemailR->setFocus();
+        return;
+    }
+
+    // Si l'email existe, afficher le widget suivant et récupérer la question
+    QSqlQuery query;
+    query.prepare("SELECT QUESTION FROM ZEINEB.ARCHITECTE WHERE EMAIL = :email");
+    query.bindValue(":email", email);
+
+    if (query.exec() && query.next()) {
+        // Afficher la question dans le widget suivant
+        ui->question->setText(query.value(0).toString());
+
+        // Passer au widget suivant
+        ui->mot_de_passe_oublie->setVisible(false);
+        ui->widgetQuestion->setVisible(true);
+        ui->widgetQuestion->setGeometry(ui->loginWidget->geometry());
+    } else {
+        QMessageBox::critical(this, "Erreur", "Impossible de récupérer la question associée à cet email");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool login::verifierReponse(const QString &email, const QString &reponseUtilisateur)
+{
+    QSqlQuery query;
+    query.prepare("SELECT REponse FROM ZEINEB.ARCHITECTE WHERE EMAIL = :email");
+    query.bindValue(":email", email);
+
+    if (!query.exec() || !query.next()) {
+        QMessageBox::critical(this, "Erreur", "Impossible de récupérer la réponse secrète.");
+        return false;
+    }
+
+    QString reponseCorrecte = query.value(0).toString().trimmed().toLower();
+    QString reponseEntree = reponseUtilisateur.trimmed().toLower();
+
+    return reponseCorrecte == reponseEntree;
+}
+//------------------------------------------------------------------------------------------------------
+void login::on_btnquestion_clicked()
+{
+    // Désactiver temporairement le bouton
+    //ui->btnquestion->setEnabled(false);
+
+    QString email = ui->lineEditemailR->text().trimmed();
+    QString reponseUtilisateur = ui->lineEditReponse->text().trimmed();
+
+    if (/*email.isEmpty() ||*/ reponseUtilisateur.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Veuillez remplir tous les champs.");
+       // ui->btnquestion->setEnabled(true); // Réactiver le bouton
+        return;
+    }
+
+    if (verifierReponse(email, reponseUtilisateur)) {
+        ui->widgetQuestion->setVisible(false);
+        ui->widgetRei->setVisible(true);
+        ui->widgetRei->setGeometry(ui->loginWidget->geometry());
+    } else {
+        QMessageBox::critical(this, "Erreur", "Réponse incorrecte. Veuillez vérifier votre réponse !");
+        ui->lineEditReponse->clear();
+        ui->lineEditReponse->setFocus();
+    }
+
+    // Réactiver le bouton après traitement
+   // ui->btnquestion->setEnabled(true);
+}
+//----------------------------------------------------------------------------------------------------
+void login::on_btnReinitialiser_clicked()
+{
+    static bool alreadyClicked = false;
+    if (alreadyClicked) return;  // Évite un second appel
+    alreadyClicked = true;
+
+    QString email = ui->lineEditemailR->text().trimmed();
+    QString nouveauPass = ui->nvPass->text().trimmed();
+    QString confirmationPass = ui->confirmPass->text().trimmed();
+
+    if (nouveauPass.isEmpty() || confirmationPass.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Veuillez remplir tous les champs.");
+        alreadyClicked = false;  // Réinitialiser le flag en cas d'erreur
+        return;
+    }
+
+    if (nouveauPass != confirmationPass) {
+        QMessageBox::critical(this, "Erreur", "Les mots de passe ne correspondent pas.");
+        ui->nvPass->clear();
+        ui->confirmPass->clear();
+        ui->nvPass->setFocus();
+        alreadyClicked = false;
+        return;
+    }
+
+    if (m_mainWindow && !m_mainWindow->verifierMotDePasse(nouveauPass, ui->labelErreur)) {
+        QMessageBox::warning(this, "Erreur", "Veuillez choisir un mot de passe valide.");
+        alreadyClicked = false;
+        return;
+    }
+
+    QByteArray hashedPassword = QCryptographicHash::hash(nouveauPass.toUtf8(), QCryptographicHash::Sha256);
+    QString hashedPasswordStr = QString::fromUtf8(hashedPassword.toBase64());
+
+    QSqlQuery query;
+    query.prepare("UPDATE ZEINEB.ARCHITECTE SET MOT_DE_PASSE = :password WHERE EMAIL = :email");
+    query.bindValue(":password", hashedPasswordStr);
+    query.bindValue(":email", email);
+
+    if (query.exec()) {
+        if (query.numRowsAffected() > 0) {
+            QMessageBox::information(this, "Succès", "Mot de passe réinitialisé avec succès!");
+            emit loginSuccess();
+        }
+    } else {
+        QMessageBox::critical(this, "Erreur", "Erreur lors de la mise à jour: " + query.lastError().text());
+    }
+
+    alreadyClicked = false; // Réinitialiser après l'exécution complète
+}
 
 
 void login::on_btnConnecter_clicked()
@@ -91,23 +261,20 @@ bool login::authenticate(const QString &email, const QString &password)
 void login::on_btnMotDePasse_clicked()
 {
     ui->loginWidget->setVisible(false);
-    ui->widgetRei->setVisible(false);
-    ui->mot_de_passe_oublie->setGeometry(ui->loginWidget->geometry());
     ui->mot_de_passe_oublie->setVisible(true);
-}
+    ui->mot_de_passe_oublie->setGeometry(ui->loginWidget->geometry());
 
-void login::on_btnquestion_clicked()
-{
-    ui->loginWidget->setVisible(false);
-    ui->mot_de_passe_oublie->setVisible(false);
-    ui->widgetRei->setGeometry(ui->loginWidget->geometry());
-    ui->widgetRei->setVisible(true);
+    // Réinitialisation des champs
+    ui->lineEditemailR->clear();
+    ui->question->clear();
+    ui->lineEditemailR->setFocus();  // Donner le focus au champ email
 }
 
 
 
 void login::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     QPainter painter(this);
     QPixmap bgPixmap("C:/Users/Admin/Desktop/projet/images/back3.png");
 
@@ -120,5 +287,17 @@ void login::paintEvent(QPaintEvent *event)
 
 login::~login()
 {
+
     delete ui;
+}
+
+void login::on_btnRetour_clicked()
+{
+    ui->mot_de_passe_oublie->setVisible(false);
+    ui->loginWidget->setVisible(true);
+    ui->loginWidget->setGeometry(510, 40, ui->loginWidget->width(), ui->loginWidget->height());
+
+    // Réinitialiser les champs si nécessaire
+    ui->lineEditemailR->clear();
+    ui->labelErreur->clear();
 }

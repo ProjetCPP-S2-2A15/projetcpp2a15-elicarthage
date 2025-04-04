@@ -12,14 +12,14 @@ int main(int argc, char *argv[])
     Connection c;
     bool test = c.createconnect();
 
-    // Création des fenêtres
-    login loginWindow;
-    MainWindow mainWindow;
+    // Création des fenêtres dans le bon ordre
+    MainWindow mainWindow; // Doit être créé en premier maintenant
+    login loginWindow(&mainWindow); // Passez le pointeur de MainWindow
 
     // Afficher le login immédiatement
     loginWindow.show();
 
-    // Afficher le message après un court délai (pour que le login apparaisse d'abord)
+    // Afficher le message après un court délai
     QTimer::singleShot(100, [&]() {
         if(test) {
             QMessageBox::information(&loginWindow,

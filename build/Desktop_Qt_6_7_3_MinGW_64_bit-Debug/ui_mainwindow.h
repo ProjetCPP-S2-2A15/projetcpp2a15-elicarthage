@@ -573,7 +573,7 @@ public:
 ""));
         triDecroissantButton = new QPushButton(widget);
         triDecroissantButton->setObjectName("triDecroissantButton");
-        triDecroissantButton->setGeometry(QRect(1201, 20, 16, 41));
+        triDecroissantButton->setGeometry(QRect(1190, 20, 16, 41));
         triDecroissantButton->setStyleSheet(QString::fromUtf8("QPushButton#triDecroissantButton {\n"
 "    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triDecroissant.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
@@ -740,7 +740,7 @@ public:
         statistiquesLayout->setContentsMargins(0, 0, 0, 0);
         triCroissantButton = new QPushButton(widget);
         triCroissantButton->setObjectName("triCroissantButton");
-        triCroissantButton->setGeometry(QRect(1180, 20, 20, 41));
+        triCroissantButton->setGeometry(QRect(1180, 20, 16, 41));
         triCroissantButton->setStyleSheet(QString::fromUtf8("QPushButton#triCroissantButton{\n"
 "    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triCroissant.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"

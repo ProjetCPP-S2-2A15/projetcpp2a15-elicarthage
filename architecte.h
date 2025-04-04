@@ -45,6 +45,7 @@ public:
     QSqlQueryModel* afficher();
     bool supprimer(int);
     bool idExiste(int id);
+       bool emailExists(const QString& email);
     bool modifier(int id, const QString &columnName, const QString &newValue);
     void getNomPrenom(int id, QString &nom, QString &prenom);
     QSqlQueryModel* rechercher(const QString &keyword);

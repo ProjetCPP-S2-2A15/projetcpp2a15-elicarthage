@@ -130,6 +130,18 @@ bool Architecte::idExiste(int id)
     return false;
 }
 
+
+bool Architecte::emailExists(const QString& email)
+{
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM ZEINEB.ARCHITECTE WHERE EMAIL = :email");
+    query.bindValue(":email", email.trimmed().toLower());
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt() > 0;
+    }
+    return false;
+}
 void Architecte::getNomPrenom(int id, QString &nom, QString &prenom) {
     QSqlQuery query;
     query.prepare("SELECT NOM, PRÉNOM FROM ZEINEB.ARCHITECTE WHERE id = :id");

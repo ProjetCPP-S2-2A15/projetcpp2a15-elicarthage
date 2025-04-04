@@ -57,7 +57,13 @@ MainWindow::MainWindow(QWidget *parent)
     // ordreCroissant=true; // Initialiser à true pour le premier tri croissant
     // trierTableau("NOM",ordreCroissant);
     connect(ui->tableView, &QTableView::clicked, this, &MainWindow::modifierCellule);
-    connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
+    // Remplacer cette ligne :
+    // connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, &MainWindow::verifierMotDePasse);
+
+    // Par :
+    connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, [this](const QString &text) {
+        verifierMotDePasse(text, ui->labelErreur); // Passez le label approprié
+    });
     connect(ui->lineEdit_Rech, &QLineEdit::textChanged, this, &MainWindow::on_lineEdit_Rech_textChanged);
     connect(ui->exportBtn, &QPushButton::clicked, this, &MainWindow::exporterPDF);
     connect(ui->triCroissantButton, &QPushButton::clicked, this, &MainWindow::on_triCroissantButton_clicked);
@@ -95,23 +101,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-bool MainWindow::verifierMotDePasse(const QString &motDePasse)
+bool MainWindow::verifierMotDePasse(const QString &motDePasse, QLabel* labelErreur)
 {
     static QRegularExpression regex("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9\\s]).{8,}$");
     QRegularExpressionMatch match = regex.match(motDePasse);
 
-    QLabel *labelErreur = ui->labelErreur;
-
-    if (match.hasMatch()) {
-        labelErreur->setText("Mot de passe valide.");
-        labelErreur->setStyleSheet("color: green;");
-
-        return true;
-    } else {
-        labelErreur->setText("Mot de passe:Min.8 caractères,1majuscule,<br>1 minuscule,1 chiffre,1 spécial.");
-        labelErreur->setStyleSheet("color: red;");
-        return false;
+    if (labelErreur) {
+        if (match.hasMatch()) {
+            labelErreur->setText("Mot de passe valide.");
+            labelErreur->setStyleSheet("color: green;");
+        } else {
+            labelErreur->setText("Mot de passe:Min.8 caractères,1majuscule,<br>1 minuscule,1 chiffre,1 spécial.");
+            labelErreur->setStyleSheet("color: red;");
+        }
     }
+
+    return match.hasMatch();
 }
 
 
