@@ -19,7 +19,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    // Déclarez la fonction generateAutoID ici
+
     int generateAutoID();
      bool estTexteValide(const QString &texte);
      void setupValidation();
@@ -30,11 +30,10 @@ public:
     void afficherStatistiques();
 private:
     Ui::MainWindow *ui;
-    QSortFilterProxyModel *proxyModel;
-    void trierTableau(const QString& colonne, Qt::SortOrder order);
+
     bool isValidColumn(const QString &columnName);
 
-
+    void switchWidget(QWidget* widgetToShow);
 
     bool validateEmail(const QString &email, bool isModification = false);
 
@@ -50,9 +49,12 @@ private slots:
     void on_lineEdit_Rech_textChanged(const QString &text);
     void on_triCroissantButton_clicked();
     void on_triDecroissantButton_clicked();
-
-
-
+    void on_ressourcesBtn_clicked();  // Si vous utilisez des slots nommés
+    void on_architecteBtn_clicked();
+    void on_tacheBtn_clicked();
+ void on_projetBtn_clicked();
+  void on_clientBtn_clicked();
+   void on_formationsBtn_clicked();
 
 
 };

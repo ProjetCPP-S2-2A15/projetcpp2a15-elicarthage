@@ -40,7 +40,7 @@ public:
     QPushButton *btnConnecter;
     QLineEdit *lineEditPassword;
     QPushButton *btnMotDePasse;
-    QLabel *labelImage;
+    QLabel *label_7;
     QWidget *widgetQuestion;
     QLabel *question;
     QLabel *label_3;
@@ -78,11 +78,14 @@ public:
         lineEditemailR = new QLineEdit(mot_de_passe_oublie);
         lineEditemailR->setObjectName("lineEditemailR");
         lineEditemailR->setGeometry(QRect(20, 240, 311, 40));
-        lineEditemailR->setStyleSheet(QString::fromUtf8("background-color:rgba(0,0,0,0);\n"
-"border:2px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,200);\n"
-"color:rgb(0,0,0);\n"
-"padding-bottom:7px;"));
+        lineEditemailR->setStyleSheet(QString::fromUtf8("\n"
+"    background-color: rgba(0, 0, 0, 0); /* Fond transparent */\n"
+"    border: 2px solid rgba(0, 0, 0, 0);\n"
+"    border-bottom-color: rgba(46, 82, 101, 200);\n"
+"    color: rgb(0, 0, 0);\n"
+"    padding-bottom: 7px;\n"
+"\n"
+"  "));
         btnValider = new QPushButton(mot_de_passe_oublie);
         btnValider->setObjectName("btnValider");
         btnValider->setGeometry(QRect(80, 320, 181, 31));
@@ -137,16 +140,21 @@ public:
         label_6->setFont(font2);
         widgetRei = new QWidget(login);
         widgetRei->setObjectName("widgetRei");
-        widgetRei->setGeometry(QRect(410, 60, 351, 351));
+        widgetRei->setGeometry(QRect(410, 30, 351, 351));
         widgetRei->setStyleSheet(QString::fromUtf8(""));
         nvPass = new QLineEdit(widgetRei);
         nvPass->setObjectName("nvPass");
         nvPass->setGeometry(QRect(10, 150, 311, 40));
-        nvPass->setStyleSheet(QString::fromUtf8("background-color:rgba(0,0,0,0);\n"
+        nvPass->setStyleSheet(QString::fromUtf8("\n"
+"\n"
+"\n"
+"   background-color:rgba(0,0,0,0);\n"
 "border:2px solid rgba(0,0,0,0);\n"
 "border-bottom-color:rgba(46,82,101,200);\n"
 "color:rgb(0,0,0);\n"
-"padding-bottom:7px;"));
+"padding-bottom:7px;\n"
+"\n"
+"    "));
         nvPass->setEchoMode(QLineEdit::EchoMode::Password);
         label_4 = new QLabel(widgetRei);
         label_4->setObjectName("label_4");
@@ -203,10 +211,10 @@ public:
         confirmPass->setEchoMode(QLineEdit::EchoMode::Password);
         labelErreur = new QLabel(widgetRei);
         labelErreur->setObjectName("labelErreur");
-        labelErreur->setGeometry(QRect(40, 200, 281, 16));
+        labelErreur->setGeometry(QRect(10, 200, 311, 41));
         loginWidget = new QWidget(login);
         loginWidget->setObjectName("loginWidget");
-        loginWidget->setGeometry(QRect(390, 430, 351, 441));
+        loginWidget->setGeometry(QRect(420, 470, 351, 441));
         loginWidget->setStyleSheet(QString::fromUtf8(""));
         lineEditEmail = new QLineEdit(loginWidget);
         lineEditEmail->setObjectName("lineEditEmail");
@@ -267,9 +275,13 @@ public:
 "    font-weight: bold;\n"
 "}\n"
 ""));
-        labelImage = new QLabel(loginWidget);
-        labelImage->setObjectName("labelImage");
-        labelImage->setGeometry(QRect(200, 0, 161, 101));
+        label_7 = new QLabel(loginWidget);
+        label_7->setObjectName("label_7");
+        label_7->setGeometry(QRect(90, 30, 151, 71));
+        QFont font5;
+        font5.setPointSize(20);
+        font5.setBold(true);
+        label_7->setFont(font5);
         widgetQuestion = new QWidget(login);
         widgetQuestion->setObjectName("widgetQuestion");
         widgetQuestion->setGeometry(QRect(820, 30, 331, 331));
@@ -279,9 +291,9 @@ public:
         label_3 = new QLabel(widgetQuestion);
         label_3->setObjectName("label_3");
         label_3->setGeometry(QRect(10, 10, 311, 71));
-        QFont font5;
-        font5.setBold(true);
-        label_3->setFont(font5);
+        QFont font6;
+        font6.setBold(true);
+        label_3->setFont(font6);
         lineEditReponse = new QLineEdit(widgetQuestion);
         lineEditReponse->setObjectName("lineEditReponse");
         lineEditReponse->setGeometry(QRect(10, 170, 301, 40));
@@ -330,11 +342,11 @@ public:
         label = new QLabel(widget_logo);
         label->setObjectName("label");
         label->setGeometry(QRect(20, 210, 291, 81));
-        QFont font6;
-        font6.setFamilies({QString::fromUtf8("Goudy Stout")});
-        font6.setPointSize(15);
-        font6.setBold(true);
-        label->setFont(font6);
+        QFont font7;
+        font7.setFamilies({QString::fromUtf8("Goudy Stout")});
+        font7.setPointSize(15);
+        font7.setBold(true);
+        label->setFont(font7);
         label->setStyleSheet(QString::fromUtf8("QLabel {\n"
 "    color: white; /* Texte en blanc */\n"
 " font-family: 'Goudy Stout', sans-serif;\n"
@@ -366,7 +378,7 @@ public:
         btnConnecter->setText(QCoreApplication::translate("login", "se connecter", nullptr));
         lineEditPassword->setPlaceholderText(QCoreApplication::translate("login", "mot de passe", nullptr));
         btnMotDePasse->setText(QCoreApplication::translate("login", "Mot de passe oubli\303\251?", nullptr));
-        labelImage->setText(QString());
+        label_7->setText(QCoreApplication::translate("login", "<html><head/><body><p><span style=\" color:#222d52;\">Bienvenue</span></p></body></html>", nullptr));
         question->setText(QString());
         label_3->setText(QCoreApplication::translate("login", "<html><head/><body><p>Veuillez r\303\251pondre \303\240 votre question secr\303\250te ci-dessous</p></body></html>", nullptr));
         lineEditReponse->setPlaceholderText(QCoreApplication::translate("login", "r\303\251ponse", nullptr));

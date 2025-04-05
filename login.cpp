@@ -30,22 +30,6 @@ connect(ui->btnRetour, &QPushButton::clicked, this, &login::on_btnRetour_clicked
         qDebug() << "L'image du logo n'a pas pu être chargée!";
     }
 
-    // Charger et afficher l'image du login
-    QPixmap loginPixmap("C:/Users/Admin/Desktop/projet/images/login.png");
-    if (!loginPixmap.isNull()) {
-        ui->labelImage->setPixmap(loginPixmap.scaled(100, 100, Qt::KeepAspectRatio));
-        ui->labelImage->setAlignment(Qt::AlignCenter);
-    } else {
-        qDebug() << "L'image pour le login n'a pas pu être chargée!";
-    }
-
-    // Dans login::login(), assurez-vous d'avoir UNE SEULE de ces connexions :
-    // Soit la connexion automatique (nommage standard)
-    // OU
- //   connect(ui->btnquestion, &QPushButton::clicked, this, &login::on_btnquestion_clicked);
-    // Mais pas les deux en même temps
-    // Dans le constructeur login::login()
-  //  connect(ui->btnReinitialiser, &QPushButton::clicked, this, &login::on_btnReinitialiser_clicked);
 
     // Positionnement
     ui->loginWidget->setGeometry(510, 40, ui->loginWidget->width(), ui->loginWidget->height());
@@ -66,8 +50,69 @@ connect(ui->btnRetour, &QPushButton::clicked, this, &login::on_btnRetour_clicked
             m_mainWindow->verifierMotDePasse(text, ui->labelErreur);
         }
     });
+    setupPasswordVisibilityToggle();
 
 }
+
+// Dans le constructeur login::login(), après la configuration des QLineEdit
+void login::setupPasswordVisibilityToggle() {
+    // Créer les boutons œil
+    QPushButton *togglePasswordButton = new QPushButton(ui->lineEditPassword);
+    QPushButton *toggleNvPassButton = new QPushButton(ui->nvPass);
+    QPushButton *toggleConfirmPassButton = new QPushButton(ui->confirmPass);
+
+    // Configurer les boutons
+    for (auto button : {togglePasswordButton, toggleNvPassButton, toggleConfirmPassButton}) {
+        button->setCursor(Qt::PointingHandCursor);
+        button->setIcon(QIcon("C:/Users/Admin/Desktop/projet/images/eye_closed.png")); // Chemin vers votre image œil fermé
+        button->setStyleSheet("border: none; padding: 0px; background: transparent;");
+        button->setFixedSize(24, 24);
+    }
+
+    // Positionner les boutons
+    togglePasswordButton->move(ui->lineEditPassword->width() - 30, (ui->lineEditPassword->height() - 24) / 2);
+    toggleNvPassButton->move(ui->nvPass->width() - 30, (ui->nvPass->height() - 24) / 2);
+    toggleConfirmPassButton->move(ui->confirmPass->width() - 30, (ui->confirmPass->height() - 24) / 2);
+
+    // Connecter les signaux
+    connect(togglePasswordButton, &QPushButton::clicked, this, [this, togglePasswordButton]() {
+        togglePasswordVisibility(ui->lineEditPassword, togglePasswordButton);
+    });
+
+    connect(toggleNvPassButton, &QPushButton::clicked, this, [this, toggleNvPassButton]() {
+        togglePasswordVisibility(ui->nvPass, toggleNvPassButton);
+    });
+
+    connect(toggleConfirmPassButton, &QPushButton::clicked, this, [this, toggleConfirmPassButton]() {
+        togglePasswordVisibility(ui->confirmPass, toggleConfirmPassButton);
+    });
+
+    // S'assurer que les boutons restent visibles quand le texte change
+    connect(ui->lineEditPassword, &QLineEdit::textChanged, [togglePasswordButton, this]() {
+        togglePasswordButton->move(ui->lineEditPassword->width() - 30, (ui->lineEditPassword->height() - 24) / 2);
+    });
+
+    connect(ui->nvPass, &QLineEdit::textChanged, [toggleNvPassButton, this]() {
+        toggleNvPassButton->move(ui->nvPass->width() - 30, (ui->nvPass->height() - 24) / 2);
+    });
+
+    connect(ui->confirmPass, &QLineEdit::textChanged, [toggleConfirmPassButton, this]() {
+        toggleConfirmPassButton->move(ui->confirmPass->width() - 30, (ui->confirmPass->height() - 24) / 2);
+    });
+}
+
+// Ajouter cette méthode à votre classe login
+void login::togglePasswordVisibility(QLineEdit* lineEdit, QPushButton* button) {
+    if (lineEdit->echoMode() == QLineEdit::Password) {
+        lineEdit->setEchoMode(QLineEdit::Normal);
+        button->setIcon(QIcon("C:/Users/Admin/Desktop/projet/images/eye_open.png")); // Chemin vers votre image œil ouvert
+    } else {
+        lineEdit->setEchoMode(QLineEdit::Password);
+        button->setIcon(QIcon("C:/Users/Admin/Desktop/projet/images/eye_closed.png")); // Chemin vers votre image œil fermé
+    }
+}
+
+// Dans le constructeur login::login(), ajoutez cet appel après la configuration des QLineEdit
 
 
 
@@ -146,15 +191,14 @@ bool login::verifierReponse(const QString &email, const QString &reponseUtilisat
 //------------------------------------------------------------------------------------------------------
 void login::on_btnquestion_clicked()
 {
-    // Désactiver temporairement le bouton
-    //ui->btnquestion->setEnabled(false);
+
 
     QString email = ui->lineEditemailR->text().trimmed();
     QString reponseUtilisateur = ui->lineEditReponse->text().trimmed();
 
     if (/*email.isEmpty() ||*/ reponseUtilisateur.isEmpty()) {
         QMessageBox::warning(this, "Erreur", "Veuillez remplir tous les champs.");
-       // ui->btnquestion->setEnabled(true); // Réactiver le bouton
+
         return;
     }
 
@@ -169,7 +213,7 @@ void login::on_btnquestion_clicked()
     }
 
     // Réactiver le bouton après traitement
-   // ui->btnquestion->setEnabled(true);
+
 }
 //----------------------------------------------------------------------------------------------------
 void login::on_btnReinitialiser_clicked()
@@ -198,7 +242,12 @@ void login::on_btnReinitialiser_clicked()
     }
 
     if (m_mainWindow && !m_mainWindow->verifierMotDePasse(nouveauPass, ui->labelErreur)) {
-        QMessageBox::warning(this, "Erreur", "Veuillez choisir un mot de passe valide.");
+        QMessageBox::warning(this, "Erreur", "Veuillez entrer un mot de passe valide.");
+        ui->nvPass->clear();
+        ui->confirmPass->clear();
+        ui->labelErreur->clear();
+
+        ui->nvPass->setFocus();
         alreadyClicked = false;
         return;
     }

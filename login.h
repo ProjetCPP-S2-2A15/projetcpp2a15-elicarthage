@@ -39,6 +39,8 @@ private:
 
 
     bool authenticate(const QString &username, const QString &password);
+    void setupPasswordVisibilityToggle();
+    void togglePasswordVisibility(QLineEdit* lineEdit, QPushButton* button);
 };
 
 #endif // LOGIN_H
