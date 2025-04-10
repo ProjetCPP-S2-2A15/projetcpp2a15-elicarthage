@@ -145,9 +145,18 @@ QPushButton#logo {
        <rect>
         <x>0</x>
         <y>255</y>
-        <width>141</width>
-        <height>60</height>
+        <width>142</width>
+        <height>62</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    background-color:  #ffffff;
+
+    color: black;  /* Définir la couleur du texte en noir */
+    border: 1px solid black;  /* Optionnel : pour ajouter une bordure noire */
+}
+</string>
       </property>
       <property name="text">
        <string>Clients</string>
@@ -203,10 +212,10 @@ QPushButton#logo {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-    background-color:  #ffffff;
+    background-color:  transparent;
 
-    color: black;  /* Définir la couleur du texte en noir */
-    border: 1px solid black;  /* Optionnel : pour ajouter une bordure noire */
+    color: white;  /* Définir la couleur du texte en noir */
+
 }
 </string>
       </property>
@@ -423,7 +432,7 @@ QLineEdit:focus {
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>31</width>
+        <width>41</width>
         <height>16</height>
        </rect>
       </property>
@@ -431,6 +440,9 @@ QLineEdit:focus {
        <font>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:black;</string>
       </property>
       <property name="text">
        <string>Nom</string>
@@ -450,6 +462,10 @@ QLineEdit:focus {
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color:black;
+</string>
+      </property>
       <property name="text">
        <string>Prénom</string>
       </property>
@@ -468,6 +484,10 @@ QLineEdit:focus {
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color:black;
+</string>
+      </property>
       <property name="text">
        <string>Email</string>
       </property>
@@ -485,6 +505,10 @@ QLineEdit:focus {
        <font>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:black;
+</string>
       </property>
       <property name="text">
        <string>Tel</string>
@@ -649,8 +673,47 @@ QPushButton#annulerEvent:disabled {
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color:black;
+</string>
+      </property>
       <property name="text">
        <string>Adresse</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelErreur">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>420</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>320</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:black;
+</string>
+      </property>
+      <property name="text">
+       <string>Type</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_adresse">
@@ -680,22 +743,6 @@ QLineEdit:focus {
 }
 </string>
       </property>
-      <property name="echoMode">
-       <enum>QLineEdit::EchoMode::Password</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelErreur">
-      <property name="geometry">
-       <rect>
-        <x>4</x>
-        <y>420</y>
-        <width>231</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_type">
       <property name="geometry">
@@ -724,27 +771,6 @@ QLineEdit:focus {
 }
 </string>
       </property>
-      <property name="echoMode">
-       <enum>QLineEdit::EchoMode::Password</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>81</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Type</string>
-      </property>
      </widget>
      <zorder>lineEdit_nom</zorder>
      <zorder>lineEdit_prenom</zorder>
@@ -761,11 +787,11 @@ QLineEdit:focus {
      <zorder>btnAjouter</zorder>
      <zorder>annulerEvent</zorder>
      <zorder>label_12</zorder>
-     <zorder>lineEdit_adresse</zorder>
      <zorder>labelErreur</zorder>
      <zorder>label_4</zorder>
-     <zorder>lineEdit_type</zorder>
      <zorder>label_13</zorder>
+     <zorder>lineEdit_adresse</zorder>
+     <zorder>lineEdit_type</zorder>
     </widget>
     <widget class="QPushButton" name="exportProjet">
      <property name="geometry">
@@ -924,7 +950,7 @@ QPushButton#tri:pressed {
      <property name="styleSheet">
       <string notr="true">QLabel {
     background-color: #E8DDC8; /* Couleur de fond */
-    color: white; /* Texte en blanc pour contraste */
+    color: black; /* Texte en blanc pour contraste */
     font-weight: bold; /* Texte en gras */
     font-size: 14px; /* Taille du texte */
     padding: 8px 15px; /* Espacement intérieur */
@@ -934,7 +960,7 @@ QPushButton#tri:pressed {
 </string>
      </property>
      <property name="text">
-      <string>Ajouter un architecte</string>
+      <string>Ajouter un Client</string>
      </property>
     </widget>
     <widget class="QWidget" name="widget_4" native="true">
@@ -993,8 +1019,14 @@ QWidget &gt; * {
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+
+    color: black;  /* Définir la couleur du texte en noir */
+   </string>
+      </property>
       <property name="text">
-       <string>Statistiques sur les heures supplémentaires des architectes</string>
+       <string>Statistiques sur les chiffres d'affaires</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_8">

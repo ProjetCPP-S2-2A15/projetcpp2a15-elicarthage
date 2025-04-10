@@ -13,9 +13,10 @@ bool Connection::createconnect()
     db.setUserName("meniar");//inserer nom de l'utilisateur
     db.setPassword("addnotnew");//inserer mot de passe de cet utilisateur
 
-    if (db.open())
-        test=true;
-
-    return  test;
+    if (db.open()) {
+        test = true;
+    } else {
+        qDebug() << "Erreur de connexion à la base:" << db.lastError().text();
+    }
 }
 void Connection::closeConnection(){db.close();}

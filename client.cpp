@@ -5,8 +5,16 @@
 #include <QCryptographicHash>
 
 // Constructor with parameters
-Client::Client(int id, const QString &nom, const QString &prenom, const QString &tel, const QString &email, const QString &adresse, const QString &type)
-    : clientId(id), clientNom(nom), clientPrenom(prenom), clientTel(tel), clientMail(email), clientAdresse(adresse), clientType(type) {}
+Client::Client(int id, const QString& nom, const QString& prenom, const QString& tel, const QString& mail, const QString& adresse, const QString& type)
+{
+    clientId = id;
+    clientNom = nom;
+    clientPrenom = prenom;
+    clientTel = tel;
+    clientMail = mail;
+    clientAdresse = adresse;
+    clientType = type;
+}
 
 // Function to add a client to the database
 bool Client::ajouter()
@@ -25,14 +33,12 @@ bool Client::ajouter()
     query.bindValue(":email", clientMail);
     query.bindValue(":adresse", clientAdresse);
     query.bindValue(":type", clientType);
-    //query.bindValue(":dateAjout", clientDateAjout.toString("yyyy-MM-dd")); // Format date as string
 
     // Execute the query and check for errors
     if (!query.exec()) {
         qDebug() << "Erreur lors de l'ajout du client:" << query.lastError().text();
         return false;
     }
-
     return true;
 }
 
@@ -41,10 +47,18 @@ QSqlQueryModel* Client::afficher()
 {
     QSqlQueryModel *model = new QSqlQueryModel();
 
-    // Execute the SQL query to fetch data
-    model->setQuery("SELECT ID, NOM, PRENOM, TEL, EMAIL, ADRESSE, TYPE, DATE_AJOUT FROM CLIENT");
+    // Exécuter la requête SQL pour récupérer les données
+    QSqlQuery query;
+    query.prepare("SELECT ID, NOM, PRENOM, TEL, EMAIL, ADRESSE, TYPE FROM CLIENT");
 
-    // Set column headers
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de la récupération des données:" << query.lastError().text();
+        return nullptr;  // Retourner nullptr si la requête échoue
+    }
+
+    model->setQuery(query);
+
+    // Définir les en-têtes des colonnes
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
@@ -52,10 +66,10 @@ QSqlQueryModel* Client::afficher()
     model->setHeaderData(4, Qt::Horizontal, QObject::tr("EMAIL"));
     model->setHeaderData(5, Qt::Horizontal, QObject::tr("ADRESSE"));
     model->setHeaderData(6, Qt::Horizontal, QObject::tr("TYPE"));
-    model->setHeaderData(7, Qt::Horizontal, QObject::tr("DATE_AJOUT"));
 
     return model;
 }
+
 
 // Function to delete a client by ID
 bool Client::supprimer(int id)

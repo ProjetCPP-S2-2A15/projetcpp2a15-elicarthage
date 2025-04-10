@@ -39,7 +39,7 @@ private:
 private slots:
     void on_btnAjouter_clicked();
     void on_annulerEvent_clicked();
-    void on_btnsupprimer_clicked();
+   // void on_btnsupprimer_clicked();
     void modifierCellule(const QModelIndex &index);
 
 
