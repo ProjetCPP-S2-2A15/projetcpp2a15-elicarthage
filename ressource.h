@@ -43,6 +43,7 @@ public:
     bool modifier(int id, const QString &nom, const QString &type, const QString &etat,
                   const QString &fournisseur, const QString &localisation, int quantite);
     bool supprimer(int id); // Supprimer une ressource
+    QPair<int, int> countMaterialsAndActiveSoftwares();
     QSqlQueryModel* afficher();
 };
 

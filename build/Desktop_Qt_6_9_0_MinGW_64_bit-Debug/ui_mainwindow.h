@@ -320,7 +320,7 @@ public:
         ajouter = new QPushButton(widget_3);
         ajouter->setObjectName("ajouter");
         ajouter->setGeometry(QRect(10, 470, 80, 31));
-        ajouter->setStyleSheet(QString::fromUtf8("QPushButton#ajouterEvent {\n"
+        ajouter->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
 "    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
@@ -328,24 +328,7 @@ public:
 "    font-size: 13px;            /* Texte plus petit et plus \303\251l\303\251gant */\n"
 "    font-weight: normal;        /* Texte normal pour un style minimaliste */\n"
 "    border: 1px solid #1A252F;  /* Bordure discr\303\250te l\303\251g\303\250rement plus fonc\303\251e */\n"
-"}\n"
-"\n"
-"QPushButton#ajouterEvent:hover {\n"
-"    background-color: #34495E;  /* Bleu l\303\251g\303\250rement plus clair au survol */\n"
-"    border: 1px solid #2C3E50;  /* Bordure harmonis\303\251e */\n"
-"}\n"
-"\n"
-"QPushButton#ajouterEvent:pressed {\n"
-"    background-color: #1A252F;  /* Bleu encore plus fonc\303\251 lorsqu'on clique */\n"
-"}\n"
-"\n"
-"QPushButton#ajouterEvent:dis"
-                        "abled {\n"
-"    background-color: #95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
-"    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
-"    border: 1px solid #7F8C8D;\n"
-"}\n"
-""));
+"}"));
         label_13 = new QLabel(widget_3);
         label_13->setObjectName("label_13");
         label_13->setGeometry(QRect(10, 320, 71, 16));
@@ -682,7 +665,7 @@ public:
 "}"));
         widget_4 = new QWidget(widget);
         widget_4->setObjectName("widget_4");
-        widget_4->setGeometry(QRect(960, 410, 261, 121));
+        widget_4->setGeometry(QRect(1030, 410, 281, 121));
         widget_4->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "    background-color: #eee5d3;   /* Cadre noir fin (1px) */\n"
 "      border-radius: 20px; /* Coins arrondis */      /* Coins arrondis */\n"
@@ -725,8 +708,8 @@ public:
 ""));
         supprimer = new QPushButton(widget_4);
         supprimer->setObjectName("supprimer");
-        supprimer->setGeometry(QRect(170, 80, 80, 31));
-        supprimer->setStyleSheet(QString::fromUtf8("QPushButton#ajouterEvent {\n"
+        supprimer->setGeometry(QRect(170, 80, 91, 31));
+        supprimer->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
 "    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
@@ -734,24 +717,7 @@ public:
 "    font-size: 13px;            /* Texte plus petit et plus \303\251l\303\251gant */\n"
 "    font-weight: normal;        /* Texte normal pour un style minimaliste */\n"
 "    border: 1px solid #1A252F;  /* Bordure discr\303\250te l\303\251g\303\250rement plus fonc\303\251e */\n"
-"}\n"
-"\n"
-"QPushButton#ajouterEvent:hover {\n"
-"    background-color: #34495E;  /* Bleu l\303\251g\303\250rement plus clair au survol */\n"
-"    border: 1px solid #2C3E50;  /* Bordure harmonis\303\251e */\n"
-"}\n"
-"\n"
-"QPushButton#ajouterEvent:pressed {\n"
-"    background-color: #1A252F;  /* Bleu encore plus fonc\303\251 lorsqu'on clique */\n"
-"}\n"
-"\n"
-"QPushButton#ajouterEvent:dis"
-                        "abled {\n"
-"    background-color: #95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
-"    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
-"    border: 1px solid #7F8C8D;\n"
-"}\n"
-""));
+"}"));
         trimateriel = new QPushButton(widget);
         trimateriel->setObjectName("trimateriel");
         trimateriel->setGeometry(QRect(1040, 30, 111, 31));

@@ -21,6 +21,8 @@
 #include <QFileDialog>
 #include <QComboBox>
 #include <QPdfWriter>
+#include <iostream>
+
 void MainWindow::on_annulertri_clicked() {
     afficher();
 }
@@ -193,12 +195,10 @@ void MainWindow::rechercher() {
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(localisation));
         ui->tableWidget->setItem(row, 6, new QTableWidgetItem(QString::number(quantite)));
 
-        // Créer un bouton Modifier
         QPushButton *modifierButton = new QPushButton("Modifier");
         modifierButton->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
                                       "QPushButton:hover { background-color: #2980b9; }");
 
-        // Connecter le bouton à la fonction modifier()
         connect(modifierButton, &QPushButton::clicked, this, [this, id, nom, type, etat, fournisseur, localisation, quantite]() {
             modifier(id, nom, type, etat, fournisseur, localisation, quantite);
         });
@@ -211,9 +211,17 @@ void MainWindow::rechercher() {
 
 
 void MainWindow::afficherGraphiqueMateriels() {
+    // Vider le layout avant d'ajouter un nouveau graphique
+    QLayoutItem *item;
+    while ((item = ui->widgetGraphLayout->takeAt(0)) != nullptr) {
+        if (item->widget()) {
+            item->widget()->deleteLater();
+        }
+        delete item;
+    }
+
     // Créer la série de barres
     QBarSeries *series = new QBarSeries();
-
     QStringList categories;
 
     // Requête SQL pour récupérer les matériels triés par quantité (ordre décroissant)
@@ -225,11 +233,10 @@ void MainWindow::afficherGraphiqueMateriels() {
         QString nom = query.value("nom").toString();
         int quantite = query.value("quantite").toInt();
 
-        QBarSet *set = new QBarSet(nom);  // Créer un ensemble de barres
+        QBarSet *set = new QBarSet(nom);
         *set << quantite;
-        series->append(set);  // Ajouter l'ensemble à la série
-
-        categories << nom;  // Ajouter le nom du matériel aux catégories
+        series->append(set);
+        categories << nom;
     }
 
     // Requête SQL pour récupérer les logiciels actifs
@@ -241,11 +248,10 @@ void MainWindow::afficherGraphiqueMateriels() {
         QString nom = queryLogiciels.value("nom").toString();
         int quantite = queryLogiciels.value("quantite").toInt();
 
-        QBarSet *set = new QBarSet(nom);  // Créer un ensemble de barres
+        QBarSet *set = new QBarSet(nom);
         *set << quantite;
-        series->append(set);  // Ajouter l'ensemble à la série
-
-        categories << nom;  // Ajouter le nom du logiciel aux catégories
+        series->append(set);
+        categories << nom;
     }
 
     // Créer un graphique
@@ -255,13 +261,13 @@ void MainWindow::afficherGraphiqueMateriels() {
 
     // Créer un axe X (catégories)
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);  // Ajouter les catégories (noms des ressources)
+    axisX->append(categories);
     chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
     // Créer un axe Y
     QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0, 50);  // Ajuster l'axe Y selon les données
+    axisY->setRange(0, 300); // Ajustez selon vos données
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 
@@ -272,14 +278,10 @@ void MainWindow::afficherGraphiqueMateriels() {
     // Créer un QWidget pour contenir le layout
     QWidget *widgetGraph = new QWidget(this);
     QHBoxLayout *layout = new QHBoxLayout(widgetGraph);
-
-    // Ajouter le chartView au layout
     layout->addWidget(chartView);
-
-    // Associer le layout au QWidget
     widgetGraph->setLayout(layout);
 
-    // Ajouter ce QWidget à l'interface principale
+    // Ajouter ce QWidget au layout principal de l'interface
     ui->widgetGraphLayout->addWidget(widgetGraph);
 }
 
@@ -305,7 +307,6 @@ void MainWindow::afficher() {
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("localisation").toString())); // LOCALISATION
         ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("quantite").toString())); // QUANTITE
 
-        // Add the Modify button
         QPushButton *modifyButton = new QPushButton("Modifier");
         modifyButton->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
                                     "QPushButton:hover { background-color: #2980b9; }");
@@ -328,17 +329,17 @@ void MainWindow::afficher() {
         ui->tableWidget->setCellWidget(row, 7, modifyButton);
 
         row++;  // Go to the next row
+
     }
+    afficherGraphiqueMateriels();
+
 }
 void MainWindow::setupTableWidget() {
-    // Set the number of columns
     ui->tableWidget->setColumnCount(8);  // 7 columns for ID, NOM, TYPE, ETAT, FOURNISSEUR, LOCALISATION, QUANTITE + 1 column for "action"
 
-    // Set the headers for each column
     ui->tableWidget->setHorizontalHeaderLabels({"ID", "NOM", "TYPE", "ETAT", "FOURNISSEUR", "LOCALISATION", "QUANTITE", "action"});
 
-    // Fill the table with sample data (adjust this part as needed)
-    ui->tableWidget->setRowCount(8);  // Set number of rows as per your data
+    ui->tableWidget->setRowCount(16);  // Set number of rows as per your data
 
 
 }
@@ -363,6 +364,35 @@ void MainWindow::on_ajouter_clicked() {
         QMessageBox::warning(this, "Erreur", "Veuillez entrer une quantité valide !");
         return;
     }
+
+    // Vérification spécifique pour le type "logiciel"
+    if (type.toLower() == "logiciel") {
+        if (quantite != 0) {
+            QMessageBox::warning(this, "Erreur", "La quantité doit être 0 pour un logiciel !");
+            return;
+        }
+        if (etat.toLower() != "active" && etat.toLower() != "inactive") {
+            QMessageBox::warning(this, "Erreur", "L'état d'un logiciel doit être 'active' ou 'inactive' !");
+            return;
+        }
+    }
+
+    // Vérification spécifique pour le type "matériel"
+    if (type.toLower() == "materiel") {
+        if (etat.toLower() != "disponible" && etat.toLower() != "indisponible") {
+            QMessageBox::warning(this, "Erreur", "L'état d'un matériel doit être 'disponible' ou 'indisponible' !");
+            return;
+        }
+        if (etat.toLower() == "indisponible"){
+            if (quantite != 0) {
+                QMessageBox::warning(this, "Erreur", "La quantité doit être 0 pour un materiel indisponible !");
+                return;
+            }
+
+
+        }
+    }
+
 
 
     // Vérifier si les champs sont vides
@@ -391,9 +421,11 @@ void MainWindow::on_ajouter_clicked() {
     if (r.ajouter()) {
         QMessageBox::information(this, "Succès", "Ajout réussi !");
         afficher();  // Mettre à jour l'affichage
+        afficherGraphiqueMateriels();
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de l'ajout !");
     }
+
 }
 
 void MainWindow::on_supprimer_clicked() {
@@ -454,14 +486,14 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
 
     // Create QComboBox for 'type' with predefined options
     QComboBox *typeEdit = new QComboBox(&dialog);
-    typeEdit->addItem("Logiciel");
-    typeEdit->addItem("Matériel");
+    typeEdit->addItem("logiciel");
+    typeEdit->addItem("materiel");
     typeEdit->setCurrentText(type);  // Set the current selection
 
     // Create QComboBox for 'etat' with predefined options
     QComboBox *etatEdit = new QComboBox(&dialog);
-    etatEdit->addItem("actif");
-    etatEdit->addItem("inactif");
+    etatEdit->addItem("active");
+    etatEdit->addItem("inactive");
     etatEdit->addItem("disponible");
     etatEdit->addItem("indisponible");
     etatEdit->setCurrentText(etat);  // Set the current selection
@@ -469,10 +501,37 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
     QLineEdit *fournisseurEdit = new QLineEdit(fournisseur, &dialog);
     QLineEdit *localisationEdit = new QLineEdit(localisation, &dialog);
     QSpinBox *quantiteEdit = new QSpinBox(&dialog);
-    quantiteEdit->setRange(0, 1000);
-    quantiteEdit->setValue(quantite);
 
-    // Add the fields to the form layout
+    /*// Définir les valeurs initiales et restrictions de quantité
+    if (type.toLower() == "logiciel") {
+        quantiteEdit->setRange(0, 0);  // Quantité fixe à 0 pour les logiciels
+        quantiteEdit->setValue(0);
+    } else {
+        quantiteEdit->setRange(0, 1000);  // Quantité entre 1 et 1000 pour le matériel
+        quantiteEdit->setValue(quantite);
+    }*/
+
+    // Mettre à jour dynamiquement la quantité en fonction du type
+    connect(typeEdit, &QComboBox::currentTextChanged, [&](const QString &newType) {
+        if (newType.toLower() == "logiciel") {
+            quantiteEdit->setRange(0, 0);
+            quantiteEdit->setValue(0);
+        } else {
+            quantiteEdit->setRange(1, 1000);
+
+        }
+    });
+    connect(etatEdit, &QComboBox::currentTextChanged, [&](const QString &newEtat) {
+        if (newEtat.toLower() == "indisponible") {
+            quantiteEdit->setRange(0, 0);
+            quantiteEdit->setValue(0);
+        } else {
+            quantiteEdit->setRange(1, 1000);
+
+        }
+    });
+
+    // Ajouter les champs au formulaire
     form.addRow("Nom:", nomEdit);
     form.addRow("Type:", typeEdit);
     form.addRow("État:", etatEdit);
@@ -480,20 +539,17 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
     form.addRow("Localisation:", localisationEdit);
     form.addRow("Quantité:", quantiteEdit);
 
-    // Buttons
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
     form.addRow(&buttonBox);
 
-    // Connect button signals
     connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
     connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
-    // Show the dialog and check if the user confirmed
     if (dialog.exec() == QDialog::Accepted) {
         // Retrieve updated values
         QString newNom = nomEdit->text().trimmed();
-        QString newType = typeEdit->currentText().trimmed();  // Get the selected value from the QComboBox
-        QString newEtat = etatEdit->currentText().trimmed();  // Get the selected value from the QComboBox
+        QString newType = typeEdit->currentText().trimmed();
+        QString newEtat = etatEdit->currentText().trimmed();
         QString newFournisseur = fournisseurEdit->text().trimmed();
         QString newLocalisation = localisationEdit->text().trimmed();
         int newQuantite = quantiteEdit->value();
@@ -513,10 +569,38 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
             return;
         }
 
+        // Vérification de la quantité en fonction du type
+        if (newType.toLower() == "logiciel" && newQuantite != 0) {
+            QMessageBox::warning(this, "Erreur", "La quantité doit être 0 pour un logiciel !");
+            return;
+        }
+        if (newEtat.toLower() == "indisponible" && newQuantite != 0) {
+            QMessageBox::warning(this, "Erreur", "La quantité doit etre 0 !");
+            return;
+        }
+
+        // Vérification de l'état en fonction du type
+        if (newType.toLower() == "logiciel" && (newEtat.toLower() != "active" && newEtat.toLower() != "inactive")) {
+            QMessageBox::warning(this, "Erreur", "L'état d'un logiciel doit être 'active' ou 'inactive' !");
+            return;
+        }
+        if (newType.toLower() == "materiel" && (newEtat.toLower() != "disponible" && newEtat.toLower() != "indisponible")) {
+            QMessageBox::warning(this, "Erreur", "L'état d'un matériel doit être 'disponible' ou 'indisponible' !");
+            return;
+        }
+
+        qDebug() << "Modification des valeurs pour l'ID:" << id;
+        qDebug() << "Nom:" << newNom;
+        qDebug() << "Type:" << newType;
+        qDebug() << "État:" << newEtat;
+        qDebug() << "Fournisseur:" << newFournisseur;
+        qDebug() << "Localisation:" << newLocalisation;
+        qDebug() << "Quantité:" << newQuantite;
+
         // Update the resource in the database
         if (r.modifier(id, newNom, newType, newEtat, newFournisseur, newLocalisation, newQuantite)) {
             QMessageBox::information(this, "Succès", "Modification réussie !");
-            afficher();  // Refresh the table display
+            afficher();  // Rafraîchir l'affichage
         } else {
             QMessageBox::critical(this, "Erreur", "Échec de la modification !");
         }
@@ -537,7 +621,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->pushButton_Rechercher, &QPushButton::clicked, this, &MainWindow::rechercher);
 
-    // Créer un graphique
+    /*// Créer un graphique
     QChart *chart = new QChart();
     chart->setTitle("Graphique des ressources");
 
@@ -587,7 +671,7 @@ MainWindow::MainWindow(QWidget *parent)
     widgetGraph->setLayout(layout);
 
     // Ajouter ce QWidget à l'interface principale (par exemple à un autre QWidget ou à la fenêtre principale)
-    ui->widgetGraphLayout->addWidget(widgetGraph);  // Assurez-vous q
+    ui->widgetGraphLayout->addWidget(widgetGraph);  // Assurez-vous q*/
     QRegularExpression regex("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(regex, this);
 

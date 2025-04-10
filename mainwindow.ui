@@ -440,7 +440,7 @@ QLineEdit:focus {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton#ajouterEvent {
+       <string notr="true">QPushButton {
     background-color: #2C3E50;  /* Bleu foncé professionnel */
     color: white;               /* Texte blanc pour un bon contraste */
     border-radius: 6px;         /* Coins légèrement arrondis */
@@ -448,23 +448,7 @@ QLineEdit:focus {
     font-size: 13px;            /* Texte plus petit et plus élégant */
     font-weight: normal;        /* Texte normal pour un style minimaliste */
     border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
-}
-
-QPushButton#ajouterEvent:hover {
-    background-color: #34495E;  /* Bleu légèrement plus clair au survol */
-    border: 1px solid #2C3E50;  /* Bordure harmonisée */
-}
-
-QPushButton#ajouterEvent:pressed {
-    background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
-}
-
-QPushButton#ajouterEvent:disabled {
-    background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
-    color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
-    border: 1px solid #7F8C8D;
-}
-</string>
+}</string>
       </property>
       <property name="text">
        <string>Ajouter</string>
@@ -1145,9 +1129,9 @@ QPushButton#BouttonRechProjet:disabled {
     <widget class="QWidget" name="widget_4" native="true">
      <property name="geometry">
       <rect>
-       <x>960</x>
+       <x>1030</x>
        <y>410</y>
-       <width>261</width>
+       <width>281</width>
        <height>121</height>
       </rect>
      </property>
@@ -1233,12 +1217,12 @@ QLineEdit:focus {
        <rect>
         <x>170</x>
         <y>80</y>
-        <width>80</width>
+        <width>91</width>
         <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton#ajouterEvent {
+       <string notr="true">QPushButton {
     background-color: #2C3E50;  /* Bleu foncé professionnel */
     color: white;               /* Texte blanc pour un bon contraste */
     border-radius: 6px;         /* Coins légèrement arrondis */
@@ -1246,23 +1230,7 @@ QLineEdit:focus {
     font-size: 13px;            /* Texte plus petit et plus élégant */
     font-weight: normal;        /* Texte normal pour un style minimaliste */
     border: 1px solid #1A252F;  /* Bordure discrète légèrement plus foncée */
-}
-
-QPushButton#ajouterEvent:hover {
-    background-color: #34495E;  /* Bleu légèrement plus clair au survol */
-    border: 1px solid #2C3E50;  /* Bordure harmonisée */
-}
-
-QPushButton#ajouterEvent:pressed {
-    background-color: #1A252F;  /* Bleu encore plus foncé lorsqu'on clique */
-}
-
-QPushButton#ajouterEvent:disabled {
-    background-color: #95A5A6;  /* Gris bleuté pour un bouton désactivé */
-    color: #D0D3D4;             /* Texte plus clair pour indiquer l’inactivité */
-    border: 1px solid #7F8C8D;
-}
-</string>
+}</string>
       </property>
       <property name="text">
        <string>Supprimer</string>

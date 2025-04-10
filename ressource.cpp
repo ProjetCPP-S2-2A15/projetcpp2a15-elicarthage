@@ -5,12 +5,10 @@
 
 
 
-// Constructeur par défaut
 Ressource::Ressource()
     : NOM(""), TYPE(""), ETAT(""),
     FOURNISSEUR(""), LOCALISATION(""), QUANTITE(0) {}
 
-// Constructeur paramétré
 Ressource::Ressource( const QString &nom, const QString &type, const QString &etat,
                      const QString &fournisseur, const QString &localisation, int quantite) {
     this->NOM = nom;
@@ -21,20 +19,36 @@ Ressource::Ressource( const QString &nom, const QString &type, const QString &et
     this->QUANTITE = quantite;
 }
 
+
 QString Ressource::getLastError() const {
     QSqlQuery query;
     return query.lastError().text();
 }
 bool Ressource::modifier(int id, const QString &nom, const QString &type, const QString &etat,
-                         const QString &fournisseur, const QString &localisation, int quantite) {
+                         const QString &fournisseur, const QString &localisation, int quantite)
+{
     QSqlQuery query;
-    query.prepare("UPDATE ressources SET nom = ?, type = ?, etat = ?, fournisseur = ?, localisation = ?, quantite = ? WHERE id = ?");
+    query.prepare("UPDATE ressource SET nom = :nom, type = :type, etat = :etat, "
+                  "fournisseur = :fournisseur, localisation = :localisation, quantite = :quantite "
+                  "WHERE id = :id");
 
-    if (query.exec()) {
-        return true;
-    } else {
+    query.bindValue(":nom", nom);
+    query.bindValue(":type", type);
+    query.bindValue(":etat", etat);
+    query.bindValue(":fournisseur", fournisseur);
+    query.bindValue(":localisation", localisation);
+    query.bindValue(":quantite", quantite);
+    query.bindValue(":id", id);
+
+    qDebug() << "Executing Secure SQL Query";
+
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de la modification de la ressource:" << query.lastError().text();
         return false;
     }
+
+    qDebug() << "Modification réussie pour l'ID:" << id;
+    return true;
 }
 
 bool Ressource::ajouter()
@@ -57,16 +71,11 @@ bool Ressource::ajouter()
         qDebug() << "Erreur SQL lors de l'ajout :" << query.lastError().text();
         return false;
     }
-    if (TYPE == "Materiel" && ETAT == "indisponible") {
-        QMessageBox::warning(nullptr, "Erreur", "Un matériel ne peut pas être indisponible !");
-        return false;
-    }
 
     return true;
 }
 bool Ressource::supprimer(int id) {
     QSqlQuery query;
-    // Only use the ID in the WHERE clause for DELETE
     query.prepare("DELETE FROM RESSOURCE WHERE ID = :ID");
     query.bindValue(":ID", id);  // Bind the input ID to the query
 
