@@ -20,7 +20,9 @@ FORMS += mainwindow.ui
 # RESOURCES += ressources.qrc
 
 # Configuration de compilation
-CONFIG += c++11
+CONFIG += c++1
 
 # Ajouter les modules nécessaires de Qt
 QT += widgets sql
+
+QT += charts
