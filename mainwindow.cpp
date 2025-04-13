@@ -22,6 +22,9 @@
 #include <QComboBox>
 #include <QPdfWriter>
 #include <iostream>
+#include "historique.h"
+
+
 
 void MainWindow::on_annulertri_clicked() {
     afficher();
@@ -425,6 +428,18 @@ void MainWindow::on_ajouter_clicked() {
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de l'ajout !");
     }
+    if (r.ajouter()) {
+        QMessageBox::information(this, "Succès", "Ressource ajoutée !");
+        afficher();
+    } else {
+        QMessageBox::critical(this, "Erreur", "Échec de l'ajout !");
+    }
+    QString logMsg = QString("Ajout de la ressource : Nom='%1', Type='%2', État='%3', Fournisseur='%4', Localisation='%5', Quantité=%6")
+                         .arg(nom, type, etat, fournisseur, localisation)
+                         .arg(quantite);
+    Historique::instance().logAction(logMsg);
+
+
 
 }
 
@@ -469,6 +484,15 @@ void MainWindow::on_supprimer_clicked() {
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de la suppression !");
     }
+    if (r.supprimer(id)) {
+        afficher();
+    } else {
+        QMessageBox::critical(this, "Erreur", "Échec de la suppression !");
+    }
+    QString logMsg = QString("Suppression de la ressource avec ID=%1").arg(id);
+    Historique::instance().logAction(logMsg);
+
+
 }
 // Définition de la fonction modifierLigne dans mainwindow.cpp
 
@@ -517,7 +541,7 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
             quantiteEdit->setRange(0, 0);
             quantiteEdit->setValue(0);
         } else {
-            quantiteEdit->setRange(1, 1000);
+            quantiteEdit->setRange(0, 1000);
 
         }
     });
@@ -526,7 +550,7 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
             quantiteEdit->setRange(0, 0);
             quantiteEdit->setValue(0);
         } else {
-            quantiteEdit->setRange(1, 1000);
+            quantiteEdit->setRange(0, 1000);
 
         }
     });
@@ -600,12 +624,28 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
         // Update the resource in the database
         if (r.modifier(id, newNom, newType, newEtat, newFournisseur, newLocalisation, newQuantite)) {
             QMessageBox::information(this, "Succès", "Modification réussie !");
+            //verifierEtEnvoyerAlerte(newNom, newType, newEtat);
+
             afficher();  // Rafraîchir l'affichage
         } else {
             QMessageBox::critical(this, "Erreur", "Échec de la modification !");
         }
+        QString logMsg = QString("Modification de la ressource ID=%1 : Nom='%2', Type='%3', État='%4', Fournisseur='%5', Localisation='%6', Quantité=%7")
+                             .arg(id)
+                             .arg(nom, type, etat, fournisseur, localisation)
+                             .arg(quantite);
+        Historique::instance().logAction(logMsg);
+
+
+
+
+
+
     }
+
+
 }
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

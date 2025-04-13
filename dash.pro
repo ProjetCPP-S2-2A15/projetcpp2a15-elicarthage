@@ -7,6 +7,8 @@
 QT       +=  sql
 QT += charts
 QT += printsupport
+QT += network
+
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -30,15 +32,17 @@ CONFIG += console
 
 
 SOURCES += \
+        historique.cpp \
         main.cpp \
         mainwindow.cpp \
         connection.cpp \
-        ressource.cpp
+        ressource.cpp \
 
 HEADERS += \
-        mainwindow.h \
+    historique.h \
+    mainwindow.h \
     connection.h \
-    ressource.h
+    ressource.h \
 
 FORMS += \
         mainwindow.ui

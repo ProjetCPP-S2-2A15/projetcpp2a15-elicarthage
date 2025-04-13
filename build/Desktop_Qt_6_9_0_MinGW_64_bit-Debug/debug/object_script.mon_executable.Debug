@@ -1,0 +1,10 @@
+debug/emailaddress.o
+debug/historique.o
+debug/main.o
+debug/mainwindow.o
+debug/connection.o
+debug/mimemessage.o
+debug/mimepart.o
+debug/ressource.o
+debug/smtpclient.o
+debug/moc_mainwindow.o

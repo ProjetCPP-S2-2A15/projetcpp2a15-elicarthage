@@ -2,6 +2,9 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
 
 
 
@@ -22,8 +25,11 @@ Ressource::Ressource( const QString &nom, const QString &type, const QString &et
 
 QString Ressource::getLastError() const {
     QSqlQuery query;
+
     return query.lastError().text();
 }
+
+
 bool Ressource::modifier(int id, const QString &nom, const QString &type, const QString &etat,
                          const QString &fournisseur, const QString &localisation, int quantite)
 {

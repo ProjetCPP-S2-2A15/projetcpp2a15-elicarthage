@@ -1,0 +1,10 @@
+release/emailaddress.o
+release/historique.o
+release/main.o
+release/mainwindow.o
+release/connection.o
+release/mimemessage.o
+release/mimepart.o
+release/ressource.o
+release/smtpclient.o
+release/moc_mainwindow.o

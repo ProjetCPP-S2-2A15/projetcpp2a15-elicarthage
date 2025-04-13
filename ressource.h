@@ -38,7 +38,7 @@ public:
     void setFournisseur(const QString &fournisseur);
     void setLocalisation(const QString &localisation);
     void setQuantite(int quantite);
-
+    void verifierEtEnvoyerAlerte(QString nom, QString type, QString etat);
     bool ajouter(); // Ajouter une ressource
     bool modifier(int id, const QString &nom, const QString &type, const QString &etat,
                   const QString &fournisseur, const QString &localisation, int quantite);
