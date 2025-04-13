@@ -14,6 +14,8 @@ login::login(MainWindow* mainWindow, QWidget *parent)
     : QWidget(parent), ui(new Ui::login), m_mainWindow(mainWindow)
 {
     ui->setupUi(this);
+    ui->btnRetour->move(590,420); // Position souhaitée
+    ui->btnRetour->setVisible(false);
     ui->loginWidget->setVisible(true);  // Seul le widget de login visible au départ
     ui->mot_de_passe_oublie->setVisible(false);
     ui->widgetQuestion->setVisible(false);  // Assurez-vous que ce nom correspond à votre UI
@@ -21,7 +23,7 @@ login::login(MainWindow* mainWindow, QWidget *parent)
 
 
     this->setWindowTitle("Authentification - ELICAR");
-connect(ui->btnRetour, &QPushButton::clicked, this, &login::on_btnRetour_clicked);
+    connect(ui->btnRetour, &QPushButton::clicked, this, &login::on_btnRetour_clicked);
     QPixmap pixmap("C:/Users/Admin/Desktop/projet/images/logo.png");
     if (!pixmap.isNull()) {
         QPixmap resizedPixmap = pixmap.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -54,7 +56,7 @@ connect(ui->btnRetour, &QPushButton::clicked, this, &login::on_btnRetour_clicked
 
 }
 
-// Dans le constructeur login::login(), après la configuration des QLineEdit
+
 void login::setupPasswordVisibilityToggle() {
     // Créer les boutons œil
     QPushButton *togglePasswordButton = new QPushButton(ui->lineEditPassword);
@@ -100,6 +102,7 @@ void login::setupPasswordVisibilityToggle() {
         toggleConfirmPassButton->move(ui->confirmPass->width() - 30, (ui->confirmPass->height() - 24) / 2);
     });
 }
+
 
 // Ajouter cette méthode à votre classe login
 void login::togglePasswordVisibility(QLineEdit* lineEdit, QPushButton* button) {
@@ -147,30 +150,13 @@ void login::on_btnValider_clicked()
         // Passer au widget suivant
         ui->mot_de_passe_oublie->setVisible(false);
         ui->widgetQuestion->setVisible(true);
+        ui->btnRetour->setVisible(true); // Afficher le bouton
+        ui->btnRetour->move(590,420);
         ui->widgetQuestion->setGeometry(ui->loginWidget->geometry());
     } else {
         QMessageBox::critical(this, "Erreur", "Impossible de récupérer la question associée à cet email");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 bool login::verifierReponse(const QString &email, const QString &reponseUtilisateur)
 {
@@ -205,6 +191,8 @@ void login::on_btnquestion_clicked()
     if (verifierReponse(email, reponseUtilisateur)) {
         ui->widgetQuestion->setVisible(false);
         ui->widgetRei->setVisible(true);
+        ui->btnRetour->setVisible(true); // Afficher le bouton
+        ui->btnRetour->move(590,420);
         ui->widgetRei->setGeometry(ui->loginWidget->geometry());
     } else {
         QMessageBox::critical(this, "Erreur", "Réponse incorrecte. Veuillez vérifier votre réponse !");
@@ -263,8 +251,15 @@ void login::on_btnReinitialiser_clicked()
     if (query.exec()) {
         if (query.numRowsAffected() > 0) {
             QMessageBox::information(this, "Succès", "Mot de passe réinitialisé avec succès!");
-            emit loginSuccess();
-        }
+           // emit loginSuccess();
+            QSqlQuery roleQuery;
+            roleQuery.prepare("SELECT RÔLE FROM ARCHITECTE WHERE EMAIL = :email");
+            roleQuery.bindValue(":email", email);
+
+            if (roleQuery.exec() && roleQuery.next()) {
+                QString userRole = roleQuery.value(0).toString();
+                emit loginSuccess(userRole); // Déclenche l'accès au dashboard
+            }}
     } else {
         QMessageBox::critical(this, "Erreur", "Erreur lors de la mise à jour: " + query.lastError().text());
     }
@@ -284,7 +279,11 @@ void login::on_btnConnecter_clicked()
     }
 
     if (authenticate(email, password)) {
-        emit loginSuccess();
+
+
+           // emit loginSuccess();
+            emit loginSuccess(m_role);
+
     } else {
         QMessageBox::critical(this, "Erreur", "Email ou mot de passe incorrect. Veuillez vérifier vos identifiants.");
         ui->lineEditPassword->clear();
@@ -292,17 +291,17 @@ void login::on_btnConnecter_clicked()
     }
 }
 
-bool login::authenticate(const QString &email, const QString &password)
-{
+bool login::authenticate(const QString &email, const QString &password) {
     QSqlQuery query;
-    query.prepare("SELECT MOT_DE_PASSE FROM ZEINEB.ARCHITECTE WHERE EMAIL = :email");
+    query.prepare("SELECT MOT_DE_PASSE, RÔLE FROM ARCHITECTE WHERE EMAIL = :email");
     query.bindValue(":email", email.trimmed().toLower());
 
     if (!query.exec() || !query.next()) return false;
 
     QString storedPassword = query.value(0).toString();
-    QString inputPassword = QString::fromUtf8(QCryptographicHash::hash(password.toUtf8(),
-                                                                       QCryptographicHash::Sha256).toBase64());
+    m_role = query.value(1).toString(); // Stocker le rôle
+
+    QString inputPassword = QString::fromUtf8(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toBase64());
 
     return (inputPassword == storedPassword);
 }
@@ -312,7 +311,8 @@ void login::on_btnMotDePasse_clicked()
     ui->loginWidget->setVisible(false);
     ui->mot_de_passe_oublie->setVisible(true);
     ui->mot_de_passe_oublie->setGeometry(ui->loginWidget->geometry());
-
+    ui->btnRetour->setVisible(true); // Afficher le bouton
+    ui->btnRetour->move(590, 420);
     // Réinitialisation des champs
     ui->lineEditemailR->clear();
     ui->question->clear();
@@ -343,10 +343,34 @@ login::~login()
 void login::on_btnRetour_clicked()
 {
     ui->mot_de_passe_oublie->setVisible(false);
-    ui->loginWidget->setVisible(true);
-    ui->loginWidget->setGeometry(510, 40, ui->loginWidget->width(), ui->loginWidget->height());
+    ui->widgetQuestion->setVisible(false);
+    ui->widgetRei->setVisible(false);
 
-    // Réinitialiser les champs si nécessaire
-    ui->lineEditemailR->clear();
-    ui->labelErreur->clear();
+    ui->loginWidget->setVisible(true);
+    ui->btnRetour->setVisible(false); // Cacher le bouton
+
+    // ... reste du code existant ...
 }
+
+// login.cpp
+void login::clearInterface()
+{ui->btnRetour->setVisible(false);
+    // Réinitialisation des widgets
+    ui->loginWidget->setVisible(true);
+    ui->mot_de_passe_oublie->setVisible(false);
+    ui->widgetQuestion->setVisible(false);
+    ui->widgetRei->setVisible(false);
+
+    // Vider les champs
+    ui->lineEditEmail->clear();
+    ui->lineEditPassword->clear();
+    ui->lineEditemailR->clear();
+    ui->lineEditReponse->clear();
+    ui->nvPass->clear();
+    ui->confirmPass->clear();
+
+    // Réinitialiser les messages d'erreur
+    ui->labelErreur->clear();
+    ui->question->clear();
+}
+

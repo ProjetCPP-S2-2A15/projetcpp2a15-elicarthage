@@ -17,8 +17,8 @@
    <widget class="QWidget" name="widgetArchitecte" native="true">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>20</y>
+      <x>60</x>
+      <y>40</y>
       <width>1251</width>
       <height>601</height>
      </rect>
@@ -570,9 +570,9 @@ QLineEdit:focus {
      <zorder>btnAjouter</zorder>
      <zorder>annulerEvent</zorder>
      <zorder>label_12</zorder>
-     <zorder>lineEdit_motDePasse</zorder>
      <zorder>labelErreur</zorder>
      <zorder>label_4</zorder>
+     <zorder>lineEdit_motDePasse</zorder>
     </widget>
     <widget class="QPushButton" name="exportBtn">
      <property name="geometry">
@@ -3239,7 +3239,7 @@ QLineEdit:focus {
       </property>
       <property name="minimumDateTime">
        <datetime>
-        <hour>11</hour>
+        <hour>8</hour>
         <minute>0</minute>
         <second>0</second>
         <year>2024</year>
@@ -4872,7 +4872,7 @@ QPushButton#ressourcesBtn{
   qproperty-iconSize: 24px 24px;
 }
 
-QPushButton#deconnecterBtn{
+QPushButton#btnDeconnecter{
     qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/deconnexion.png);
   qproperty-iconSize: 24px 24px;
 }
@@ -4966,7 +4966,7 @@ QPushButton#logo {
       <string>Architecte</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="deconnecterBtn">
+    <widget class="QPushButton" name="btnDeconnecter">
      <property name="geometry">
       <rect>
        <x>0</x>

@@ -2,7 +2,7 @@
 #define LOGIN_H
 #include "mainwindow.h"
 #include <QWidget>
-
+#include <QIcon>
 namespace Ui {
 class login;
 }
@@ -13,9 +13,14 @@ class login : public QWidget
 
 public:
      explicit login(MainWindow* mainWindow, QWidget *parent = nullptr);
+    void clearInterface();
+     void setupPasswordVisibilityToggle();
+     void togglePasswordVisibility(QLineEdit* lineEdit, QPushButton* button);
+
     ~login();
 signals:
-    void loginSuccess();
+   // void loginSuccess();
+        void loginSuccess(const QString &role);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -33,14 +38,11 @@ private slots:
 private:
     Ui::login *ui;
      MainWindow* m_mainWindow;
-
-
+ QString m_role;
     bool verifierReponse(const QString &email, const QString &reponseUtilisateur);
 
-
     bool authenticate(const QString &username, const QString &password);
-    void setupPasswordVisibilityToggle();
-    void togglePasswordVisibility(QLineEdit* lineEdit, QPushButton* button);
+
 };
 
 #endif // LOGIN_H
