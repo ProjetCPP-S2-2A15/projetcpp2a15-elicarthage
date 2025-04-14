@@ -31,18 +31,48 @@ CONFIG += c++11
 CONFIG += console
 
 
+
+
 SOURCES += \
+        emailnotifier.cpp \
         historique.cpp \
         main.cpp \
         mainwindow.cpp \
         connection.cpp \
         ressource.cpp \
+        SmtpClient.cpp \
+        MimeMessage.cpp \
+        MimeText.cpp \
+        MimePart.cpp \
+        mimeqpencoder.cpp\
+        MimeMultiPart.cpp \
+        mimebase64formatter.cpp\
+        mimebase64encoder.cpp\
+        MimeContentFormatter.cpp \
+        mimecontentencoder.cpp \
+        EmailAddress.cpp \
+        mimeqpformatter.cpp \
+        QuotedPrintable.cpp
 
 HEADERS += \
+    emailnotifier.h \
     historique.h \
     mainwindow.h \
     connection.h \
     ressource.h \
+    SmtpClient.h \
+    MimeMessage.h \
+    mimeqpencoder.h\
+    MimeText.h \
+    MimePart.h \
+    EmailAddress.h \
+    smtpmime_global.h \
+    MimeMultiPart.h \
+    mimebase64formatter.h \
+    MimeContentFormatter.h \
+    mimecontentencoder.h \
+    mimeqpformatter.h \
+    quotedprintable.h
 
 FORMS += \
         mainwindow.ui

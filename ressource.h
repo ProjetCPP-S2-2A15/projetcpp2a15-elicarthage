@@ -6,45 +6,34 @@
 #include <QSqlQueryModel>
 
 class Ressource {
-private:
-    QString NOM;
-    QString TYPE;
-    QString ETAT;
-    QString FOURNISSEUR;
-    QString LOCALISATION;
-    int QUANTITE;
-    QString getLastError() const;
-
-
 public:
-    // Constructeurs
     Ressource();
-    Ressource( const QString &nom, const QString &type, const QString &etat,
+    Ressource(const QString &nom, const QString &type, const QString &etat,
               const QString &fournisseur, const QString &localisation, int quantite);
 
-    // Getters et Setters
-    int getID() const;
-    QString getNom() const;
-    QString getType() const;
-    QString getEtat() const;
-    QString getFournisseur() const;
-    QString getLocalisation() const;
-    int getQuantite() const;
-
-    void setID(int id);
-    void setNom(const QString &nom);
-    void setType(const QString &type);
-    void setEtat(const QString &etat);
-    void setFournisseur(const QString &fournisseur);
-    void setLocalisation(const QString &localisation);
-    void setQuantite(int quantite);
-    void verifierEtEnvoyerAlerte(QString nom, QString type, QString etat);
-    bool ajouter(); // Ajouter une ressource
+    bool ajouter();
     bool modifier(int id, const QString &nom, const QString &type, const QString &etat,
                   const QString &fournisseur, const QString &localisation, int quantite);
-    bool supprimer(int id); // Supprimer une ressource
-    QPair<int, int> countMaterialsAndActiveSoftwares();
+    bool supprimer(int);
     QSqlQueryModel* afficher();
+    QString getLastError() const;
+
+    // ✅ Getters
+    QString nom() const { return NOM; }
+    QString status() const { return ETAT; }
+    int quantite() const { return QUANTITE; }
+    bool isDisponible() const { return disponible; }
+    void setDisponible(bool dispo) { disponible = dispo; }
+
+private:
+    QString NOM, TYPE, ETAT, FOURNISSEUR, LOCALISATION;
+    int QUANTITE;
+    bool disponible = true;
 };
 
+class RessourceManager {
+public:
+    static QString recupererDernierEmail();
+    static void verifierEtNotifier(Ressource ressource);
+};
 #endif // RESSOURCE_H

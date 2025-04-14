@@ -1,4 +1,5 @@
 #include "ressource.h"
+#include "emailnotifier.h"  // Assure-toi que ce fichier existe et contient la déclaration de la classe EmailNotifier
 #include <QDebug>
 #include <QSqlError>
 #include <QMessageBox>
@@ -27,6 +28,22 @@ QString Ressource::getLastError() const {
     QSqlQuery query;
 
     return query.lastError().text();
+}
+
+QString RessourceManager::recupererDernierEmail() {
+    QSqlQuery query;
+    if (query.exec("SELECT EMAIL FROM (SELECT * FROM architectes ORDER BY DATE_AJOUT DESC) WHERE ROWNUM = 1")) {
+        if (query.next()) {
+            QString email = query.value(0).toString();
+            qDebug() << "✅ Found architect email:" << email;
+            return email;
+        } else {
+            qDebug() << "❌ No architect found in the database!";
+        }
+    } else {
+        qDebug() << "❌ SQL Error:" << query.lastError().text();
+    }
+    return "";
 }
 
 
@@ -106,6 +123,40 @@ QSqlQueryModel* Ressource::afficher() {
 
     return model;
 }
+void RessourceManager::verifierEtNotifier(Ressource ressource) {
+    // Retrieve the last architect's email
+    QString dernierEmail = recupererDernierEmail();
+
+
+    QString alerte;
+
+    // Debugging: Check resource status and quantity
+    qDebug() << "Resource Status: " << ressource.status();
+    qDebug() << "Resource Quantity: " << ressource.quantite();
+
+    if (ressource.status() == "inactif") {
+        alerte = "⚠ Le logiciel '" + ressource.nom() + "' est devenu inactif.";
+    }
+    else if (ressource.status() == "indisponible") {
+        alerte = "⚠ Le matériel '" + ressource.nom() + "' est indisponible.";
+    }
+
+    // Only send email if an alert was set
+    if (!alerte.isEmpty()) {
+        qDebug() << "Sending alert email to: " << dernierEmail;
+
+        EmailNotifier::envoyerAlerte(dernierEmail, alerte);  // Send the alert email
+        qDebug() << "Message envoyé :" << alerte;
+
+    } else {
+        qDebug() << "No alert to send.";
+    }
+    if (dernierEmail.isEmpty()) {
+        qDebug() << "Aucun architecte trouvé pour l'envoi du mail.";
+        return;
+    }
+}
+
 
 
 
