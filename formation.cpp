@@ -1,72 +1,128 @@
 #include "formation.h"
 #include <QSqlError>
+#include <QSqlQuery>
+#include <QVariant>
 #include <QDebug>
+#include <utility>
 
-// Constructeur par défaut
-Formation::Formation() {
-    id_formation = 0;
-    thematique = "";
-    date_d = "";
-    nom = "";
-    description = "";
-}
+Formation::Formation() : id(0) {}
 
-// Constructeur avec paramètres
-Formation::Formation(int id, QString th, QString date, QString n, QString desc) {
-    id_formation = id;
-    thematique = th;
-    date_d = date;
-    nom = n;
-    description = desc;
-}
+Formation::Formation(int id, QString thematique, QString date_d, QString nom, QString description)
+    : id(id), thematique(thematique), date_d(date_d), nom(nom), description(description) {}
 
-// Ajouter une formation
+int Formation::getId() { return id; }
+QString Formation::getNom() { return nom; }
+QString Formation::getThematique() { return thematique; }
+QString Formation::getDate() { return date_d; }
+QString Formation::getDescription() { return description; }
+
 bool Formation::ajouter() {
-    if (thematique.isEmpty() || date_d.isEmpty() || nom.isEmpty() || description.isEmpty()) {
-        qDebug() << "Erreur: Certains champs sont vides.";
-        return false;
-    }
-
     QSqlQuery query;
-    query.prepare("INSERT INTO formation (id_formation, thematique, date_d, nom, description) "
-                  "VALUES (:id, :thematique, :date_d, :nom, :description)");
+    query.prepare("INSERT INTO FORMATION (ID_FORMATION, THEMATIQUE, DATE_D, NOM, DESCRIPTION) "
+                "VALUES (:id, :thematique, TO_DATE(:date_d, 'YYYY-MM-DD'), :nom, :description)");
 
-    query.bindValue(":id", id_formation);
+    query.bindValue(":id", id);
     query.bindValue(":thematique", thematique);
     query.bindValue(":date_d", date_d);
     query.bindValue(":nom", nom);
     query.bindValue(":description", description);
 
     if (!query.exec()) {
-        qDebug() << "Erreur d'insertion: " << query.lastError().text();
+        qDebug() << "Erreur lors de l'ajout:" << query.lastError().text();
         return false;
     }
-
     return true;
 }
 
-// Supprimer une formation
+QSqlQueryModel* Formation::afficher() {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT ID_FORMATION, NOM, THEMATIQUE, TO_CHAR(DATE_D, 'DD/MM/YYYY') as DATE_D, DESCRIPTION FROM FORMATION");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Thématique"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date début"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Description"));
+    return model;
+}
+
 bool Formation::supprimer(int id) {
     QSqlQuery query;
-    query.prepare("DELETE FROM formation WHERE id_formation = :id");
+    query.prepare("DELETE FROM FORMATION WHERE ID_FORMATION = :id");
     query.bindValue(":id", id);
 
     if (!query.exec()) {
-        qDebug() << "Erreur de suppression: " << query.lastError().text();
+        qDebug() << "Erreur lors de la suppression:" << query.lastError().text();
         return false;
     }
-
-    return true;
+    return query.numRowsAffected() > 0;
 }
 
-// Afficher toutes les formations
-QSqlQueryModel* Formation::afficher() {
-    QSqlQueryModel* model = new QSqlQueryModel();
-    model->setQuery("SELECT * FROM formation");
+bool Formation::modifier() {
+    QSqlQuery query;
+    query.prepare("UPDATE FORMATION SET THEMATIQUE = :thematique, DATE_D = TO_DATE(:date_d, 'YYYY-MM-DD'), "
+                "NOM = :nom, DESCRIPTION = :description WHERE ID_FORMATION = :id");
 
-    if (model->lastError().isValid()) {
-        qDebug() << "Erreur lors de l'affichage: " << model->lastError().text();
+    query.bindValue(":id", id);
+    query.bindValue(":thematique", thematique);
+    query.bindValue(":date_d", date_d);
+    query.bindValue(":nom", nom);
+    query.bindValue(":description", description);
+
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de la modification:" << query.lastError().text();
+        return false;
     }
+    return query.numRowsAffected() > 0;
+}
 
+QSqlQueryModel* Formation::sort() {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT ID_FORMATION, NOM, THEMATIQUE, TO_CHAR(DATE_D, 'DD/MM/YYYY') as DATE_D, DESCRIPTION "
+                   "FROM FORMATION ORDER BY THEMATIQUE ASC");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Thématique"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date début"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Description"));
+    return model;
+}
+
+QSqlQueryModel* Formation::rechercherParId(int id) {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    QSqlQuery query;
+    query.prepare("SELECT ID_FORMATION, NOM, THEMATIQUE, TO_CHAR(DATE_D, 'DD/MM/YYYY') as DATE_D, DESCRIPTION "
+                 "FROM FORMATION WHERE ID_FORMATION = :id");
+    query.bindValue(":id", id);
+
+    if (query.exec()) {
+        model->setQuery(std::move(query));
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("Thématique"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date début"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("Description"));
+    } else {
+        qDebug() << "Erreur lors de la recherche par ID:" << query.lastError().text();
+    }
+    return model;
+}
+
+QSqlQueryModel* Formation::rechercherParDate(const QDate& date) {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    QSqlQuery query;
+    query.prepare("SELECT ID_FORMATION, NOM, THEMATIQUE, TO_CHAR(DATE_D, 'DD/MM/YYYY') as DATE_D, DESCRIPTION "
+                 "FROM FORMATION WHERE TRUNC(DATE_D) = TO_DATE(:date, 'YYYY-MM-DD')");
+    query.bindValue(":date", date.toString("yyyy-MM-dd"));
+
+    if (query.exec()) {
+        model->setQuery(std::move(query));
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("Thématique"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date début"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("Description"));
+    } else {
+        qDebug() << "Erreur lors de la recherche par date:" << query.lastError().text();
+    }
     return model;
 }

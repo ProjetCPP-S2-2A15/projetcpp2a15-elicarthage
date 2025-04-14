@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT += sql
+QT += sql network
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,18 +28,18 @@ CONFIG += c++11
 SOURCES += \
     formation.cpp \
         main.cpp \
-        mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    mainwindow.cpp \
+    smsmanager.cpp
 
 HEADERS += \
     formation.h \
-        mainwindow.h \
-    connection.h
+    connection.h \
+    mainwindow.h \
+    smsmanager.h
 
-FORMS += \
-        mainwindow (2).ui \
-        mainwindow (2).ui \
-        mainwindow.ui
+FORMS +=mainwindow.ui
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

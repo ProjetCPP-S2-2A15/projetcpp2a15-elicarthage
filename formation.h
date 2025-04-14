@@ -2,24 +2,31 @@
 #define FORMATION_H
 
 #include <QString>
-#include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QDate>
 
 class Formation {
-private:
-    int id_formation;
-    QString thematique;
-    QString date_d;
-    QString nom;
-    QString description;
-
 public:
     Formation();
     Formation(int, QString, QString, QString, QString);
 
+    int getId();
+    QString getNom();
+    QString getThematique();
+    QString getDate();
+    QString getDescription();
+
     bool ajouter();
-    bool supprimer(int);
     QSqlQueryModel* afficher();
+    bool supprimer(int);
+    bool modifier();
+    QSqlQueryModel* sort();
+    QSqlQueryModel* rechercherParId(int);
+    QSqlQueryModel* rechercherParDate(const QDate& date);
+
+private:
+    int id;
+    QString thematique, date_d, nom, description;
 };
 
 #endif // FORMATION_H
