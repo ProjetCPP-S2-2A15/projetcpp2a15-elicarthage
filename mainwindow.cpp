@@ -27,6 +27,9 @@
 #include <QSqlRecord>
 #include "login.h"
 #include <QIcon>
+#include <QDialog>
+#include <QFormLayout>
+#include <QDialogButtonBox>
 QT_USE_NAMESPACE
     //------------------------------------------------------------------------------------------------------------------------
     int MainWindow::generateAutoID() {
@@ -47,29 +50,24 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->lineEdit_motDePasse->setEchoMode(QLineEdit::Password);
-
-    // Création du bouton œil
     QPushButton *togglePasswordButton = new QPushButton(ui->lineEdit_motDePasse);
     togglePasswordButton->setCursor(Qt::PointingHandCursor);
-    togglePasswordButton->setIcon(QIcon("C:/Users/Admin/Desktop/projet/images/eye_closed.png"));
+    togglePasswordButton->setIcon(QIcon("C:/Users/Admin/Desktop/projet/dash/images/eye_closed.png"));
     togglePasswordButton->setStyleSheet("border: none; padding: 0px; background: transparent;");
     togglePasswordButton->setFixedSize(24, 24);
-
-    // Positionnement initial
     togglePasswordButton->move(ui->lineEdit_motDePasse->width() - 30,
                                (ui->lineEdit_motDePasse->height() - 24) / 2);
 
-    // Connexion du clic pour basculer la visibilité
     connect(togglePasswordButton, &QPushButton::clicked, [this, togglePasswordButton]() {
         if (ui->lineEdit_motDePasse->echoMode() == QLineEdit::Password) {
             ui->lineEdit_motDePasse->setEchoMode(QLineEdit::Normal);
-            togglePasswordButton->setIcon(QIcon("C:/Users/Admin/Desktop/projet/images/eye_open.png"));
+            togglePasswordButton->setIcon(QIcon("C:/Users/Admin/Desktop/projet/dash/images/eye_open.png"));
         } else {
             ui->lineEdit_motDePasse->setEchoMode(QLineEdit::Password);
-            togglePasswordButton->setIcon(QIcon("C:/Users/Admin/Desktop/projet/images/eye_closed.png"));
+            togglePasswordButton->setIcon(QIcon("C:/Users/Admin/Desktop/projet/dash/images/eye_closed.png"));
         }
     });
-   // Ajuster la position quand le texte change
+
     connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, [togglePasswordButton, this]() {
         togglePasswordButton->move(ui->lineEdit_motDePasse->width() - 30,
                                    (ui->lineEdit_motDePasse->height() - 24) / 2);
@@ -82,13 +80,10 @@ MainWindow::MainWindow(QWidget *parent)
         ui->widgetTache,
         ui->widgetRessources
     };
-    // Connecter les boutons de navigation
-
-    //switchWidget(ui->widgetArchitecte);
-    ui->widgetSideBar->move(0, 0); // Position fixe en (0,0)
-    ui->widgetSideBar->raise(); // Pour qu'il soit au-dessus des autres widgets
-    ui->widgetSideBar->setFixedSize(ui->widgetSideBar->size()); // Taille fixe
-    connect(ui->formationsBtn, &QPushButton::clicked, this, &MainWindow::on_formationsBtn_clicked);  // Ajout
+    ui->widgetSideBar->move(0, 0);
+    ui->widgetSideBar->raise();
+    ui->widgetSideBar->setFixedSize(ui->widgetSideBar->size());
+    connect(ui->formationsBtn, &QPushButton::clicked, this, &MainWindow::on_formationsBtn_clicked);
     connect(ui->clientBtn, &QPushButton::clicked, this, &MainWindow::on_clientBtn_clicked);
     connect(ui->projetBtn, &QPushButton::clicked, this, &MainWindow::on_projetBtn_clicked);
     connect(ui->ressourcesBtn, &QPushButton::clicked, this, &MainWindow::on_ressourcesBtn_clicked);
@@ -111,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     Architecte Etmp;
     ui->tableView->setModel(Etmp.afficher());
     this->setWindowTitle("ELICAR");
-    QPixmap pixmap("C:/Users/Admin/Desktop/projet/images/logo.png");
+    QPixmap pixmap("C:/Users/Admin/Desktop/projet/dash/images/logo.png");
     if (!pixmap.isNull()) {
         QPixmap resizedPixmap = pixmap.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         this->setWindowIcon(QIcon(resizedPixmap));
@@ -190,9 +185,6 @@ void MainWindow::setupValidation()
     connect(ui->lineEdit_prenom, &QLineEdit::textChanged, this, [this]() {
         verifierChampsLettresSeules(ui->lineEdit_prenom->text(), ui->labelPrenomErreur);
     });
-    connect(ui->lineEdit_role, &QLineEdit::textChanged, this, [this]() {
-        verifierChampsLettresSeules(ui->lineEdit_role->text(), ui->labelRoleErreur);
-    });
     connect(ui->lineEdit_response, &QLineEdit::textChanged, this, [this]() {
         verifierChampsLettresSeules(ui->lineEdit_response->text(), ui->labelReponseErreur);
     });
@@ -204,7 +196,8 @@ void MainWindow::on_btnAjouter_clicked()
     int heuresSupplementaires = 0;
     QString nom = ui->lineEdit_nom->text();
     QString prenom = ui->lineEdit_prenom->text();
-    QString role = ui->lineEdit_role->text();
+
+    QString role = ui->comboBox_Role->currentText();
     QString reponse = ui->lineEdit_response->text();
     QString question = ui->comboBox_question->currentText();
     QString mail = ui->lineEdit_mail->text();
@@ -223,10 +216,7 @@ void MainWindow::on_btnAjouter_clicked()
         QMessageBox::warning(this, "Prénom invalide", "Le nom doit contenir uniquement des lettres et au moins 3 caractères.");
         return;
     }
-    if (!verifierChampsLettresSeules(role, ui->labelRoleErreur)) {
-        QMessageBox::warning(this, "Rôle invalide", "Le nom doit contenir uniquement des lettres et au moins 3 caractères.");
-        return;
-    }
+
     if (!verifierChampsLettresSeules(reponse, ui->labelReponseErreur)) {
         QMessageBox::warning(this, "Réponse invalide", "Le nom doit contenir uniquement des lettres et au moins 3 caractères.");
         return;
@@ -297,32 +287,68 @@ void MainWindow::modifierCellule(const QModelIndex &index)
         qDebug() << "Le modèle n'est pas de type QSqlQueryModel";
         return;
     }
+
     if (index.column() == 0 || index.column() == 6 || index.column() == 7 || index.column() == 8) {
         QMessageBox::warning(this, tr("Modification non autorisée"),
                              tr("Vous ne pouvez pas modifier cette colonne."));
         return;
     }
+
     QString columnName = model->headerData(index.column(), Qt::Horizontal).toString();
     QString oldValue = model->data(index).toString();
-    QString newValue = QInputDialog::getText(this, tr("Modifier la valeur"),
-                                             tr("Nouvelle valeur :"),
-                                             QLineEdit::Normal, oldValue);
+    QString newValue;
+    bool inputOk = false;
 
-    if (!newValue.isEmpty() && newValue != oldValue) {
-        // Validation des colonnes
+    // Gestion spécifique pour la colonne RÔLE
+    if (columnName == "RÔLE") {
+
+        QComboBox *roleComboBox = new QComboBox(this);
+      roleComboBox->setStyleSheet("QComboBox { padding: 2px; }"); // Style minimal
+        roleComboBox->addItems({"Administrateur", "Responsable clients", "Responsable de  projet", "Formateur","Gestionnaire de Tâches","Gestionnaire Ressources"});
+
+        QDialog dialog(this);
+        dialog.setWindowTitle(tr("Modifier le rôle"));
+        QFormLayout form(&dialog);
+        form.addRow(tr("Nouveau rôle:"), roleComboBox);
+
+        QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+                                   Qt::Horizontal, &dialog);
+        form.addRow(&buttonBox);
+
+        connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+        connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+
+        if (dialog.exec() == QDialog::Accepted) {
+            newValue = roleComboBox->currentText();
+            inputOk = true;
+        }
+    } else {
+
+        newValue = QInputDialog::getText(this, tr("Modifier la valeur"),
+                                         tr("Nouvelle valeur :"),
+                                         QLineEdit::Normal,
+                                         oldValue,
+                                         &inputOk);
+    }
+
+    if (inputOk && !newValue.isEmpty() && newValue != oldValue) {
         if (columnName.isEmpty() || !isValidColumn(columnName)) {
             QMessageBox::warning(this, tr("Erreur"),
                                  tr("Le nom de la colonne est invalide."));
             return;
         }
+
         int id = model->data(model->index(index.row(), 0)).toInt();
         Architecte etmp;
+
         if (columnName == "MOT_DE_PASSE") {
             newValue = hasherMotDePasse(newValue);
         }
+
         bool success = etmp.modifier(id, columnName, newValue);
+
         if (success) {
-            // Rafraîchir les données
+
             Architecte Etmp;
             ui->tableView->setModel(Etmp.afficher());
             if (columnName == "NBR_HEURES_SUPPLEMENTAIRES") {
@@ -359,7 +385,6 @@ void MainWindow::on_annulerEvent_clicked()
     ui->lineEdit_nom->clear();
     ui->lineEdit_prenom->clear();
     ui->lineEdit_mail->clear();
-    ui->lineEdit_role->clear();
     ui->lineEdit_motDePasse->clear();
     ui->lineEdit_response->clear();
     ui->labelErreur->clear();
@@ -369,6 +394,7 @@ void MainWindow::on_annulerEvent_clicked()
     ui->labelEmailStatus->clear();
     ui->labelReponseErreur->clear();
     ui->comboBox_question->setCurrentIndex(0);
+    ui->comboBox_Role->setCurrentIndex(0);
 }
 bool MainWindow::estTexteValide(const QString &texte)
 {
@@ -387,22 +413,20 @@ void MainWindow::on_lineEdit_Rech_textChanged(const QString &text)
 
     if (model) {
         if (model->rowCount() == 0) {
-            // Créer un modèle temporaire avec les mêmes colonnes
+
             QStandardItemModel *emptyModel = new QStandardItemModel(1, model->columnCount(), this);
             // Copier les en-têtes
             for (int col = 0; col < model->columnCount(); ++col) {
                 emptyModel->setHorizontalHeaderItem(col,
                                                     new QStandardItem(model->headerData(col, Qt::Horizontal).toString()));
             }
-            // Message d'erreur dans la première cellule
+
             QStandardItem *item = new QStandardItem("Architecte n'existe pas !");
             item->setForeground(Qt::red);
             item->setTextAlignment(Qt::AlignCenter);
             emptyModel->setItem(0, 0, item);
             ui->tableView->setModel(emptyModel);
-            // Fusionner toutes les cellules de la première ligne
             ui->tableView->setSpan(0, 0, 1, model->columnCount());
-            // Étirer toutes les colonnes
             for (int col = 0; col < model->columnCount(); ++col) {
                 ui->tableView->horizontalHeader()->setSectionResizeMode(col, QHeaderView::Stretch);
             }
@@ -424,14 +448,14 @@ void MainWindow::exporterPDF()
     if (fileName.isEmpty()) {
         return;
     }
-    // Récupération des données
+
     Architecte architecte;
     QSqlQueryModel *model = architecte.afficher();
     if (!model) {
         QMessageBox::warning(this, "Erreur", "Impossible de récupérer les données.");
         return;
     }
-    // Configuration du PDF
+
     QPdfWriter writer(fileName);
     writer.setPageSize(QPageSize::A4);
     writer.setPageOrientation(QPageLayout::Landscape);
@@ -441,7 +465,7 @@ void MainWindow::exporterPDF()
         QMessageBox::warning(this, "Erreur", "Impossible de créer le PDF.");
         return;
     }
-    // Paramètres de mise en page
+
     const int margin = 30;
     const int titleHeight = 50;
     const int headerHeight = 40;
@@ -449,15 +473,15 @@ void MainWindow::exporterPDF()
     const int colCount = 6;
     int colWidths[colCount] = {210, 220, 220, 220, 220, 220};
     const int lineWidth = 1;
-    //  const int cellPadding = 5;
-    // Position initiale
+
+
     int yPos = margin;
     int xPos = margin;
     // Polices
     QFont titleFont("Arial", 18, QFont::Bold);
-    QFont headerFont("Arial", 10, QFont::Bold); // Taille réduite pour les en-têtes
+    QFont headerFont("Arial", 10, QFont::Bold);
     QFont dataFont("Arial", 10);
-    // Dessin du titre
+
     painter.setFont(titleFont);
     painter.drawText(xPos, yPos, writer.width() - 2*margin, titleHeight,
                      Qt::AlignCenter | Qt::AlignVCenter, "LISTE DES ARCHITECTES");
@@ -486,7 +510,7 @@ void MainWindow::exporterPDF()
     }
     yPos += headerHeight;
 
-    // Dessin des données
+
     painter.setFont(dataFont);
 
     for (int row = 0; row < model->rowCount(); ++row) {
@@ -495,13 +519,12 @@ void MainWindow::exporterPDF()
         painter.setPen(Qt::NoPen);
         painter.drawRect(xPos, yPos, writer.width() - 2*margin, rowHeight);
 
-        // Contenu des cellules
+
         painter.setPen(QPen(Qt::black, lineWidth));
         currentX = xPos;
         for (int col = 0; col < colCount; ++col) {
             QString text = model->data(model->index(row, col)).toString();
 
-            // Formatage spécial pour la dernière colonne
             if (col == colCount-1) {
                 bool ok;
                 int hours = text.toInt(&ok);
@@ -521,18 +544,18 @@ void MainWindow::exporterPDF()
             currentX += colWidths[col];
         }
 
-        // Lignes horizontales
+
         painter.drawLine(xPos, yPos, currentX, yPos);
         painter.drawLine(xPos, yPos + rowHeight, currentX, yPos + rowHeight);
 
         yPos += rowHeight;
 
-        // Nouvelle page si nécessaire
+
         if (yPos > writer.height() - margin - rowHeight) {
             writer.newPage();
             yPos = margin;
 
-            // Réafficher les en-têtes
+
             painter.setFont(headerFont);
             painter.setPen(QPen(Qt::black, lineWidth));
             painter.setBrush(QColor(240, 240, 240));
@@ -563,7 +586,7 @@ void MainWindow::on_triCroissantButton_clicked()
     ui->lineEdit_Rech->clear();
     Architecte A;
     QSqlQueryModel *model = A.afficherAvecTri("NOM", true);
-    ui->tableView->setModel(model); // Utilisation directe du modèle
+    ui->tableView->setModel(model);
 }
 void MainWindow::on_triDecroissantButton_clicked()
 {
@@ -574,7 +597,7 @@ void MainWindow::on_triDecroissantButton_clicked()
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::afficherStatistiques() {
-    // Nettoyer le layout existant
+
     QLayoutItem* child;
     while ((child = ui->statistiquesLayout->takeAt(0)) != nullptr) {
         if (child->widget()) {
@@ -583,7 +606,7 @@ void MainWindow::afficherStatistiques() {
         delete child;
     }
 
-    // Récupération des données
+
     int plus50 = 0, moins20 = 0, entre20et50 = 0;
     QSqlQuery query("SELECT NBR_HEURES_SUPPLEMENTAIRES FROM ARCHITECTE");
     while (query.next()) {
@@ -592,9 +615,11 @@ void MainWindow::afficherStatistiques() {
         else if (heures < 20) moins20++;
         else entre20et50++;
     }
+
     // Création du diagramme circulaire
-    QPieSeries *series = new QPieSeries();  // Création classique sans QScopedPointer
-    // Calcul du total
+    QPieSeries *series = new QPieSeries();
+
+
     int total = plus50 + moins20 + entre20et50;
     if (total == 0) {
         QLabel *noDataLabel = new QLabel("Aucune donnée disponible");
@@ -628,6 +653,8 @@ void MainWindow::afficherStatistiques() {
         slice->setLabelPosition(QPieSlice::LabelOutside);
         slice->setProperty("legendText", "entre 20 et 50 heures");
     }
+
+
     // Configuration du graphique
     QChart *chart = new QChart();
     chart->addSeries(series);
@@ -667,10 +694,10 @@ void MainWindow::afficherStatistiques() {
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::switchWidget(QWidget* widgetToShow) {
-    // Afficher le widget demandé sans vérification de permission (tout le monde peut voir)
+
     widgetToShow->setGeometry(this->rect());
 
-    // Liste de tous les widgets principaux
+    // Liste  widgets
     QList<QWidget*> mainWidgets = {
         ui->widgetArchitecte,
         ui->widgetRessources,
@@ -680,12 +707,12 @@ void MainWindow::switchWidget(QWidget* widgetToShow) {
         ui->widgetFormation
     };
 
-    // Masquer tous les widgets sauf celui à afficher
+
     for (QWidget* widget : mainWidgets) {
         widget->setVisible(widget == widgetToShow);
     }
 
-    // Style des boutons de navigation
+
     QString defaultStyle = "";
     QString activeStyle = "QPushButton { background-color: white; color: black; }";
 
@@ -698,12 +725,12 @@ void MainWindow::switchWidget(QWidget* widgetToShow) {
         ui->formationsBtn
     };
 
-    // Réinitialiser le style de tous les boutons
+
     for (QPushButton* button : navButtons) {
         button->setStyleSheet(defaultStyle);
     }
 
-    // Appliquer le style actif au bouton correspondant
+
     if (widgetToShow == ui->widgetArchitecte) {
         ui->architecteBtn->setStyleSheet(activeStyle);
     } else if (widgetToShow == ui->widgetRessources) {
@@ -745,7 +772,7 @@ void MainWindow::handleLoginSuccess(const QString &role) {
     qDebug() << "Role reçu:" << role;
     currentUserRole = role;
     setupPermissions();
-    setupPermissions();
+   // setupPermissions();
     if (role == "Administrateur") {
         switchWidget(ui->widgetArchitecte);
     } else if (role == "Responsable clients") {
@@ -766,21 +793,21 @@ void MainWindow::handleLoginSuccess(const QString &role) {
 }
 
 void MainWindow::setupPermissions() {
-    // Activer tous les boutons de navigation
+
     QList<QPushButton*> navButtons = {
         ui->architecteBtn, ui->clientBtn, ui->projetBtn,
         ui->formationsBtn, ui->tacheBtn, ui->ressourcesBtn
     };
 
     foreach(QPushButton *btn, navButtons) {
-        btn->setEnabled(true); // Toujours activer les boutons
+        btn->setEnabled(true);
     }
 
-    // Gestion des permissions d'interaction
+
     foreach(QWidget *module, allModules) {
         foreach(QWidget *child, module->findChildren<QWidget*>()) {
             if(currentUserRole != "Administrateur") {
-                child->installEventFilter(this); // Filtrer les interactions
+                child->installEventFilter(this);
             }
         }
     }
@@ -803,41 +830,36 @@ bool MainWindow::isModuleAllowed(QWidget *module) {
 
     return false;
 }
-
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
-    if(currentUserRole == "Administrateur") {
-        return QMainWindow::eventFilter(obj, event);
-    }
-    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::KeyPress) {
-        if (QWidget *widget = qobject_cast<QWidget*>(obj)) {
-            if (QWidget *module = findParentModule(widget)) {
-                if (!isModuleAllowed(module)) {
-                    QMessageBox::warning(this, "Accès refusé", "Vous n'avez pas les droits nécessaires !");
-                    return true;
-                }
-            }
+    if (currentUserRole == "Administrateur") return QMainWindow::eventFilter(obj, event);
+
+    const auto type = event->type();
+    QWidget* widget = qobject_cast<QWidget*>(obj);
+
+    if ((type == QEvent::MouseButtonPress || type == QEvent::KeyPress) && widget) {
+        if (QWidget* module = findParentModule(widget); module && !isModuleAllowed(module)) {
+            QMessageBox::warning(this, "Accès refusé", "Vous n'avez pas les droits nécessaires !");
+            return true;
         }
     }
+    else if (type == QEvent::Enter && widget) {
+        if (QWidget* module = findParentModule(widget); module && !isModuleAllowed(module)) {
+            widget->setCursor(Qt::ForbiddenCursor);
+        }
+    }
+    else if (type == QEvent::Leave && widget) {
+        widget->unsetCursor();
+    }
+
     return QMainWindow::eventFilter(obj, event);
 }
-
 QWidget* MainWindow::findParentModule(QWidget *child) {
     while (child && !allModules.contains(child)) {
         child = child->parentWidget();
     }
     return child;
 }
-
-
-
-// Dans login.cpp, à l'endroit où vous gérez la déconnexion
 void  MainWindow::on_btnDeconnecter_clicked()
 {
-    emit  logoutSuccess(); // ou tout autre mécanisme pour changer de fenêtre
+    emit  logoutSuccess();
 }
-
-
-QLineEdit* MainWindow::getPasswordLineEdit() {
-    return ui->lineEdit_motDePasse; // Retourne le QLineEdit concerné
-}
-

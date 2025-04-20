@@ -37,7 +37,6 @@ public:
     QWidget *widget_3;
     QLineEdit *lineEdit_nom;
     QLineEdit *lineEdit_prenom;
-    QLineEdit *lineEdit_role;
     QLineEdit *lineEdit_mail;
     QLabel *label_2;
     QLabel *label_3;
@@ -56,6 +55,7 @@ public:
     QLabel *label_12;
     QLineEdit *lineEdit_motDePasse;
     QLabel *labelErreur;
+    QComboBox *comboBox_Role;
     QPushButton *exportBtn;
     QLineEdit *lineEdit_Rech;
     QPushButton *triDecroissantButton;
@@ -185,7 +185,7 @@ public:
     QPushButton *formationsBtn;
     QPushButton *tacheBtn;
     QPushButton *architecteBtn;
-    QPushButton *deconnecterBtn;
+    QPushButton *btnDeconnecter;
     QPushButton *logo;
     QWidget *widgetFormation;
     QWidget *widget_12;
@@ -229,7 +229,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         widgetArchitecte = new QWidget(centralwidget);
         widgetArchitecte->setObjectName("widgetArchitecte");
-        widgetArchitecte->setGeometry(QRect(110, 20, 1251, 601));
+        widgetArchitecte->setGeometry(QRect(100, -10, 1251, 601));
         widgetArchitecte->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "    background-color: rgba(240, 240, 240, 1); /* Gris tr\303\250s clair */\n"
 "}\n"
@@ -289,25 +289,6 @@ public:
         lineEdit_prenom->setObjectName("lineEdit_prenom");
         lineEdit_prenom->setGeometry(QRect(10, 90, 141, 32));
         lineEdit_prenom->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
-"    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
-"    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
-"    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
-"    border-radius: 6px;           /* Coins arrondis */\n"
-"    padding: 6px;                 /* Espacement int\303\251rieur */\n"
-"    font-size: 11,8px;              /* Taille de la police \303\251quilibr\303\251e */\n"
-"    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
-"    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
-"}\n"
-"\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #1F4E78;    /* Bordure bleue au focus */\n"
-"    background-color: #F2F4F5;    /* Fond gris clair mais l\303\251g\303\250rement plus sombre pour plus de contraste */\n"
-"}\n"
-""));
-        lineEdit_role = new QLineEdit(widget_3);
-        lineEdit_role->setObjectName("lineEdit_role");
-        lineEdit_role->setGeometry(QRect(10, 152, 141, 32));
-        lineEdit_role->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
 "    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
@@ -504,9 +485,90 @@ public:
         labelErreur = new QLabel(widget_3);
         labelErreur->setObjectName("labelErreur");
         labelErreur->setGeometry(QRect(4, 420, 231, 31));
+        comboBox_Role = new QComboBox(widget_3);
+        comboBox_Role->addItem(QString());
+        comboBox_Role->addItem(QString());
+        comboBox_Role->addItem(QString());
+        comboBox_Role->addItem(QString());
+        comboBox_Role->addItem(QString());
+        comboBox_Role->addItem(QString());
+        comboBox_Role->setObjectName("comboBox_Role");
+        comboBox_Role->setGeometry(QRect(10, 152, 141, 31));
+        comboBox_Role->setCursor(QCursor(Qt::CursorShape::ArrowCursor));
+        comboBox_Role->setStyleSheet(QString::fromUtf8("/* Style de base pour QComboBox */\n"
+"QComboBox {\n"
+"    background-color: #FFFFFF;\n"
+"    color: #2C3E50;\n"
+"    border: 2px solid #1F4E78;\n"
+"    border-radius: 6px;\n"
+"    padding: 6px;\n"
+"    font-size: 11.8px;\n"
+"    selection-background-color: #5DADE2;\n"
+"    selection-color: white;\n"
+"    min-width: 6em; /* Largeur minimale pour \303\251viter un r\303\251tr\303\251cissement excessif */\n"
+"}\n"
+"\n"
+"/* Style de la fl\303\250che d\303\251roulante */\n"
+"QComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: right center;\n"
+"    width: 20px;\n"
+"    border-left: 2px solid #1F4E78;\n"
+"    border-radius: 0 4px 4px 0;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"   /* Optionnel : remplacer par SVG */\n"
+"    width: 12px;\n"
+"    height: 12px;\n"
+"}\n"
+"\n"
+"/* Style au survol */\n"
+"QComboBox:hover {\n"
+"    background-color: #F2F4F5;\n"
+"    border-color: #1F4E78;\n"
+"}\n"
+"\n"
+"/* Style quand \303\251ditable */\n"
+"QComboBox:editable {\n"
+"    background: white;\n"
+""
+                        "}\n"
+"\n"
+"/* Style au focus */\n"
+"QComboBox:focus {\n"
+"    border: 2px solid #1F4E78;\n"
+"    background-color: #F2F4F5;\n"
+"}\n"
+"\n"
+"/* Style de la liste d\303\251roulante */\n"
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid #1F4E78;\n"
+"    border-radius: 6px;\n"
+"    background: white;\n"
+"    selection-background-color: #5DADE2;\n"
+"    outline: 0;\n"
+"    margin: 0; /* Enl\303\250ve l'espace autour de la liste */\n"
+"}\n"
+"\n"
+"/* Style des \303\251l\303\251ments dans la liste */\n"
+"QComboBox QAbstractItemView::item {\n"
+"    padding: 6px;\n"
+"    color: #2C3E50;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView::item:hover {\n"
+"    background-color: #EBF5FB;\n"
+"}\n"
+"\n"
+"/* Style d\303\251sactiv\303\251 */\n"
+"QComboBox:disabled {\n"
+"    background-color: #ECF0F1;\n"
+"    color: #7F8C8D;\n"
+"    border-color: #BDC3C7;\n"
+"}"));
         lineEdit_nom->raise();
         lineEdit_prenom->raise();
-        lineEdit_role->raise();
         lineEdit_mail->raise();
         label_2->raise();
         label_3->raise();
@@ -522,9 +584,10 @@ public:
         btnAjouter->raise();
         annulerEvent->raise();
         label_12->raise();
-        lineEdit_motDePasse->raise();
         labelErreur->raise();
         label_4->raise();
+        lineEdit_motDePasse->raise();
+        comboBox_Role->raise();
         exportBtn = new QPushButton(widgetArchitecte);
         exportBtn->setObjectName("exportBtn");
         exportBtn->setGeometry(QRect(410, 20, 131, 31));
@@ -557,6 +620,7 @@ public:
         lineEdit_Rech = new QLineEdit(widgetArchitecte);
         lineEdit_Rech->setObjectName("lineEdit_Rech");
         lineEdit_Rech->setGeometry(QRect(700, 20, 201, 31));
+        lineEdit_Rech->setCursor(QCursor(Qt::CursorShape::IBeamCursor));
         lineEdit_Rech->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
 "    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
@@ -579,7 +643,7 @@ public:
         triDecroissantButton->setObjectName("triDecroissantButton");
         triDecroissantButton->setGeometry(QRect(1180, 20, 20, 31));
         triDecroissantButton->setStyleSheet(QString::fromUtf8("QPushButton#triDecroissantButton {\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triDecroissant.png);\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/triDecroissant.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
 "    background-color: transparent;\n"
 "    border: none;\n"
@@ -613,6 +677,7 @@ public:
         tableView->setObjectName("tableView");
         tableView->setEnabled(true);
         tableView->setGeometry(QRect(410, 70, 831, 261));
+        tableView->viewport()->setProperty("cursor", QVariant(QCursor(Qt::CursorShape::ArrowCursor)));
         tableView->setStyleSheet(QString::fromUtf8("QTableView {\n"
 "    background-color: #F8F9FA;   /* Fond gris tr\303\250s clair */\n"
 "    color: #1B2631;              /* Texte bleu fonc\303\251 */\n"
@@ -746,7 +811,7 @@ public:
         triCroissantButton->setObjectName("triCroissantButton");
         triCroissantButton->setGeometry(QRect(1170, 20, 16, 31));
         triCroissantButton->setStyleSheet(QString::fromUtf8("QPushButton#triCroissantButton{\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triCroissant.png);\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/triCroissant.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
 "    background-color: transparent;\n"
 "    border: none;\n"
@@ -1995,7 +2060,7 @@ public:
 "    border: 2px solid #3498DB;    /* Bordure bleu plus clair au focus */\n"
 "    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
 "}"));
-        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(11, 0, 0)));
+        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(6, 0, 0)));
         project_date_deb->setMinimumDate(QDate(2024, 1, 1));
         label_43 = new QLabel(widget_10);
         label_43->setObjectName("label_43");
@@ -2924,41 +2989,41 @@ public:
 "    padding: 5px; /* Espace autour du texte */\n"
 "}\n"
 "QPushButton#architecteBtn{\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/engineer.png);\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/engineer.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
 "}\n"
 "\n"
 "QPushButton#projetBtn{\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/dossier.png);\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/dossier.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
 "}\n"
 "\n"
 "QPushButton#tacheBtn{\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/taches.png);\n"
-"    qproperty-iconSize: 24px 24px;\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/taches.png);\n"
+"    qproperty-iconSize: 24px 24p"
+                        "x;\n"
 "}\n"
 "\n"
-""
-                        "QPushButton#clientBtn{\n"
-"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/user.png);\n"
+"QPushButton#clientBtn{\n"
+"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/user.png);\n"
 "    qproperty-iconSize: 24px 24px;\n"
 "}\n"
 "\n"
 "QPushButton#formationsBtn{\n"
-"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/learning.png);\n"
+"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/learning.png);\n"
 "  qproperty-iconSize: 24px 24px;\n"
 "}\n"
 "QPushButton#ressourcesBtn{\n"
-"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/loan.png);\n"
+"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/loan.png);\n"
 "  qproperty-iconSize: 24px 24px;\n"
 "}\n"
 "\n"
-"QPushButton#deconnecterBtn{\n"
-"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/deconnexion.png);\n"
+"QPushButton#btnDeconnecter{\n"
+"    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/deconnexion.png);\n"
 "  qproperty-iconSize: 24px 24px;\n"
 "}\n"
 "QPushButton#logo {\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/logo.png);\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/logo.png);\n"
 "    qproperty-iconSize: 70px 70px; /* Taille augment\303\251e */\n"
 "}\n"
 "\n"
@@ -2984,15 +3049,15 @@ public:
         architecteBtn->setObjectName("architecteBtn");
         architecteBtn->setGeometry(QRect(0, 75, 142, 62));
         architecteBtn->setStyleSheet(QString::fromUtf8(""));
-        deconnecterBtn = new QPushButton(widgetSideBar);
-        deconnecterBtn->setObjectName("deconnecterBtn");
-        deconnecterBtn->setGeometry(QRect(0, 480, 141, 62));
-        deconnecterBtn->setStyleSheet(QString::fromUtf8("color:rgb(170, 0, 0)"));
+        btnDeconnecter = new QPushButton(widgetSideBar);
+        btnDeconnecter->setObjectName("btnDeconnecter");
+        btnDeconnecter->setGeometry(QRect(0, 480, 141, 62));
+        btnDeconnecter->setStyleSheet(QString::fromUtf8("color:rgb(170, 0, 0)"));
         logo = new QPushButton(widgetSideBar);
         logo->setObjectName("logo");
         logo->setGeometry(QRect(0, 10, 140, 60));
         logo->setStyleSheet(QString::fromUtf8("QPushButton#logo {\n"
-"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/logo.png);\n"
+"    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/logo.png);\n"
 "    qproperty-iconSize: 70px 70px; /* Taille augment\303\251e */\n"
 "    background-color: transparent; /* Fond transparent */\n"
 "    border: none; /* Supprime la bordure */\n"
@@ -3534,6 +3599,13 @@ public:
         annulerEvent->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "Mot de passe", nullptr));
         labelErreur->setText(QString());
+        comboBox_Role->setItemText(0, QCoreApplication::translate("MainWindow", "Administrateur", nullptr));
+        comboBox_Role->setItemText(1, QCoreApplication::translate("MainWindow", "Responsable de  projet", nullptr));
+        comboBox_Role->setItemText(2, QCoreApplication::translate("MainWindow", "Gestionnaire de T\303\242ches", nullptr));
+        comboBox_Role->setItemText(3, QCoreApplication::translate("MainWindow", "Responsable clients", nullptr));
+        comboBox_Role->setItemText(4, QCoreApplication::translate("MainWindow", "Gestionnaire Ressources", nullptr));
+        comboBox_Role->setItemText(5, QCoreApplication::translate("MainWindow", "Formateur", nullptr));
+
         exportBtn->setText(QCoreApplication::translate("MainWindow", "Exporter pdf", nullptr));
         lineEdit_Rech->setText(QString());
         lineEdit_Rech->setPlaceholderText(QCoreApplication::translate("MainWindow", "Chercher par nom ou pr\303\251nom", nullptr));
@@ -3719,7 +3791,7 @@ public:
         formationsBtn->setText(QCoreApplication::translate("MainWindow", "Formations", nullptr));
         tacheBtn->setText(QCoreApplication::translate("MainWindow", "T\303\242che", nullptr));
         architecteBtn->setText(QCoreApplication::translate("MainWindow", "Architecte", nullptr));
-        deconnecterBtn->setText(QCoreApplication::translate("MainWindow", "D\303\251connecter", nullptr));
+        btnDeconnecter->setText(QCoreApplication::translate("MainWindow", "D\303\251connecter", nullptr));
         logo->setText(QString());
         lineEdit_nom_5->setPlaceholderText(QString());
         label_55->setText(QCoreApplication::translate("MainWindow", "Nom", nullptr));

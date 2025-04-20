@@ -43,21 +43,20 @@ private:
     QWidget* findParentModule(QWidget *child);
     void showAccessDenied();
 
-    // Méthodes de validation
+
     bool isValidColumn(const QString &columnName);
     bool validateEmail(const QString &email, bool isModification = false);
     bool isValidSupplementaryHours(const QString &value);
     QString hasherMotDePasse(const QString &motDePasse);
     bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
 
-    // Gestion d'interface
+
     void switchWidget(QWidget* widgetToShow);
 public slots:
     void handleLoginSuccess(const QString &role);
 
 private slots:
-//void handleLoginSuccess(const QString &role);
-    // Slots pour les boutons
+
     void on_btnAjouter_clicked();
     void on_annulerEvent_clicked();
     void on_btnsupprimer_clicked();
@@ -65,8 +64,6 @@ private slots:
     void on_lineEdit_Rech_textChanged(const QString &text);
     void on_triCroissantButton_clicked();
     void on_triDecroissantButton_clicked();
-
-    // Slots de navigation
     void on_ressourcesBtn_clicked();
     void on_architecteBtn_clicked();
     void on_tacheBtn_clicked();

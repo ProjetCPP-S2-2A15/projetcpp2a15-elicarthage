@@ -59,7 +59,7 @@ QSqlQueryModel* Architecte::afficher()
     QSqlQueryModel *model = new QSqlQueryModel();
 
 
-    model->setQuery("SELECT * FROM ZEINEB.ARCHITECTE");
+    model->setQuery("SELECT * FROM ARCHITECTE");
 
     // Définir les en-têtes pour les colonnes
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
@@ -78,7 +78,7 @@ QSqlQueryModel* Architecte::afficher()
 bool Architecte::supprimer(int id)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM ZEINEB.ARCHITECTE WHERE id = :id");
+    query.prepare("DELETE FROM ARCHITECTE WHERE id = :id");
     query.bindValue(":id", id);
 
 
@@ -98,7 +98,7 @@ bool Architecte::modifier(int id, const QString &columnName, const QString &newV
 
 
     QSqlQuery query;
-    query.prepare(QString("UPDATE ZEINEB.ARCHITECTE SET \"%1\" = :value WHERE ID = :id").arg(columnName));
+    query.prepare(QString("UPDATE ARCHITECTE SET \"%1\" = :value WHERE ID = :id").arg(columnName));
     query.bindValue(":value", newValue);
     query.bindValue(":id", id);
 
@@ -115,7 +115,7 @@ bool Architecte::modifier(int id, const QString &columnName, const QString &newV
 bool Architecte::idExiste(int id)
 {
     QSqlQuery query;
-    query.prepare("SELECT COUNT(*) FROM ZEINEB.ARCHITECTE WHERE id = :id");
+    query.prepare("SELECT COUNT(*) FROM ARCHITECTE WHERE id = :id");
     query.bindValue(":id", id);
 
     if (query.exec())
@@ -134,7 +134,7 @@ bool Architecte::idExiste(int id)
 bool Architecte::emailExists(const QString& email)
 {
     QSqlQuery query;
-    query.prepare("SELECT COUNT(*) FROM ZEINEB.ARCHITECTE WHERE EMAIL = :email");
+    query.prepare("SELECT COUNT(*) FROM ARCHITECTE WHERE EMAIL = :email");
     query.bindValue(":email", email.trimmed().toLower());
 
     if (query.exec() && query.next()) {
@@ -144,7 +144,7 @@ bool Architecte::emailExists(const QString& email)
 }
 void Architecte::getNomPrenom(int id, QString &nom, QString &prenom) {
     QSqlQuery query;
-    query.prepare("SELECT NOM, PRÉNOM FROM ZEINEB.ARCHITECTE WHERE id = :id");
+    query.prepare("SELECT NOM, PRÉNOM FROM ARCHITECTE WHERE id = :id");
     query.bindValue(":id", id);
 
     if (!query.exec()) {
@@ -165,7 +165,7 @@ QSqlQueryModel* Architecte::rechercher(const QString &keyword)
     QSqlQueryModel *model = new QSqlQueryModel();
     QSqlQuery query;
 
-    query.prepare("SELECT * FROM ZEINEB.ARCHITECTE WHERE "
+    query.prepare("SELECT * FROM ARCHITECTE WHERE "
                   "LOWER(NOM) LIKE LOWER(:keyword) OR "
                   "LOWER(PRÉNOM) LIKE LOWER(:keyword)");
 
@@ -176,7 +176,7 @@ QSqlQueryModel* Architecte::rechercher(const QString &keyword)
         return nullptr;
     }
 
-    // Utiliser std::move pour éviter la copie
+
     model->setQuery(std::move(query));
 
     return model;
@@ -192,23 +192,22 @@ QSqlQueryModel* Architecte::afficherAvecTri(const QString& colonne, bool ascenda
     // Modifier la requête pour trier par la première lettre du nom
     QString query;
     if (colonne == "NOM") {
-        query = QString("SELECT * FROM ZEINEB.ARCHITECTE ORDER BY SUBSTR(%1, 1, 1) %2").arg(colonne).arg(order);
+        query = QString("SELECT * FROM ARCHITECTE ORDER BY SUBSTR(%1, 1, 1) %2").arg(colonne).arg(order);
     } else {
-        query = QString("SELECT * FROM ZEINEB.ARCHITECTE ORDER BY %1 %2").arg(colonne).arg(order);
+        query = QString("SELECT * FROM ARCHITECTE ORDER BY %1 %2").arg(colonne).arg(order);
     }
 
 
 
     model->setQuery(query);
 
-    // Vérifier les erreurs SQL
     if (model->lastError().isValid()) {
         qDebug() << "afficherAvecTri: Erreur SQL =" << model->lastError().text();
-        delete model; // Libérer la mémoire en cas d'erreur
-        return nullptr; // Retourner nullptr pour indiquer une erreur
+        delete model;
+        return nullptr;
     }
 
-    // Définir les en-têtes pour les colonnes
+
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRÉNOM"));

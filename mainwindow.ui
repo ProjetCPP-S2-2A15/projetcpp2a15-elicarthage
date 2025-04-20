@@ -17,8 +17,8 @@
    <widget class="QWidget" name="widgetArchitecte" native="true">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>40</y>
+      <x>100</x>
+      <y>-10</y>
       <width>1251</width>
       <height>601</height>
      </rect>
@@ -105,34 +105,6 @@ QLineEdit:focus {
        <rect>
         <x>10</x>
         <y>90</y>
-        <width>141</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLineEdit {
-    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilité */
-    color: #2C3E50;               /* Texte bleu foncé */
-    border: 2px solid #1F4E78;    /* Bordure bleu foncé */
-    border-radius: 6px;           /* Coins arrondis */
-    padding: 6px;                 /* Espacement intérieur */
-    font-size: 11,8px;              /* Taille de la police équilibrée */
-    selection-background-color: #5DADE2; /* Bleu clair pour la sélection du texte */
-    selection-color: white;       /* Texte blanc quand sélectionné */
-}
-
-QLineEdit:focus {
-    border: 2px solid #1F4E78;    /* Bordure bleue au focus */
-    background-color: #F2F4F5;    /* Fond gris clair mais légèrement plus sombre pour plus de contraste */
-}
-</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_role">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>152</y>
         <width>141</width>
         <height>32</height>
        </rect>
@@ -552,9 +524,124 @@ QLineEdit:focus {
        <string/>
       </property>
      </widget>
+     <widget class="QComboBox" name="comboBox_Role">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>152</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">/* Style de base pour QComboBox */
+QComboBox {
+    background-color: #FFFFFF;
+    color: #2C3E50;
+    border: 2px solid #1F4E78;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 11.8px;
+    selection-background-color: #5DADE2;
+    selection-color: white;
+    min-width: 6em; /* Largeur minimale pour éviter un rétrécissement excessif */
+}
+
+/* Style de la flèche déroulante */
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: right center;
+    width: 20px;
+    border-left: 2px solid #1F4E78;
+    border-radius: 0 4px 4px 0;
+}
+
+QComboBox::down-arrow {
+   /* Optionnel : remplacer par SVG */
+    width: 12px;
+    height: 12px;
+}
+
+/* Style au survol */
+QComboBox:hover {
+    background-color: #F2F4F5;
+    border-color: #1F4E78;
+}
+
+/* Style quand éditable */
+QComboBox:editable {
+    background: white;
+}
+
+/* Style au focus */
+QComboBox:focus {
+    border: 2px solid #1F4E78;
+    background-color: #F2F4F5;
+}
+
+/* Style de la liste déroulante */
+QComboBox QAbstractItemView {
+    border: 2px solid #1F4E78;
+    border-radius: 6px;
+    background: white;
+    selection-background-color: #5DADE2;
+    outline: 0;
+    margin: 0; /* Enlève l'espace autour de la liste */
+}
+
+/* Style des éléments dans la liste */
+QComboBox QAbstractItemView::item {
+    padding: 6px;
+    color: #2C3E50;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #EBF5FB;
+}
+
+/* Style désactivé */
+QComboBox:disabled {
+    background-color: #ECF0F1;
+    color: #7F8C8D;
+    border-color: #BDC3C7;
+}</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Administrateur</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Responsable de  projet</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Gestionnaire de Tâches</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Responsable clients</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Gestionnaire Ressources</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Formateur</string>
+       </property>
+      </item>
+     </widget>
      <zorder>lineEdit_nom</zorder>
      <zorder>lineEdit_prenom</zorder>
-     <zorder>lineEdit_role</zorder>
      <zorder>lineEdit_mail</zorder>
      <zorder>label_2</zorder>
      <zorder>label_3</zorder>
@@ -573,6 +660,7 @@ QLineEdit:focus {
      <zorder>labelErreur</zorder>
      <zorder>label_4</zorder>
      <zorder>lineEdit_motDePasse</zorder>
+     <zorder>comboBox_Role</zorder>
     </widget>
     <widget class="QPushButton" name="exportBtn">
      <property name="geometry">
@@ -623,6 +711,9 @@ QPushButton#exportBtn:disabled {
        <height>31</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>IBeamCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">QLineEdit {
     background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilité */
@@ -661,7 +752,7 @@ QLineEdit:focus {
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#triDecroissantButton {
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triDecroissant.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/triDecroissant.png);
     qproperty-iconSize: 24px 24px;
     background-color: transparent;
     border: none;
@@ -733,6 +824,9 @@ QPushButton#triDecroissantButton:pressed {
        <width>831</width>
        <height>261</height>
       </rect>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">QTableView {
@@ -907,7 +1001,7 @@ QPushButton:disabled {
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#triCroissantButton{
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/triCroissant.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/triCroissant.png);
     qproperty-iconSize: 24px 24px;
     background-color: transparent;
     border: none;
@@ -3239,7 +3333,7 @@ QLineEdit:focus {
       </property>
       <property name="minimumDateTime">
        <datetime>
-        <hour>8</hour>
+        <hour>6</hour>
         <minute>0</minute>
         <second>0</second>
         <year>2024</year>
@@ -4844,40 +4938,40 @@ QLabel {
     padding: 5px; /* Espace autour du texte */
 }
 QPushButton#architecteBtn{
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/engineer.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/engineer.png);
     qproperty-iconSize: 24px 24px;
 }
 
 QPushButton#projetBtn{
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/dossier.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/dossier.png);
     qproperty-iconSize: 24px 24px;
 }
 
 QPushButton#tacheBtn{
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/taches.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/taches.png);
     qproperty-iconSize: 24px 24px;
 }
 
 QPushButton#clientBtn{
-    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/user.png);
+    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/user.png);
     qproperty-iconSize: 24px 24px;
 }
 
 QPushButton#formationsBtn{
-    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/learning.png);
+    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/learning.png);
   qproperty-iconSize: 24px 24px;
 }
 QPushButton#ressourcesBtn{
-    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/loan.png);
+    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/loan.png);
   qproperty-iconSize: 24px 24px;
 }
 
 QPushButton#btnDeconnecter{
-    qproperty-icon:url(C:/Users/Admin/Desktop/projet/images/deconnexion.png);
+    qproperty-icon:url(C:/Users/Admin/Desktop/projet/dash/images/deconnexion.png);
   qproperty-iconSize: 24px 24px;
 }
 QPushButton#logo {
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/logo.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/logo.png);
     qproperty-iconSize: 70px 70px; /* Taille augmentée */
 }
 
@@ -4993,7 +5087,7 @@ QPushButton#logo {
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#logo {
-    qproperty-icon: url(C:/Users/Admin/Desktop/projet/images/logo.png);
+    qproperty-icon: url(C:/Users/Admin/Desktop/projet/dash/images/logo.png);
     qproperty-iconSize: 70px 70px; /* Taille augmentée */
     background-color: transparent; /* Fond transparent */
     border: none; /* Supprime la bordure */

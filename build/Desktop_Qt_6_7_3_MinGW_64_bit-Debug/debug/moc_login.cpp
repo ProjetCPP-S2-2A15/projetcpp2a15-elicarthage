@@ -63,6 +63,7 @@ constexpr auto qt_meta_stringdata_CLASSloginENDCLASS = QtMocHelpers::stringData(
     "login",
     "loginSuccess",
     "",
+    "role",
     "on_btnConnecter_clicked",
     "on_btnMotDePasse_clicked",
     "on_btnquestion_clicked",
@@ -89,18 +90,18 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSloginENDCLASS[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   56,    2, 0x06,    1 /* Public */,
+       1,    1,   56,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       3,    0,   57,    2, 0x08,    2 /* Private */,
-       4,    0,   58,    2, 0x08,    3 /* Private */,
-       5,    0,   59,    2, 0x08,    4 /* Private */,
-       6,    0,   60,    2, 0x08,    5 /* Private */,
-       7,    0,   61,    2, 0x08,    6 /* Private */,
-       8,    0,   62,    2, 0x08,    7 /* Private */,
+       4,    0,   59,    2, 0x08,    3 /* Private */,
+       5,    0,   60,    2, 0x08,    4 /* Private */,
+       6,    0,   61,    2, 0x08,    5 /* Private */,
+       7,    0,   62,    2, 0x08,    6 /* Private */,
+       8,    0,   63,    2, 0x08,    7 /* Private */,
+       9,    0,   64,    2, 0x08,    8 /* Private */,
 
  // signals: parameters
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    3,
 
  // slots: parameters
     QMetaType::Void,
@@ -124,6 +125,7 @@ Q_CONSTINIT const QMetaObject login::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<login, std::true_type>,
         // method 'loginSuccess'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'on_btnConnecter_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_btnMotDePasse_clicked'
@@ -146,7 +148,7 @@ void login::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         auto *_t = static_cast<login *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->loginSuccess(); break;
+        case 0: _t->loginSuccess((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 1: _t->on_btnConnecter_clicked(); break;
         case 2: _t->on_btnMotDePasse_clicked(); break;
         case 3: _t->on_btnquestion_clicked(); break;
@@ -158,14 +160,13 @@ void login::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (login::*)();
+            using _t = void (login::*)(const QString & );
             if (_t _q_method = &login::loginSuccess; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
             }
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *login::metaObject() const
@@ -199,8 +200,9 @@ int login::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void login::loginSuccess()
+void login::loginSuccess(const QString & _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP
