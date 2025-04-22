@@ -1,5 +1,6 @@
 C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/SmartArchitect_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/khiar/OneDrive/Documents/SmartArchitect/mainwindow.h \
   C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/SmartArchitect_autogen/moc_predefs.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/QObject \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \
@@ -50,6 +51,7 @@ C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64
   C:/Qt/6.7.3/mingw_64/include/QtCore/qlatin1stringview.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qline.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qlogging.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qmalloc.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qmap.h \
@@ -142,6 +144,10 @@ C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64
   C:/Qt/6.7.3/mingw_64/include/QtGui/qtransform.h \
   C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/QTextToSpeech \
+  C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/qtexttospeech.h \
+  C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/qtexttospeech_global.h \
+  C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/qvoice.h \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -348,4 +354,5 @@ C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sys/types.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/time.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
-  C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h
+  C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
+  C:/Users/khiar/OneDrive/Documents/SmartArchitect/speechnotifier.h

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "speechnotifier.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    SpeechNotifier *m_speechNotifier;
 
 private slots:
     void on_ajouterProjet_clicked();
@@ -32,8 +34,17 @@ private slots:
 
     void on_TriButton_clicked();
 
+    void on_generateContractButton_clicked();
+
+
 private:
     Ui::MainWindow *ui;
     void refreshTable();
+    void generateContract(const QString &clientName, const QString &projectName,
+                          const QString &projectDescription, double budget,
+                          const QDate &startDate, const QString &projectType);
+    QString generateContractText(const QString &clientName, const QString &projectName,
+                                 const QString &projectDescription, double budget,
+                                 const QDate &startDate, const QString &projectType);
 };
 #endif // MAINWINDOW_H

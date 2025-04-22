@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-7047e059dcc9971e49a4.json",
+					"jsonFile" : "directory-.-Debug-3640dbe9cad8ac74d1c9.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "SmartArchitect::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-SmartArchitect-Debug-5020034a728b14900c7b.json",
+					"jsonFile" : "target-SmartArchitect-Debug-0f2794ec5bea1aed87f7.json",
 					"name" : "SmartArchitect",
 					"projectIndex" : 0
 				},

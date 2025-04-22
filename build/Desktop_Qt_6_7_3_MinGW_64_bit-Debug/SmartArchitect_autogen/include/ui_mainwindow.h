@@ -80,6 +80,7 @@ public:
     QLineEdit *project_etat;
     QPushButton *suppProjet;
     QPushButton *TriButton;
+    QPushButton *generateContractButton;
     QLabel *label_88;
     QLabel *label_89;
     QLabel *label_90;
@@ -659,7 +660,7 @@ public:
 "    border: 2px solid #3498DB;    /* Bordure bleu plus clair au focus */\n"
 "    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
 "}"));
-        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(13, 0, 0)));
+        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(12, 0, 0)));
         project_date_deb->setMinimumDate(QDate(2024, 1, 1));
         label_6 = new QLabel(widget_4);
         label_6->setObjectName("label_6");
@@ -746,6 +747,37 @@ public:
         TriButton->setObjectName("TriButton");
         TriButton->setGeometry(QRect(950, 90, 91, 31));
         TriButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
+"    color: white;               /* Texte blanc pour un bon contraste */\n"
+"    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
+"    padding: 6px 12px;          /* Espacement r\303\251duit pour un design plus compact */\n"
+"    font-size: 13px;            /* Texte plus petit et plus \303\251l\303\251gant */\n"
+"    font-weight: normal;        /* Texte normal pour un style minimaliste */\n"
+"    border: 1px solid #1A252F;  /* Bordure discr\303\250te l\303\251g\303\250rement plus fonc\303\251e */\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #34495E;  /* Bleu l\303\251g\303\250rement plus clair au survol */\n"
+"    border: 1px solid #2C3E50;  /* Bordure harmonis\303\251e */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #1A252F;  /* Bleu encore plus fonc\303\251 lorsqu'on clique */\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    background-color: "
+                        "#95A5A6;  /* Gris bleut\303\251 pour un bouton d\303\251sactiv\303\251 */\n"
+"    color: #D0D3D4;             /* Texte plus clair pour indiquer l\342\200\231inactivit\303\251 */\n"
+"    border: 1px solid #7F8C8D;\n"
+"}\n"
+""));
+        generateContractButton = new QPushButton(groupBox_5);
+        generateContractButton->setObjectName("generateContractButton");
+        generateContractButton->setGeometry(QRect(750, 20, 121, 31));
+        generateContractButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #2C3E50;  /* Bleu fonc\303\251 professionnel */\n"
 "    color: white;               /* Texte blanc pour un bon contraste */\n"
 "    border-radius: 6px;         /* Coins l\303\251g\303\250rement arrondis */\n"
@@ -925,6 +957,7 @@ public:
         label_8->setText(QCoreApplication::translate("MainWindow", "etat", nullptr));
         suppProjet->setText(QCoreApplication::translate("MainWindow", "Supprimer", nullptr));
         TriButton->setText(QCoreApplication::translate("MainWindow", "Trier", nullptr));
+        generateContractButton->setText(QCoreApplication::translate("MainWindow", "G\303\251n\303\251rer Contrat", nullptr));
         tabWidget_6->setTabText(tabWidget_6->indexOf(tab_7), QCoreApplication::translate("MainWindow", "Gestion projets", nullptr));
         label_88->setText(QString());
         label_89->setText(QString());

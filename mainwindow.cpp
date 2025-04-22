@@ -1,4 +1,3 @@
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "projet.h"
@@ -13,6 +12,16 @@
 #include <QColor>               // Pour définir les couleurs (bleu dans ce cas)
 #include <QMargins>             // Pour définir les marges du PDF
 #include <QPagedPaintDevice>
+#include <QInputDialog>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QTextStream>
+#include <QFileDialog>
+#include <QDir>
+
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -22,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->projectTable, &QTableWidget::cellClicked, this, &MainWindow::on_projectTable_cellClicked);
     connect(ui->BouttonRechProjet_5, &QPushButton::clicked, this, &MainWindow::on_searchButton_clicked);
     connect(ui->TriButton, &QPushButton::clicked, this, &MainWindow::on_TriButton_clicked);
+    connect(ui->generateContractButton, &QPushButton::clicked, this, &MainWindow::on_generateContractButton_clicked);
+    m_speechNotifier = new SpeechNotifier(this);
 }
 
 MainWindow::~MainWindow()
@@ -114,9 +125,11 @@ void MainWindow::on_ajouterProjet_clicked()
         ui->project_etat->clear();
 
         refreshTable();
+        m_speechNotifier->notifyProjectAdded(projectName);
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de l'ajout du projet : " + projet.getLastError());
     }
+
 }
 
 void MainWindow::on_modifierProjet_clicked()
@@ -175,6 +188,7 @@ void MainWindow::on_modifierProjet_clicked()
         ui->project_etat->clear();
 
         refreshTable();
+        m_speechNotifier->notifyProjectUpdated(projectName);
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de la modification du projet.");
     }
@@ -183,6 +197,7 @@ void MainWindow::on_modifierProjet_clicked()
 void MainWindow::on_suppProjet_clicked()
 {
     int row = ui->projectTable->currentRow();
+    QString projectName = ui->project_name->text().trimmed();
 
     // Vérifier si une ligne est bien sélectionnée
     if (row < 0) {
@@ -214,6 +229,7 @@ void MainWindow::on_suppProjet_clicked()
         // Supprimer la ligne de la table et rafraîchir les données
         ui->projectTable->removeRow(row);
         refreshTable();
+        m_speechNotifier->notifyProjectDeleted(projectName);
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de la suppression du projet.");
     }
@@ -405,3 +421,116 @@ void MainWindow::on_TriButton_clicked()
     }
 }
 
+void MainWindow::on_generateContractButton_clicked() {
+    if (ui->project_id->text().isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please select a project first.");
+        return;
+    }
+
+    bool ok;
+    QString clientName = QInputDialog::getText(this, "Client Information",
+                                               "Enter Client Name:", QLineEdit::Normal,
+                                               "", &ok);
+    if (!ok || clientName.isEmpty()) {
+        return;
+    }
+
+    QString projectName = ui->project_name->text();
+    QString projectDescription = ui->project_description->text();
+    double budget = ui->project_budget->text().toDouble();
+    QDate startDate = ui->project_date_deb->date();
+    QString projectType = ui->project_type->text();
+
+    generateContract(clientName, projectName, projectDescription, budget, startDate, projectType);
+}
+
+QString MainWindow::generateContractText(const QString &clientName, const QString &projectName,
+                                         const QString &projectDescription, double budget,
+                                         const QDate &startDate, const QString &projectType) {
+    QString contract;
+
+    contract += "ARCHITECTURAL DESIGN AGREEMENT\n\n";
+    contract += "This Agreement is made and entered into as of " + QDate::currentDate().toString("MMMM d, yyyy") + " by and between:\n\n";
+    contract += "CLIENT: " + clientName + "\n";
+    contract += "ARCHITECT: [Elyes Khiari]\n\n";
+    contract += "1. PROJECT DESCRIPTION\n";
+    contract += "The Architect agrees to provide professional services for the following project:\n";
+    contract += "Project Name: " + projectName + "\n";
+    contract += "Project Type: " + projectType + "\n";
+    contract += "Description: " + projectDescription + "\n";
+    contract += "Estimated Start Date: " + startDate.toString("MMMM d, yyyy") + "\n\n";
+    contract += "2. SCOPE OF SERVICES\n";
+    contract += "The Architect's services shall include but not be limited to:\n";
+    contract += "- Schematic Design\n- Design Development\n- Construction Documents\n- Construction Administration\n\n";
+    contract += "3. COMPENSATION\n";
+    contract += "The Client agrees to pay the Architect a total fee of $" + QString::number(budget, 'f', 2) + " for the services described above.\n\n";
+    contract += "4. TERM AND TERMINATION\n";
+    contract += "This Agreement shall commence on the date first written above and shall continue until the completion of all services.\n\n";
+    contract += "5. SIGNATURES\n\n";
+    contract += "CLIENT:\n__________________________\nDate: ___________\n\n";
+    contract += "ARCHITECT:\n__________________________\nDate: ___________\n";
+
+    return contract;
+}
+
+void MainWindow::generateContract(const QString &clientName, const QString &projectName,
+                                  const QString &projectDescription, double budget,
+                                  const QDate &startDate, const QString &projectType) {
+    QString contractText = generateContractText(clientName, projectName, projectDescription,
+                                                budget, startDate, projectType);
+
+    // Create a dialog to display and save the contract
+    QDialog *contractDialog = new QDialog(this);
+    contractDialog->setWindowTitle("Project Contract");
+    contractDialog->resize(600, 800);
+
+    QVBoxLayout *layout = new QVBoxLayout(contractDialog);
+
+    QTextEdit *contractDisplay = new QTextEdit();
+    contractDisplay->setPlainText(contractText);
+    contractDisplay->setReadOnly(true);
+    layout->addWidget(contractDisplay);
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+
+    QPushButton *saveButton = new QPushButton("Save Contract");
+    QPushButton *printButton = new QPushButton("Print");
+    QPushButton *closeButton = new QPushButton("Close");
+
+    buttonLayout->addWidget(saveButton);
+    buttonLayout->addWidget(printButton);
+    buttonLayout->addWidget(closeButton);
+    layout->addLayout(buttonLayout);
+
+
+    connect(printButton, &QPushButton::clicked, [=]() {
+        QString fileName = QFileDialog::getSaveFileName(this, "Export Contract as PDF",
+                                                        QDir::homePath() + "/" + projectName + "_Contract.pdf",
+                                                        "PDF Files (*.pdf)");
+        if (!fileName.isEmpty()) {
+            QPdfWriter pdfWriter(fileName);
+            pdfWriter.setPageSize(QPageSize::A4);
+
+            QPainter painter(&pdfWriter);
+            if (!painter.isActive()) {
+                QMessageBox::warning(this, "Error", "Could not create PDF file.");
+                return;
+            }
+
+            QFont font = painter.font();
+            font.setPointSize(12);
+            painter.setFont(font);
+
+            QTextDocument doc;
+            doc.setPlainText(contractText);
+            doc.drawContents(&painter);
+
+            painter.end();
+            QMessageBox::information(this, "Success", "Contract exported as PDF.");
+        }
+    });
+
+    connect(closeButton, &QPushButton::clicked, contractDialog, &QDialog::close);
+
+    contractDialog->exec();
+}

@@ -1,4 +1,5 @@
 SmartArchitect_autogen/timestamp: \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/QObject \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \
@@ -49,6 +50,7 @@ SmartArchitect_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qlatin1stringview.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qline.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qlogging.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qmalloc.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qmap.h \
@@ -141,6 +143,10 @@ SmartArchitect_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qtransform.h \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+	C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/QTextToSpeech \
+	C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/qtexttospeech.h \
+	C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/qtexttospeech_global.h \
+	C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech/qvoice.h \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -288,6 +294,48 @@ SmartArchitect_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets-relwithdebinfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersion.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersionImpl.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaDependencies.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaPlugins.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersionImpl.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkDependencies.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkPlugins.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginConfig.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake \
@@ -313,6 +361,23 @@ SmartArchitect_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechMockPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechMockPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechMockPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechMockPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechConfigVersion.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechConfigVersionImpl.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechDependencies.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechPlugins.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6TextToSpeechVersionlessTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginConfig.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake \
@@ -585,5 +650,7 @@ SmartArchitect_autogen/timestamp: \
 	C:/Users/khiar/OneDrive/Documents/SmartArchitect/mainwindow.h \
 	C:/Users/khiar/OneDrive/Documents/SmartArchitect/projet.cpp \
 	C:/Users/khiar/OneDrive/Documents/SmartArchitect/projet.h \
+	C:/Users/khiar/OneDrive/Documents/SmartArchitect/speechnotifier.cpp \
+	C:/Users/khiar/OneDrive/Documents/SmartArchitect/speechnotifier.h \
 	C:/Users/khiar/OneDrive/Documents/SmartArchitect/mainwindow.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe

@@ -12,6 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Sql REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql TextToSpeech)
+
+
+
+
 
 
 
@@ -33,12 +38,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         connection.h
         connection.h
         projet.h projet.cpp
+        speechnotifier.h
+        speechnotifier.cpp
+
     )
 target_link_libraries(SmartArchitect PRIVATE Qt6::Sql)
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SmartArchitect APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+target_link_libraries(SmartArchitect PRIVATE Qt${QT_VERSION_MAJOR}::TextToSpeech)
 else()
     if(ANDROID)
         add_library(SmartArchitect SHARED

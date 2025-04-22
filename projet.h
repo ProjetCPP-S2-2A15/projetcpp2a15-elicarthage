@@ -46,7 +46,7 @@ public:
     void setProjectBudget(double budget) { project_budget = budget; }
     void setProjectEtat(const QString &etat) { project_etat = etat; }
 
-    // CRUD Operations
+    // CRUD
     bool addProjet();
     void display(QTableWidget *tableWidget);
     bool deleteProjet(const QString &projectId);
