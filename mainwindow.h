@@ -1,17 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
+#include <QMap>
+#include <QDate>
 #include <QPdfWriter>
 #include <QPainter>
 #include <QFileDialog>
-
-
-#include <QMainWindow>
-#include <QTableWidget>  // Inclure QTableWidget pour l'affichage en tableau
-#include <QPushButton>   // Inclure QPushButton pour les interactions avec l'interface
-#include <QSqlDatabase>  // Inclure QSqlDatabase pour la gestion SQL
-#include <QSqlQuery>     // Inclure QSqlQuery pour exécuter des requêtes SQL
-#include <QSqlError>     // Inclure QSqlError pour afficher les erreurs SQL
-#include <QDebug>        // Pour afficher les erreurs dans la console
+#include <QCalendarWidget>
+#include <QTextCharFormat>
+#include "tache.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,29 +30,35 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButtonajouter_clicked();  // Ajouter une tâche
-  //  void on_pushButton_modifier_clicked(); // Modifier une tâche
-    void on_btnsupprimer_clicked(); // Supprimer une tâche
-    //void modifierCellule(const QModelIndex &index);
+    // Gestion des tâches
+    void on_pushButtonajouter_clicked();
+    void on_btnsupprimer_clicked();
     void on_pushButton_modifier_clicked();
-    void on_lineEdit_recherche_textChanged(const QString &text); // Recherche dynamique
+
+    // Fonctionnalités d'affichage et de recherche
+    void on_lineEdit_recherche_textChanged(const QString &text);
     void on_comboBox_tri_currentIndexChanged(int index);
-    void on_pushButton_exportPDF_clicked(); // Nouveau slot pour exporter en PDF
-    void afficherStatistiqueTache();
+
+    // Export et statistiques
+    void on_pushButton_exportPDF_clicked();
     void on_pushButton_statistique_clicked();
 
+    // Calendrier
+    void on_calendarWidget_clicked(const QDate &date);
+    void on_pushButton_micro_clicked();
 
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;  // Connexion à la base de données
 
-    // Déclaration des méthodes pour gérer les interactions de l'interface
-    //void onModifyButtonClicked(int row);
-    void onDeleteButtonClicked(int row);
-    bool isValidColumn(const QString &columnName);
-
-    // Méthode pour initialiser la connexion à la base de données
+    // Méthodes privées
     bool initialiserConnexionDB();
+    void mettreAJourCouleursCalendrier();
+    void afficherStatistiqueTache();
+
+
+    // Stockage des tâches par date
+    QMap<QDate, QList<Tache>> mapTachesParDate;
 };
 
 #endif // MAINWINDOW_H

@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCalendarWidget>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QFrame>
@@ -22,6 +23,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -55,6 +57,9 @@ public:
     QDateEdit *dateEdit_finDate;
     QDateEdit *dateEdit_debutDate;
     QComboBox *comboBox_etat;
+    QLineEdit *lineEdit_IDS;
+    QPushButton *btnsupprimer;
+    QPushButton *pushButton_micro;
     QPushButton *pushButton_exportPDF;
     QPushButton *BouttonRechProjet;
     QLineEdit *lineEdit_recherche;
@@ -68,12 +73,12 @@ public:
     QLabel *label_10;
     QPushButton *pushButton_statistique;
     QFrame *Statistiques;
+    QCalendarWidget *calendarWidget;
+    QTextEdit *taskDetails;
     QLabel *label_11;
     QPushButton *pushButton;
     QPushButton *exportProjet_2;
     QTableView *tableView;
-    QPushButton *btnsupprimer;
-    QLineEdit *lineEdit_IDS;
     QLineEdit *lineEdit_debutDatee;
     QLineEdit *lineEdit_finDatee;
     QLineEdit *lineEdit_etat;
@@ -454,6 +459,15 @@ public:
 "    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
 "}\n"
 ""));
+        lineEdit_IDS = new QLineEdit(widget_3);
+        lineEdit_IDS->setObjectName("lineEdit_IDS");
+        lineEdit_IDS->setGeometry(QRect(20, 390, 113, 26));
+        btnsupprimer = new QPushButton(widget_3);
+        btnsupprimer->setObjectName("btnsupprimer");
+        btnsupprimer->setGeometry(QRect(150, 390, 93, 29));
+        pushButton_micro = new QPushButton(widget_3);
+        pushButton_micro->setObjectName("pushButton_micro");
+        pushButton_micro->setGeometry(QRect(110, 320, 93, 29));
         pushButton_exportPDF = new QPushButton(widget);
         pushButton_exportPDF->setObjectName("pushButton_exportPDF");
         pushButton_exportPDF->setGeometry(QRect(410, 30, 131, 31));
@@ -565,7 +579,7 @@ public:
 ""));
         widget_4 = new QWidget(widget);
         widget_4->setObjectName("widget_4");
-        widget_4->setGeometry(QRect(490, 420, 741, 171));
+        widget_4->setGeometry(QRect(410, 360, 821, 231));
         widget_4->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "    background-color: #E0E0E0;  /* Fond gris plus clair */\n"
 "    border: 1px solid black;    /* Cadre noir fin (1px) */\n"
@@ -633,6 +647,12 @@ public:
         Statistiques->setGeometry(QRect(370, 30, 241, 131));
         Statistiques->setFrameShape(QFrame::Shape::StyledPanel);
         Statistiques->setFrameShadow(QFrame::Shadow::Raised);
+        calendarWidget = new QCalendarWidget(widget_4);
+        calendarWidget->setObjectName("calendarWidget");
+        calendarWidget->setGeometry(QRect(20, 10, 321, 211));
+        taskDetails = new QTextEdit(widget_4);
+        taskDetails->setObjectName("taskDetails");
+        taskDetails->setGeometry(QRect(360, 150, 104, 75));
         label_11 = new QLabel(widget);
         label_11->setObjectName("label_11");
         label_11->setGeometry(QRect(1060, 40, 101, 21));
@@ -681,12 +701,6 @@ public:
         tableView->setGeometry(QRect(420, 70, 761, 281));
         tableView->horizontalHeader()->setDefaultSectionSize(135);
         tableView->verticalHeader()->setDefaultSectionSize(41);
-        btnsupprimer = new QPushButton(widget);
-        btnsupprimer->setObjectName("btnsupprimer");
-        btnsupprimer->setGeometry(QRect(720, 390, 93, 29));
-        lineEdit_IDS = new QLineEdit(widget);
-        lineEdit_IDS->setObjectName("lineEdit_IDS");
-        lineEdit_IDS->setGeometry(QRect(600, 390, 113, 26));
         lineEdit_debutDatee = new QLineEdit(widget);
         lineEdit_debutDatee->setObjectName("lineEdit_debutDatee");
         lineEdit_debutDatee->setGeometry(QRect(170, 500, 121, 31));
@@ -789,6 +803,8 @@ public:
         label_12->setText(QCoreApplication::translate("MainWindow", "tacheName", nullptr));
         label_13->setText(QCoreApplication::translate("MainWindow", "tachEtat", nullptr));
         label_14->setText(QCoreApplication::translate("MainWindow", "debutDate", nullptr));
+        btnsupprimer->setText(QCoreApplication::translate("MainWindow", "supprimer", nullptr));
+        pushButton_micro->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
         pushButton_exportPDF->setText(QCoreApplication::translate("MainWindow", "Exporter pdf", nullptr));
         BouttonRechProjet->setText(QCoreApplication::translate("MainWindow", "Rechercher", nullptr));
         lineEdit_recherche->setText(QString());
@@ -804,7 +820,6 @@ public:
         label_11->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#222d52;\">Trier par Date:</span></p></body></html>", nullptr));
         pushButton->setText(QString());
         exportProjet_2->setText(QCoreApplication::translate("MainWindow", "calendrier", nullptr));
-        btnsupprimer->setText(QCoreApplication::translate("MainWindow", "supprimer", nullptr));
         comboBox_tri->setItemText(0, QCoreApplication::translate("MainWindow", "Nom", nullptr));
         comboBox_tri->setItemText(1, QCoreApplication::translate("MainWindow", "Date de d\303\251but", nullptr));
         comboBox_tri->setItemText(2, QCoreApplication::translate("MainWindow", "Date de fin", nullptr));

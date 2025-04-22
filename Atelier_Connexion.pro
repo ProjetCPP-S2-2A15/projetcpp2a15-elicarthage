@@ -26,3 +26,6 @@ CONFIG += c++1
 QT += widgets sql
 
 QT += charts
+
+DISTFILES += \
+    speech_recognition.py

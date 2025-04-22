@@ -19,7 +19,8 @@ public:
 
     // Getters
     int getID() { return tacheID; }
-    QString getNom() { return tacheName; }
+    QString getNom() const { return tacheName; }
+
     QString getDescription() { return description; }
     QString getEtat() { return tachEtat; }
     QDate getDebutDate() { return debutDate; }
