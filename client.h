@@ -14,13 +14,14 @@ private:
     QString email;
     QString adresse;
     QString type;
+    double x, y;
     QString lastError;
 
 public:
     Client() {}
     Client(const QString &cin, const QString &nom, const QString &prenom,
-           const QString &email, const QString &adresse, const QString &type)
-        : cin(cin), nom(nom), prenom(prenom), email(email), adresse(adresse), type(type) {}
+           const QString &email, const QString &adresse, const QString &type, double x, double y)
+        : cin(cin), nom(nom), prenom(prenom), email(email), adresse(adresse), type(type), x(x), y(y) {}
 
     // Getters
     QString getCIN() const { return cin; }
@@ -29,6 +30,8 @@ public:
     QString getEmail() const { return email; }
     QString getAdresse() const { return adresse; }
     QString getType() const { return type; }
+    double getX() const { return x; }
+    double getY() const { return y; }
     QString getLastError() const { return lastError; }
 
     // Setters
@@ -38,6 +41,9 @@ public:
     void setEmail(const QString &value) { email = value; }
     void setAdresse(const QString &value) { adresse = value; }
     void setType(const QString &value) { type = value; }
+    void setX(double value) { x = value; }
+    void setY(double value) { y = value; }
+
 
     // CRUD
     bool addClient();

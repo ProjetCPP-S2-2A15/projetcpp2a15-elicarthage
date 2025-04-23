@@ -9,8 +9,7 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QDate>
-
-
+#include <QGraphicsPixmapItem>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,6 +21,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clientTable, &QTableWidget::cellClicked, this, &MainWindow::on_clientTable_cellClicked);
     connect(ui->searchClientButton, &QPushButton::clicked, this, &MainWindow::on_searchClientButton_clicked);
     connect(ui->sortClientButton, &QPushButton::clicked, this, &MainWindow::on_sortClientButton_clicked);
+    clientScene = new QGraphicsScene(this);
+    ui->mapViewClient->setScene(clientScene);
+    ui->mapViewClient->installEventFilter(this);
+
+    QGraphicsPixmapItem *carte = new QGraphicsPixmapItem(QPixmap("C:\\Users\\chokr\\Downloads\\Atelier_Connexion\\Atelier_Connexion\\map.jpg"));
+    clientScene->addItem(carte);
+
+     //
 }
 
 MainWindow::~MainWindow()
@@ -46,12 +53,17 @@ void MainWindow::on_addClientButton_clicked()
     Client client;
     QString email = ui->email_input->text().trimmed();
      QString cin = ui->cin_input->text().trimmed();
+    QString x_str = ui->posx_client->text();
+    QString y_str = ui->posy_client->text();
     client.setCIN(cin);
     client.setNom(ui->nom_input->text().trimmed());
     client.setPrenom(ui->prenom_input->text().trimmed());
     client.setEmail(email);
     client.setAdresse(ui->adresse_input->text().trimmed());
     client.setType(ui->type_input->text().trimmed());
+    client.setX(x_str);
+    client.setY(y_str);
+
 
     if (client.getCIN().isEmpty() || client.getNom().isEmpty() || client.getPrenom().isEmpty() ||
         client.getEmail().isEmpty() || client.getAdresse().isEmpty() || client.getType().isEmpty()) {
@@ -66,7 +78,7 @@ void MainWindow::on_addClientButton_clicked()
 
     QRegularExpression emailRegex("^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    if (!emailRegex.match(email).hasMatch()) {  // 👈 Corrigé ici
+    if (!emailRegex.match(email).hasMatch()) {
         QMessageBox::warning(this, "Email invalide", "L'adresse e-mail saisie est invalide.");
         return;
     }
@@ -75,8 +87,10 @@ void MainWindow::on_addClientButton_clicked()
         QMessageBox::information(this, "Succès", "Client ajouté avec succès.");
         refreshClientTable();
     } else {
-        QMessageBox::critical(this, "Erreur", "Échec de l'ajout du client.");
+        QMessageBox::critical(this, "Erreur", "Échec de l'ajout du client."+ client.getLastError());
     }
+
+
 }
 
 void MainWindow::on_deleteClientButton_clicked()
@@ -158,7 +172,7 @@ void MainWindow::on_pdfProjet_clicked()
     QFont titleFont("Helvetica", 24, QFont::Bold);
     painter.setFont(titleFont);
     painter.setPen(QColor(0, 0, 255)); // Bleu pour le titre
-    painter.drawText(QRect(0, 0, pdfWriter.width(), 100), Qt::AlignCenter, "Project List");
+    painter.drawText(QRect(0, 0, pdfWriter.width(), 100), Qt::AlignCenter, "Liste des Clients");
 
     // Police et couleur du contenu
     QFont contentFont("Helvetica", 12);
@@ -170,7 +184,7 @@ void MainWindow::on_pdfProjet_clicked()
     int rowHeight = 40;
 
     // Colonnes pour l'affichage (Project ID et Project Name)
-    QStringList headers = {"CIN", "NOM"};
+    QStringList headers = {"CIN", "Nom"};
     int columnCount = headers.size();
     int totalWidth = pdfWriter.width() - 100;
     QVector<int> columnWidths = {
@@ -270,13 +284,25 @@ void MainWindow::on_sortClientButton_clicked()
     else if (critere == "Nom")
         ui->clientTable->sortByColumn(1, Qt::AscendingOrder);
 }
-/*void MainWindow::on_showMapButton_clicked()
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    QWebEngineView *mapView = new QWebEngineView;
-    QString localPath = QDir::currentPath() + "/maps/map.html";
-    mapView->setUrl(QUrl::fromLocalFile(localPath));
-    mapView->setWindowTitle("Carte OpenStreetMap");
-    mapView->resize(800, 600);
-    mapView->show();
+    if (obj == ui->mapViewClient && event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+
+        // Convertir la position du clic (widget -> scène)
+        QPointF scenePos = ui->mapViewClient->mapToScene(mouseEvent->pos());
+
+        // Affichage dans les champs (à adapter selon ton UI)
+        ui->posx_client->setText(QString::number(scenePos.x()));
+        ui->posy_client->setText(QString::number(scenePos.y()));
+
+        return true; // événement traité
+    }
+
+    return QMainWindow::eventFilter(obj, event);
 }
-*/
+
+void MainWindow::on_mapViewClient_clicked(const QPointF &point) {
+    qDebug() << "Clicked at" << point;
+}
+

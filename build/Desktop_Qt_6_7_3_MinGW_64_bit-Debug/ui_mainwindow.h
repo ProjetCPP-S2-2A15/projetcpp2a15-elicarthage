@@ -13,7 +13,9 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -32,6 +34,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
+    QHBoxLayout *horizontalLayout;
     QTabWidget *tabWidget;
     QWidget *tab;
     QWidget *widget_2;
@@ -81,6 +84,9 @@ public:
     QLabel *label_88;
     QLabel *label_89;
     QLabel *label_90;
+    QGraphicsView *mapViewClient;
+    QLineEdit *posx_client;
+    QLineEdit *posy_client;
     QWidget *tab_2;
     QWidget *widget_3;
     QLabel *label_87;
@@ -102,14 +108,17 @@ public:
         MainWindow->resize(1392, 818);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName("centralWidget");
+        horizontalLayout = new QHBoxLayout(centralWidget);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName("horizontalLayout");
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName("tabWidget");
-        tabWidget->setGeometry(QRect(0, 0, 1481, 661));
         tab = new QWidget();
         tab->setObjectName("tab");
         widget_2 = new QWidget(tab);
         widget_2->setObjectName("widget_2");
-        widget_2->setGeometry(QRect(20, -160, 1431, 841));
+        widget_2->setGeometry(QRect(0, -140, 1431, 841));
         widget_2->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
         label_79 = new QLabel(widget_2);
         label_79->setObjectName("label_79");
@@ -798,6 +807,47 @@ public:
         label_90->setGeometry(QRect(1140, 30, 41, 31));
         label_90->setPixmap(QPixmap(QString::fromUtf8("../../../../../Downloads/images/power-off.png")));
         label_90->setScaledContents(true);
+        mapViewClient = new QGraphicsView(widget_2);
+        mapViewClient->setObjectName("mapViewClient");
+        mapViewClient->setGeometry(QRect(620, 630, 256, 192));
+        posx_client = new QLineEdit(widget_2);
+        posx_client->setObjectName("posx_client");
+        posx_client->setGeometry(QRect(630, 760, 101, 31));
+        posx_client->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
+"    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
+"    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
+"    border-radius: 6px;           /* Coins arrondis */\n"
+"    padding: 6px;                 /* Espacement int\303\251rieur */\n"
+"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
+"    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
+"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"}\n"
+""));
+        posy_client = new QLineEdit(widget_2);
+        posy_client->setObjectName("posy_client");
+        posy_client->setGeometry(QRect(760, 750, 101, 31));
+        posy_client->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
+"    background-color: #FFFFFF;    /* Fond blanc pour une bonne lisibilit\303\251 */\n"
+"    color: #2C3E50;               /* Texte bleu fonc\303\251 */\n"
+"    border: 2px solid #1F4E78;    /* Bordure bleu fonc\303\251 */\n"
+"    border-radius: 6px;           /* Coins arrondis */\n"
+"    padding: 6px;                 /* Espacement int\303\251rieur */\n"
+"    font-size: 13px;              /* Taille de la police \303\251quilibr\303\251e */\n"
+"    selection-background-color: #5DADE2; /* Bleu clair pour la s\303\251lection du texte */\n"
+"    selection-color: white;       /* Texte blanc quand s\303\251lectionn\303\251 */\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #222D52;    /* Bordure bleu plus clair au focus */\n"
+"    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
+"}\n"
+""));
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName("tab_2");
@@ -844,6 +894,9 @@ public:
         groupBox_6->setObjectName("groupBox_6");
         groupBox_6->setGeometry(QRect(9, 9, 1181, 471));
         tabWidget->addTab(tab_2, QString());
+
+        horizontalLayout->addWidget(tabWidget);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");

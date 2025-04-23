@@ -6,15 +6,18 @@
 
 bool Client::addClient() {
     QSqlQuery query;
-    query.prepare("INSERT INTO CLIENTS (CIN, NOM, PRENOM, EMAIL, ADRESSE, TYPE) "
-                  "VALUES (:cin, :nom, :prenom, :email, :adresse, :type)");
+    query.prepare("INSERT INTO CLIENTS (CIN, NOM, PRENOM, EMAIL, ADRESSE, TYPE,X,Y) "
+                  "VALUES (:cin, :nom, :prenom,  :email, :adresse, :type, :x, :y)");
 
-    query.bindValue(":cin", cin);
+    query.bindValue(":cin", cin.toInt());  // CIN doit être un entier
     query.bindValue(":nom", nom);
     query.bindValue(":prenom", prenom);
     query.bindValue(":email", email);
     query.bindValue(":adresse", adresse);
     query.bindValue(":type", type);
+    query.bindValue(":x", x_str.toDouble());  // convertis en float
+    query.bindValue(":y", y_str.toDouble());
+
 
     if (!query.exec()) {
         lastError = query.lastError().text();
@@ -22,12 +25,12 @@ bool Client::addClient() {
         return false;
     }
     return true;
-    if (!query.exec()) {
+    /*if (!query.exec()) {
         qDebug() << "Erreur SQL lors de l'ajout du client:" << query.lastError().text();
         return false;
     }
     return true;
-
+*/
 }
 
 void Client::display(QTableWidget *tableWidget) {
@@ -52,6 +55,9 @@ void Client::display(QTableWidget *tableWidget) {
         tableWidget->setItem(row, 3, new QTableWidgetItem(query.value("EMAIL").toString()));
         tableWidget->setItem(row, 4, new QTableWidgetItem(query.value("ADRESSE").toString()));
         tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("TYPE").toString()));
+        tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("x").toString()));
+        tableWidget->setItem(row, 7, new QTableWidgetItem(query.value("y").toString()));
+
     }
 
     qDebug() << "Nombre de clients chargés depuis la base de données:" << tableWidget->rowCount();
@@ -59,7 +65,7 @@ void Client::display(QTableWidget *tableWidget) {
 
 bool Client::updateClient(const QString &originalCin) {
     QSqlQuery query;
-    query.prepare("UPDATE CLIENTS SET CIN = :cin, NOM = :nom, PRENOM = :prenom, EMAIL = :email, ADRESSE = :adresse, TYPE = :type "
+    query.prepare("UPDATE CLIENTS SET CIN = :cin, NOM = :nom, PRENOM = :prenom, EMAIL = :email, ADRESSE = :adresse, TYPE = :type, X= :x, Y= :y "
                   "WHERE CIN = :original_cin");
 
     query.bindValue(":cin", cin);
@@ -69,6 +75,9 @@ bool Client::updateClient(const QString &originalCin) {
     query.bindValue(":adresse", adresse);
     query.bindValue(":type", type);
     query.bindValue(":original_cin", originalCin);
+    query.bindValue(":x", x_str.toDouble());
+    query.bindValue(":y", y_str.toDouble());
+
 
     if (!query.exec()) {
         lastError = query.lastError().text();

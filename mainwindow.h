@@ -1,10 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qgraphicsscene.h"
 #include <QMainWindow>
 #include <QTableWidget>
+#include <QMouseEvent>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
+
 namespace Ui {
 class MainWindow;
 }
@@ -27,21 +31,23 @@ private slots:
     void on_searchClientButton_clicked();
     void on_sortClientButton_clicked();
     void on_pdfProjet_clicked();
-    //void on_showMapButton_clicked();
+    void on_mapViewClient_clicked(const QPointF &pos);
+    void on_showMapButton_clicked();
 
 
-    // ==== Module PROJET ====
+    
 
 private:
     Ui::MainWindow *ui;
-
-    // === Fonctions utilitaires pour le module client ===
+    QGraphicsScene *clientScene;
+    
     void refreshClientTable();
     void clearClientInputFields();
     class Client getClientFromInput();
 
-    // === Pour le module projet (à implémenter de ton côté) ===
-    void refreshTable(); // <- Peut-être à renommer "refreshProjectTable" si besoin
+    
+    void refreshTable();
+     bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 #endif // MAINWINDOW_H
