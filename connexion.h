@@ -10,6 +10,7 @@ public:
     Connection();
     bool createconnect();
     void closeConnection();
+    QSqlDatabase getDatabase() const { return db; }
 };
 
 #endif // CONNECTION_H

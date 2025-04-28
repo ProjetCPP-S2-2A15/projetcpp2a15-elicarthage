@@ -3,7 +3,9 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QCryptographicHash>
-
+#include <QSettings>
+#include <QDate>
+#include <QCoreApplication>
 
 Architecte::Architecte(int id, const QString& nom, const QString& prenom,
                        const QString& mail, const QString& role, const QString& motDePasse,
@@ -58,7 +60,6 @@ QSqlQueryModel* Architecte::afficher()
 {
     QSqlQueryModel *model = new QSqlQueryModel();
 
-
     model->setQuery("SELECT * FROM ARCHITECTE");
 
     // Définir les en-têtes pour les colonnes
@@ -71,9 +72,11 @@ QSqlQueryModel* Architecte::afficher()
     model->setHeaderData(6, Qt::Horizontal, QObject::tr("MOT_DE_PASSE"));
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("QUESTION"));
     model->setHeaderData(8, Qt::Horizontal, QObject::tr("REPONSE"));
+    model->setHeaderData(9, Qt::Horizontal, QObject::tr("ETAT_PRESENCE"));
 
     return model;
 }
+
 
 bool Architecte::supprimer(int id)
 {
@@ -217,8 +220,27 @@ QSqlQueryModel* Architecte::afficherAvecTri(const QString& colonne, bool ascenda
     model->setHeaderData(6, Qt::Horizontal, QObject::tr("MOT_DE_PASSE"));
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("QUESTION"));
     model->setHeaderData(8, Qt::Horizontal, QObject::tr("REPONSE"));
+       model->setHeaderData(9, Qt::Horizontal, QObject::tr("ETAT_PRESENCE"));
 
 
 
     return model;
+}
+
+
+bool Architecte::resetPresenceDaily() {
+    QSettings settings;
+    QDate today = QDate::currentDate();
+
+    if (settings.value("lastReset").toDate() != today) {
+        QSqlQuery query;
+        if (query.exec("UPDATE ARCHITECTE SET ETAT_PRESENCE = 'A'")) {
+            settings.setValue("lastReset", today);
+            return true;
+        } else {
+            qDebug() << "Erreur:" << query.lastError().text();
+            return false;
+        }
+    }
+    return true; // Déjà fait aujourd'hui
 }

@@ -2,9 +2,11 @@
 TARGET = dash
 TEMPLATE = app
 
+QT       += core gui  serialport sql
 # Fichiers sources du projet
 SOURCES += main.cpp \
            architecte.cpp \
+           arduino.cpp \
            connexion.cpp \
            login.cpp \
            mainwindow.cpp
@@ -13,6 +15,7 @@ SOURCES += main.cpp \
 # Fichiers d'en-têtes
 HEADERS += mainwindow.h \
     architecte.h \
+    arduino.h \
     connexion.h \
     login.h
 

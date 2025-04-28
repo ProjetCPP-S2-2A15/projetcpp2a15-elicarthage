@@ -52,6 +52,7 @@ public:
 
     // Correction : Ne pas initialiser model ici
     QSqlQueryModel* afficherAvecTri(const QString& colonne, bool ascendant);
+    static bool resetPresenceDaily();
 };
 
 #endif // ARCHITECTE_H

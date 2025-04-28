@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    Architecte::resetPresenceDaily();
+   //  arduino = new Arduino(this);
     ui->lineEdit_motDePasse->setEchoMode(QLineEdit::Password);
     QPushButton *togglePasswordButton = new QPushButton(ui->lineEdit_motDePasse);
     togglePasswordButton->setCursor(Qt::PointingHandCursor);
@@ -89,6 +91,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ressourcesBtn, &QPushButton::clicked, this, &MainWindow::on_ressourcesBtn_clicked);
     connect(ui->architecteBtn, &QPushButton::clicked, this, &MainWindow::on_architecteBtn_clicked);
     connect(ui->tacheBtn, &QPushButton::clicked, this, &MainWindow::on_tacheBtn_clicked);
+
+
+
+
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     connect(ui->tableView, &QTableView::clicked, this, &MainWindow::modifierCellule);
     connect(ui->lineEdit_motDePasse, &QLineEdit::textChanged, this, [this](const QString &text) {
@@ -240,6 +246,13 @@ void MainWindow::on_btnAjouter_clicked()
         ui->tableView->setModel(Etmp.afficher());
         afficherStatistiques();
         on_annulerEvent_clicked();
+
+        QTimer::singleShot(100, this, [this]() {
+            emit architectesUpdated();  // envoyer APRES 100 ms
+        });
+
+
+
     }
 }
 //--------CRUD SUPPRIMER------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -264,9 +277,17 @@ void MainWindow::on_btnsupprimer_clicked()
         if (test)
         {
             qDebug() << "Suppression effectuée avec succès!";
-            afficherStatistiques();
+
+
             QSqlQueryModel *model = Etmp.afficher();
             ui->tableView->setModel(model);
+              afficherStatistiques();
+            QTimer::singleShot(100, this, [this]() {
+                emit architectesUpdated();  // envoyer APRES 100 ms
+            });
+
+
+
         }
         else
         {
@@ -282,37 +303,50 @@ void MainWindow::on_btnsupprimer_clicked()
 //----------------------------CRUD MODIFIER--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void MainWindow::modifierCellule(const QModelIndex &index)
 {
-    QSqlQueryModel *model = qobject_cast<QSqlQueryModel*>(ui->tableView->model());
+    QSqlQueryModel *model = qobject_cast<QSqlQueryModel *>(ui->tableView->model());
+
     if (!model) {
-        qDebug() << "Le modèle n'est pas de type QSqlQueryModel";
+        qDebug() << "Le modèle n'est pas de type QSqlQueryModel.";
         return;
     }
 
+    // Colonnes non modifiables
     if (index.column() == 0 || index.column() == 6 || index.column() == 7 || index.column() == 8) {
-        QMessageBox::warning(this, tr("Modification non autorisée"),
-                             tr("Vous ne pouvez pas modifier cette colonne."));
+        QMessageBox::warning(this, tr("Modification non autorisée"), tr("Vous ne pouvez pas modifier cette colonne."));
         return;
     }
 
     QString columnName = model->headerData(index.column(), Qt::Horizontal).toString();
-    QString oldValue = model->data(index).toString();
     QString newValue;
     bool inputOk = false;
 
-    // Gestion spécifique pour la colonne RÔLE
-    if (columnName == "RÔLE") {
+    // Si colonne NOM ou PRÉNOM : demander du texte et valider
+    if (columnName == "NOM" || columnName == "PRÉNOM") {
+        newValue = QInputDialog::getText(this, tr("Modifier ") + columnName,
+                                         tr("Nouvelle valeur :"), QLineEdit::Normal,
+                                         model->data(index).toString(), &inputOk);
+        if (inputOk && (!estTexteValide(newValue) || newValue.length() < 3)) {
+            QMessageBox::warning(this, tr("Erreur de saisie"), tr("Le champ doit contenir uniquement des lettres et au moins 3 caractères."));
+            return;
+        }
 
+        QTimer::singleShot(100, this, [this]() {
+            emit architectesUpdated();  // envoyer APRES 100 ms
+        });
+
+
+    }
+    // Si colonne RÔLE : proposer une liste déroulante
+    else if (columnName == "RÔLE") {
         QComboBox *roleComboBox = new QComboBox(this);
-      roleComboBox->setStyleSheet("QComboBox { padding: 2px; }"); // Style minimal
-        roleComboBox->addItems({"Administrateur", "Responsable clients", "Responsable de  projet", "Formateur","Gestionnaire de Tâches","Gestionnaire Ressources"});
+        roleComboBox->addItems({"Administrateur", "Responsable clients", "Responsable de projet", "Formateur", "Gestionnaire de Tâches", "Gestionnaire Ressources"});
 
         QDialog dialog(this);
         dialog.setWindowTitle(tr("Modifier le rôle"));
         QFormLayout form(&dialog);
         form.addRow(tr("Nouveau rôle:"), roleComboBox);
 
-        QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                                   Qt::Horizontal, &dialog);
+        QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
         form.addRow(&buttonBox);
 
         connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
@@ -322,48 +356,50 @@ void MainWindow::modifierCellule(const QModelIndex &index)
             newValue = roleComboBox->currentText();
             inputOk = true;
         }
-    } else {
+    }
+    // Si colonne ETAT_PRESENCE : proposer A ou P
+    else if (columnName == "ETAT_PRESENCE") {
+        QStringList choix = {"A", "P"};
+        newValue = QInputDialog::getItem(this, tr("Modifier l'état de présence"),
+                                         tr("Nouvelle valeur (A ou P) :"),
+                                         choix, 0, false, &inputOk);
 
-        newValue = QInputDialog::getText(this, tr("Modifier la valeur"),
-                                         tr("Nouvelle valeur :"),
-                                         QLineEdit::Normal,
-                                         oldValue,
-                                         &inputOk);
+        QTimer::singleShot(100, this, [this]() {
+            emit architectesUpdated();  // envoyer APRES 100 ms
+        });
+
+
+    }
+    else {
+        // Sinon, modification libre pour d'autres colonnes
+        newValue = QInputDialog::getText(this, tr("Modifier ") + columnName,
+                                         tr("Nouvelle valeur :"), QLineEdit::Normal,
+                                         model->data(index).toString(), &inputOk);
     }
 
-    if (inputOk && !newValue.isEmpty() && newValue != oldValue) {
-        if (columnName.isEmpty() || !isValidColumn(columnName)) {
-            QMessageBox::warning(this, tr("Erreur"),
-                                 tr("Le nom de la colonne est invalide."));
-            return;
-        }
+    if (!inputOk) {
+        return; // utilisateur a annulé
+    }
 
-        int id = model->data(model->index(index.row(), 0)).toInt();
-        Architecte etmp;
+    // Récupérer ID
+    int id = model->data(model->index(index.row(), 0)).toInt();
 
-        if (columnName == "MOT_DE_PASSE") {
-            newValue = hasherMotDePasse(newValue);
-        }
+    // Mettre à jour dans la base
+    Architecte etmp;
+    bool success = etmp.modifier(id, columnName, newValue);
 
-        bool success = etmp.modifier(id, columnName, newValue);
-
-        if (success) {
-
-            Architecte Etmp;
-            ui->tableView->setModel(Etmp.afficher());
-            if (columnName == "NBR_HEURES_SUPPLEMENTAIRES") {
-                afficherStatistiques();
-            }
-        } else {
-            QMessageBox::warning(this, tr("Erreur de mise à jour"),
-                                 tr("La mise à jour a échoué. Veuillez vérifier les données."));
-        }
+    if (success) {
+        // Mettre à jour la vue
+        ui->tableView->setModel(etmp.afficher());
+    } else {
+        QMessageBox::warning(this, tr("Erreur de mise à jour"), tr("La mise à jour a échoué. Veuillez vérifier les données."));
     }
 }
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bool MainWindow::isValidColumn(const QString &columnName)
 {
-    QStringList validColumns = {"NOM", "PRÉNOM", "EMAIL","RÔLE","MOT_DE_PASSE","NBR_HEURES_SUPPLEMENTAIRES"};
+    QStringList validColumns = {"NOM", "PRÉNOM", "EMAIL", "RÔLE", "MOT_DE_PASSE", "NBR_HEURES_SUPPLEMENTAIRES", "ETAT_PRESENCE"};
     return validColumns.contains(columnName);
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -772,7 +808,7 @@ void MainWindow::handleLoginSuccess(const QString &role) {
     qDebug() << "Role reçu:" << role;
     currentUserRole = role;
     setupPermissions();
-   // setupPermissions();
+    // setupPermissions();
     if (role == "Administrateur") {
         switchWidget(ui->widgetArchitecte);
     } else if (role == "Responsable clients") {
@@ -863,3 +899,10 @@ void  MainWindow::on_btnDeconnecter_clicked()
 {
     emit  logoutSuccess();
 }
+void MainWindow::refreshTable()
+{
+    Architecte Etmp;
+    ui->tableView->setModel(Etmp.afficher());
+}
+
+

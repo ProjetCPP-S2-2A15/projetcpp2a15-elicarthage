@@ -7,6 +7,8 @@
 #include <QTableWidget>
 #include <QPushButton>
 #include <QLineEdit>
+#include "arduino.h"
+
 
 QT_BEGIN_NAMESPACE
 
@@ -19,12 +21,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 signals:
+      void architectesUpdated();
     void logoutSuccess();
+
+
 public:
     explicit MainWindow( QWidget *parent = nullptr);
     QLineEdit* getPasswordLineEdit();
     ~MainWindow();
-
+    void actualiserTableArchitecte();
     int generateAutoID();
     bool estTexteValide(const QString &texte);
     void setupValidation();
@@ -35,6 +40,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+         Arduino *arduino;
     QString currentUserRole; // Ajouter cette variable membre
     QList<QWidget*> allModules;
     bool eventFilter(QObject *obj, QEvent *event);
@@ -53,9 +59,11 @@ private:
 
     void switchWidget(QWidget* widgetToShow);
 public slots:
+        void refreshTable();
     void handleLoginSuccess(const QString &role);
 
 private slots:
+
 
     void on_btnAjouter_clicked();
     void on_annulerEvent_clicked();
