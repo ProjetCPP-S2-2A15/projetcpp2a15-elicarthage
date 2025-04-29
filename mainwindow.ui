@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -55,7 +55,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../power-off.png</pixmap>
+        <pixmap>../../../../power-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -74,7 +74,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../magnifier.png</pixmap>
+        <pixmap>../../../../magnifier.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -93,7 +93,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../461537616_2828568600639017_3927034258301617377_n.png</pixmap>
+        <pixmap>../../../../461537616_2828568600639017_3927034258301617377_n.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -112,7 +112,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../notification.png</pixmap>
+        <pixmap>../../../../notification.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -455,7 +455,7 @@ background-color: rgb(170, 170, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../Downloads/home-interface-symbol.png</normaloff>../../../../../Downloads/home-interface-symbol.png</iconset>
+            <normaloff>../../../../Downloads/home-interface-symbol.png</normaloff>../../../../Downloads/home-interface-symbol.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -691,7 +691,7 @@ QComboBox QAbstractItemView {
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../Downloads/power-off.png</normaloff>../../../../../Downloads/power-off.png</iconset>
+            <normaloff>../../../../Downloads/power-off.png</normaloff>../../../../Downloads/power-off.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -710,7 +710,7 @@ QComboBox QAbstractItemView {
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>../../../../../logout.png</pixmap>
+           <pixmap>../../../../logout.png</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -743,7 +743,7 @@ QComboBox QAbstractItemView {
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../Downloads/magnifier.png</normaloff>../../../../../Downloads/magnifier.png</iconset>
+            <normaloff>../../../../Downloads/magnifier.png</normaloff>../../../../Downloads/magnifier.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -1181,7 +1181,7 @@ QLineEdit:focus {
            </property>
            <property name="minimumDateTime">
             <datetime>
-             <hour>11</hour>
+             <hour>10</hour>
              <minute>0</minute>
              <second>0</second>
              <year>2024</year>
@@ -1450,7 +1450,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../Downloads/images/logout.png</pixmap>
+        <pixmap>../../../../Downloads/images/logout.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1469,7 +1469,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../Downloads/images/notification.png</pixmap>
+        <pixmap>../../../../Downloads/images/notification.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1488,7 +1488,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../Downloads/images/power-off.png</pixmap>
+        <pixmap>../../../../Downloads/images/power-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1525,7 +1525,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../power-off.png</pixmap>
+        <pixmap>../../../../power-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1544,7 +1544,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../magnifier.png</pixmap>
+        <pixmap>../../../../magnifier.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1563,7 +1563,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../461537616_2828568600639017_3927034258301617377_n.png</pixmap>
+        <pixmap>../../../../461537616_2828568600639017_3927034258301617377_n.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1582,7 +1582,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../notification.png</pixmap>
+        <pixmap>../../../../notification.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1601,7 +1601,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../Downloads/images/logout.png</pixmap>
+        <pixmap>../../../../Downloads/images/logout.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1620,7 +1620,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../Downloads/images/notification.png</pixmap>
+        <pixmap>../../../../Downloads/images/notification.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1639,7 +1639,7 @@ QPushButton:disabled {
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../../../../../Downloads/images/power-off.png</pixmap>
+        <pixmap>../../../../Downloads/images/power-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -1802,7 +1802,7 @@ QPushButton:disabled {
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>17</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
