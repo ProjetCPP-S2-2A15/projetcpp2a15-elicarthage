@@ -33,6 +33,16 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->TriButton, &QPushButton::clicked, this, &MainWindow::on_TriButton_clicked);
     connect(ui->generateContractButton, &QPushButton::clicked, this, &MainWindow::on_generateContractButton_clicked);
     m_speechNotifier = new SpeechNotifier(this);
+    // Dans le constructeur
+    server = new ChatServer(this);
+    client = new ChatClient(this);
+
+    connect(server, &ChatServer::newMessage, this, &MainWindow::displayMessage);
+    connect(client, &ChatClient::messageReceived, this, &MainWindow::displayMessage);
+
+    // Connectez vos boutons UI
+    connect(ui->startServerButton, &QPushButton::clicked, this, &MainWindow::toggleServer);
+    connect(ui->sendButton, &QPushButton::clicked, this, &MainWindow::sendChatMessage);
 }
 
 MainWindow::~MainWindow()
@@ -533,4 +543,31 @@ void MainWindow::generateContract(const QString &clientName, const QString &proj
     connect(closeButton, &QPushButton::clicked, contractDialog, &QDialog::close);
 
     contractDialog->exec();
+}
+void MainWindow::toggleServer()
+{
+    if (!isServerRunning) {
+        server->startServer(ui->serverPortSpinBox->value());
+        ui->startServerButton->setText("Arrêter le serveur");
+        isServerRunning = true;
+    } else {
+        server->close();
+        ui->startServerButton->setText("Démarrer le serveur");
+        isServerRunning = false;
+    }
+}
+
+void MainWindow::sendChatMessage()
+{
+    QString message = ui->messageLineEdit->text();
+    if (!message.isEmpty()) {
+        client->sendMessage(message);
+        ui->messageLineEdit->clear();
+        displayMessage("Moi: " + message); // Feedback immédiat
+    }
+}
+
+void MainWindow::displayMessage(const QString &message)
+{
+    ui->chatTextEdit->append(message);
 }

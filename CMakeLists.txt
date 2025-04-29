@@ -13,6 +13,18 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Sql REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql TextToSpeech)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
+
+# Ajoutez aux sources
+set(PROJECT_SOURCES
+    # ... vos fichiers existants ...
+    chatserver.cpp
+    chatserver.h
+    chatclient.cpp
+    chatclient.h
+)
+
+
 
 
 
@@ -40,6 +52,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         projet.h projet.cpp
         speechnotifier.h
         speechnotifier.cpp
+        chatserver.h
+        chatserver.cpp
+        chatclient.h
+        chatclient.cpp
 
     )
 target_link_libraries(SmartArchitect PRIVATE Qt6::Sql)
@@ -48,6 +64,8 @@ target_link_libraries(SmartArchitect PRIVATE Qt6::Sql)
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 target_link_libraries(SmartArchitect PRIVATE Qt${QT_VERSION_MAJOR}::TextToSpeech)
+# Ajoutez aux liens
+target_link_libraries(SmartArchitect PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 else()
     if(ANDROID)
         add_library(SmartArchitect SHARED

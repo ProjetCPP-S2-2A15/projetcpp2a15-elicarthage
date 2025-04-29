@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "speechnotifier.h"
+#include "chatserver.h"
+#include "chatclient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -36,8 +38,15 @@ private slots:
 
     void on_generateContractButton_clicked();
 
+    void toggleServer();
+    void sendChatMessage();
+    void displayMessage(const QString &message);
+
 
 private:
+    ChatServer *server;
+    ChatClient *client;
+    bool isServerRunning = false;
     Ui::MainWindow *ui;
     void refreshTable();
     void generateContract(const QString &clientName, const QString &projectName,
