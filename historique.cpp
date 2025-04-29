@@ -1,13 +1,18 @@
 #include "historique.h"
 
 Historique::Historique() {
-    QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss");
-    QString fileName = "historique_" + timestamp + ".log";
+    QString date = QDate::currentDate().toString("yyyy-MM-dd");
+    fileName = QString("historique_%1.log").arg(date);
 
+    // Ouvrir une seule fois en append (ajout)
     logFile.setFileName(fileName);
-    if (logFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
         QTextStream out(&logFile);
-        out << "=== Début de session [" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss") << "] ===\n";
+
+        // Vérifie si le fichier est vide avant d'écrire l'en-tête
+        if (logFile.size() == 0) {
+            out << "=== Début de session [" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss") << "] ===\n";
+        }
     }
 }
 
@@ -17,14 +22,14 @@ Historique& Historique::instance() {
 }
 
 void Historique::logAction(const QString &actionDetails) {
-    QString dateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-    QString filename = QString("historique_%1.log")
-                           .arg(QDate::currentDate().toString("yyyy-MM-dd"));
+    if (!logFile.isOpen()) {
+        // Tentative de réouverture au cas où
+        logFile.open(QIODevice::Append | QIODevice::Text);
+    }
 
-    QFile file(filename);
-    if (file.open(QIODevice::Append | QIODevice::Text)) {
-        QTextStream out(&file);
+    if (logFile.isOpen()) {
+        QTextStream out(&logFile);
+        QString dateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
         out << "[" << dateTime << "] " << actionDetails << "\n";
-        file.close();
     }
 }

@@ -41,3 +41,25 @@
 [2025-04-14 20:16:59] Modification de la ressource ID=64 : Nom='test', Type='logiciel', État='active', Fournisseur='gafsi', Localisation='da', Quantité=0
 [2025-04-14 20:20:58] Modification de la ressource ID=52 : Nom='tezpo', Type='logiciel', État='active', Fournisseur='hamama', Localisation='tunis', Quantité=0
 [2025-04-14 20:21:09] Modification de la ressource ID=52 : Nom='tezpo', Type='materiel', État='indisponible', Fournisseur='hamama', Localisation='tunis', Quantité=0
+[2025-04-14 21:07:49] Modification de la ressource ID=64 : Nom='test', Type='logiciel', État='inactive', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-14 21:08:07] Modification de la ressource ID=52 : Nom='tezpo', Type='materiel', État='indisponible', Fournisseur='hamama', Localisation='tunis', Quantité=0
+[2025-04-14 21:09:26] Modification de la ressource ID=54 : Nom='illu', Type='logiciel', État='inactive', Fournisseur='adob', Localisation='tuni', Quantité=0
+[2025-04-14 21:10:30] Modification de la ressource ID=64 : Nom='test', Type='materiel', État='indisponible', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-14 21:10:45] Modification de la ressource ID=60 : Nom='qa', Type='logiciel', État='inactive', Fournisseur='fa', Localisation='dae', Quantité=0
+[2025-04-14 21:12:31] Modification de la ressource ID=52 : Nom='tezpo', Type='logiciel', État='inactive', Fournisseur='hamama', Localisation='tunis', Quantité=0
+[2025-04-14 21:12:42] Modification de la ressource ID=57 : Nom='photoshop', Type='materiel', État='indisponible', Fournisseur='adobe', Localisation='tunis', Quantité=0
+[2025-04-14 21:13:46] Modification de la ressource ID=63 : Nom='testALE', Type='logiciel', État='inactive', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-14 22:28:38] Modification de la ressource ID=52 : Nom='tezpo', Type='logiciel', État='active', Fournisseur='hamama', Localisation='tunis', Quantité=0
+[2025-04-14 22:28:47] Modification de la ressource ID=54 : Nom='illu', Type='logiciel', État='active', Fournisseur='adob', Localisation='tuni', Quantité=0
+[2025-04-14 22:28:52] Modification de la ressource ID=63 : Nom='testALE', Type='logiciel', État='active', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-14 22:29:06] Modification de la ressource ID=64 : Nom='test', Type='logiciel', État='inactive', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-14 22:29:33] Modification de la ressource ID=64 : Nom='test', Type='logiciel', État='active', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-14 22:29:39] Modification de la ressource ID=57 : Nom='photoshop', Type='materiel', État='disponible', Fournisseur='adobe', Localisation='tunis', Quantité=1
+[2025-04-14 22:29:48] Modification de la ressource ID=60 : Nom='qa', Type='logiciel', État='active', Fournisseur='fa', Localisation='dae', Quantité=0
+[2025-04-14 22:30:22] Ajout de la ressource : Nom='testa', Type='logiciel', État='active', Fournisseur='teza', Localisation='tunis', Quantité=0
+[2025-04-14 22:30:43] Ajout de la ressource : Nom='testo', Type='logiciel', État='active', Fournisseur='teza', Localisation='tunis', Quantité=0
+[2025-04-14 22:31:56] Suppression de la ressource avec ID=68
+[2025-04-14 22:32:03] Suppression de la ressource avec ID=66
+[2025-04-14 22:32:30] Ajout de la ressource : Nom='zara', Type='logiciel', État='active', Fournisseur='rea', Localisation='tunis', Quantité=0
+[2025-04-14 22:32:46] Modification de la ressource ID=63 : Nom='testALE', Type='materiel', État='disponible', Fournisseur='gafsi', Localisation='da', Quantité=400
+[2025-04-14 22:33:16] Modification de la ressource ID=54 : Nom='illu', Type='materiel', État='disponible', Fournisseur='adob', Localisation='tuni', Quantité=250

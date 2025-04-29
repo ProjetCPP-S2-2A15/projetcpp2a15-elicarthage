@@ -1,0 +1,8 @@
+=== Début de session [22/04/2025 09:03:04] ===
+[2025-04-22 09:03:36] Modification de la ressource ID=54 : Nom='illu', Type='materiel', État='disponible', Fournisseur='adobcvv', Localisation='tuni', Quantité=1
+[2025-04-22 10:03:48] Ajout de la ressource : Nom='test', Type='logiciel', État='active', Fournisseur='elyes', Localisation='tunis', Quantité=0
+[2025-04-22 10:03:48] Ajout de la ressource : Nom='test', Type='logiciel', État='active', Fournisseur='elyes', Localisation='tunis', Quantité=0
+[2025-04-22 10:06:46] Ajout de la ressource : Nom='elyes', Type='logiciel', État='active', Fournisseur='moetez', Localisation='gafsa', Quantité=0
+[2025-04-22 10:06:46] Ajout de la ressource : Nom='elyes', Type='logiciel', État='active', Fournisseur='moetez', Localisation='gafsa', Quantité=0
+[2025-04-22 10:10:14] Ajout de la ressource : Nom='testi', Type='logiciel', État='active', Fournisseur='tesa', Localisation='tunis', Quantité=0
+[2025-04-22 10:10:14] Ajout de la ressource : Nom='testi', Type='logiciel', État='active', Fournisseur='tesa', Localisation='tunis', Quantité=0

@@ -8,6 +8,10 @@ QT       +=  sql
 QT += charts
 QT += printsupport
 QT += network
+QT += serialport
+QT += texttospeech
+
+
 
 
 

@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "QtSerialPort/qserialport.h"
+#include "qserialport.h"
+#include "qtexttospeech.h"
 #include <QMainWindow>
 #include <QTableWidget>  // Inclure le QTableWidget
 #include <QPushButton>   // Inclure QPushButton
@@ -48,6 +51,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QSerialPort *serial;
+    QTextToSpeech *speech;
+
      void afficher();
 
 

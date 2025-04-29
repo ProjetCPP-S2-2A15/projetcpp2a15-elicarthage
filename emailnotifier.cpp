@@ -16,26 +16,26 @@ void EmailNotifier::envoyerAlerte(const QString& destinataire, const QString& co
 
     message.setSender(sender);
     message.addRecipient(recipient);
-    message.setSubject("⚠ Alerte sur une ressource");
+    message.setSubject(" Alerte sur une ressource");
 
     MimeText* text = new MimeText();
     text->setText(contenu);
     message.addPart(text);
 
-    // 2. Configuration du client SMTP (⚠️ 3 arguments, pas 4 !)
+    // 2. Configuration du client SMTP
     SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
 
     // 3. Connexion et authentification
     smtp.connectToHost();
 
     // Authentification avec email et mot de passe d'application
-    smtp.login("moetez.benattia02@gmail.com", "fbvw zesb jdki ojkv"); // ⚠️ PAS ton vrai mot de passe Gmail
+    smtp.login("moetez.benattia02@gmail.com", "fbvw zesb jdki ojkv");
 
     // 4. Envoi
     // Envoi
-    smtp.sendMail(message); // ✅ ne retourne rien
+    smtp.sendMail(message); // ne retourne rien
 
-    qDebug() << "✅ Mail envoyé à :" << destinataire;
+    qDebug() << " Mail envoyé à :" << destinataire;
 
 
     smtp.quit();

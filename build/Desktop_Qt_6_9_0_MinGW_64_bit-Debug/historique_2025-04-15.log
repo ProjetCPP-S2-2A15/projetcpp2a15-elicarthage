@@ -1,0 +1,15 @@
+=== Début de session [15/04/2025 05:02:18] ===
+[2025-04-15 05:03:04] Modification de la ressource ID=54 : Nom='illu', Type='materiel', État='disponible', Fournisseur='adobcvv', Localisation='tuni', Quantité=250
+[2025-04-15 05:03:29] Modification de la ressource ID=60 : Nom='qa', Type='logiciel', État='inactive', Fournisseur='fa', Localisation='dae', Quantité=0
+[2025-04-15 05:56:28] Modification de la ressource ID=63 : Nom='testALE', Type='materiel', État='indisponible', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-15 05:57:07] Modification de la ressource ID=52 : Nom='tezpo', Type='logiciel', État='inactive', Fournisseur='hamama', Localisation='tunis', Quantité=0
+[2025-04-15 05:57:38] Modification de la ressource ID=64 : Nom='test', Type='logiciel', État='inactive', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-15 06:01:16] Modification de la ressource ID=54 : Nom='illu', Type='materiel', État='indisponible', Fournisseur='adobcvv', Localisation='tuni', Quantité=0
+[2025-04-15 06:03:26] Modification de la ressource ID=54 : Nom='illu', Type='logiciel', État='inactive', Fournisseur='adobcvv', Localisation='tuni', Quantité=0
+[2025-04-15 08:35:43] Modification de la ressource ID=63 : Nom='testALE', Type='logiciel', État='inactive', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-15 08:39:01] Modification de la ressource ID=65 : Nom='testa', Type='logiciel', État='inactive', Fournisseur='teza', Localisation='tunis', Quantité=0
+[2025-04-15 08:42:38] Modification de la ressource ID=63 : Nom='testALE', Type='materiel', État='indisponible', Fournisseur='gafsi', Localisation='da', Quantité=0
+[2025-04-15 09:43:12] Suppression de la ressource avec ID=52
+[2025-04-15 10:51:05] Modification de la ressource ID=57 : Nom='photoshop', Type='materiel', État='disponible', Fournisseur='adobe', Localisation='tunis', Quantité=250
+[2025-04-15 10:51:29] Modification de la ressource ID=67 : Nom='testo', Type='logiciel', État='inactive', Fournisseur='teza', Localisation='tunis', Quantité=0
+[2025-04-15 10:52:36] Suppression de la ressource avec ID=60

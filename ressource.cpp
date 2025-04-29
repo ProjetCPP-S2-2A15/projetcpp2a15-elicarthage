@@ -32,16 +32,16 @@ QString Ressource::getLastError() const {
 
 QString RessourceManager::recupererDernierEmail() {
     QSqlQuery query;
-    if (query.exec("SELECT EMAIL FROM (SELECT * FROM architectes ORDER BY DATE_AJOUT DESC) WHERE ROWNUM = 1")) {
+    if (query.exec("SELECT EMAIL FROM (SELECT * FROM architectes ORDER BY DATE_AJOUT ) WHERE ROWNUM = 1")) {
         if (query.next()) {
             QString email = query.value(0).toString();
-            qDebug() << "✅ Found architect email:" << email;
+            qDebug() << " Found architect email:" << email;
             return email;
         } else {
-            qDebug() << "❌ No architect found in the database!";
+            qDebug() << "No architect found in the database!";
         }
     } else {
-        qDebug() << "❌ SQL Error:" << query.lastError().text();
+        qDebug() << "SQL Error:" << query.lastError().text();
     }
     return "";
 }
@@ -133,19 +133,22 @@ void RessourceManager::verifierEtNotifier(Ressource ressource) {
     // Debugging: Check resource status and quantity
     qDebug() << "Resource Status: " << ressource.status();
     qDebug() << "Resource Quantity: " << ressource.quantite();
+    QString etatNormalise = ressource.status().trimmed().toLower();
 
-    if (ressource.status() == "inactif") {
+    if (etatNormalise == "inactive") {
         alerte = "⚠ Le logiciel '" + ressource.nom() + "' est devenu inactif.";
     }
-    else if (ressource.status() == "indisponible") {
+    else if (etatNormalise == "indisponible") {
         alerte = "⚠ Le matériel '" + ressource.nom() + "' est indisponible.";
     }
 
+
     // Only send email if an alert was set
     if (!alerte.isEmpty()) {
-        qDebug() << "Sending alert email to: " << dernierEmail;
+        //EmailNotifier::envoyerAlerte("moetez.benattia02@gmail.com", "Test manuel depuis Qt");
 
         EmailNotifier::envoyerAlerte(dernierEmail, alerte);  // Send the alert email
+        qDebug() << "Sending alert email to: " << dernierEmail;
         qDebug() << "Message envoyé :" << alerte;
 
     } else {

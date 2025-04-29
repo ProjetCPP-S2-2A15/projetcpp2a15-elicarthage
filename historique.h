@@ -16,6 +16,7 @@ public:
 private:
     Historique(); // Constructeur privé
     QFile logFile;
+    QString fileName; // Nom du fichier (par jour)
 };
 
 #endif // HISTORIQUE_H

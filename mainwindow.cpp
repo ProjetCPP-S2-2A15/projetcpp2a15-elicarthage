@@ -25,6 +25,11 @@
 #include <iostream>
 #include "historique.h"
 #include <QTextEdit>
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QTextToSpeech>
+
+
 void MainWindow::on_annulertri_clicked() {
     afficher();
 }
@@ -413,15 +418,24 @@ void MainWindow::on_ajouter_clicked() {
         QMessageBox::information(this, "Succès", "Ajout réussi !");
         afficher();  // Mettre à jour l'affichage
         afficherGraphiqueMateriels();
+        QString logMsg = QString("Ajout de la ressource : Nom='%1', Type='%2', État='%3', Fournisseur='%4', Localisation='%5', Quantité=%6")
+                             .arg(nom, type, etat, fournisseur, localisation)
+                             .arg(quantite);
+        Historique::instance().logAction(logMsg);
+        if (serial->isOpen()) {
+            serial->write("A");
+            qDebug() << "🔊 Signal 'A' envoyé à l'Arduino pour ajout.";
+        } else {
+            qDebug() << "⚠️ Le port série n'est pas ouvert.";
+        }
+        QString message = "La ressource " + nom + " a été ajoutée.";
+        qDebug() << "🔊 Synthèse vocale : " << message;  // 👉 Debug ici
+        speech->say(message);
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de l'ajout !");
     }
-    if (r.ajouter()) {
-        QMessageBox::information(this, "Succès", "Ressource ajoutée !");
-        afficher();
-    } else {
-        QMessageBox::critical(this, "Erreur", "Échec de l'ajout !");
-    }
+
+
     QString logMsg = QString("Ajout de la ressource : Nom='%1', Type='%2', État='%3', Fournisseur='%4', Localisation='%5', Quantité=%6")
                          .arg(nom, type, etat, fournisseur, localisation)
                          .arg(quantite);
@@ -474,12 +488,18 @@ void MainWindow::on_supprimer_clicked() {
     }
     if (r.supprimer(id)) {
         afficher();
+        QString logMsg = QString("Suppression de la ressource avec ID=%1").arg(id);
+        Historique::instance().logAction(logMsg);
+        if (serial->isOpen()) {
+            serial->write("D");
+            qDebug() << "🔊 Signal 'A' envoyé à l'Arduino pour ajout.";
+        } else {
+            qDebug() << "⚠️ Le port série n'est pas ouvert.";
+        }
+
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de la suppression !");
     }
-    QString logMsg = QString("Suppression de la ressource avec ID=%1").arg(id);
-    Historique::instance().logAction(logMsg);
-
 
 }
 // Définition de la fonction modifierLigne dans mainwindow.cpp
@@ -638,88 +658,70 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
             Ressource nouvelleRessource(newNom, newType, newEtat, newFournisseur, newLocalisation, newQuantite);
             RessourceManager::verifierEtNotifier(nouvelleRessource);
             afficher();  // rafraîchir
-        } else {
+
+            if (serial->isOpen()) {
+                serial->write("M");
+                qDebug() << "🔊 Signal 'A' envoyé à l'Arduino pour ajout.";
+            } else {
+                qDebug() << "⚠️ Le port série n'est pas ouvert.";
+            }
+
+
+        }
+        else {
             QMessageBox::critical(this, "Erreur", "Échec de la modification !");
         }
-
         // Log l'action, que la modification soit réussie ou échouée
         QString logMsg = QString("Modification de la ressource ID=%1 : Nom='%2', Type='%3', État='%4', Fournisseur='%5', Localisation='%6', Quantité=%7")
                              .arg(id)
                              .arg(newNom, newType, newEtat, newFournisseur, newLocalisation)
                              .arg(newQuantite);
         Historique::instance().logAction(logMsg);
+
+
     }
+
 }
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->annuletri, &QPushButton::clicked, this, &MainWindow::on_annulertri_clicked);
+    serial = new QSerialPort(this); // ✅ initialise la variable membre
+    // Création de l'objet dans le constructeur de ta classe (ou au bon endroit)
+    speech = new QTextToSpeech(this);
+    speech->setLocale(QLocale(QLocale::French, QLocale::France)); // facultatif : met la langue en français
 
+
+
+    serial->setPortName("COM3");
+    serial->setBaudRate(QSerialPort::Baud9600);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+
+    if (serial->open(QIODevice::WriteOnly)) {
+        qDebug() << "✅ Port série ouvert pour output";
+    } else {
+        qDebug() << "❌ Erreur ouverture série:" << serial->errorString();
+    }
+
+
+    // Exemple : dire le nom de la ressource
+
+
+
+    // Les connect doivent être en dehors du if/else
+    connect(ui->annuletri, &QPushButton::clicked, this, &MainWindow::on_annulertri_clicked);
     connect(ui->trimateriel, &QPushButton::clicked, this, &MainWindow::on_trimateriel_clicked);
     connect(ui->trilogiciel, &QPushButton::clicked, this, &MainWindow::on_trilogiciel_clicked);
-
     connect(ui->pushButton_exporterpdf, &QPushButton::clicked, this, &MainWindow::exporterPDF);
-
     connect(ui->pushButton_Rechercher, &QPushButton::clicked, this, &MainWindow::rechercher);
 
-    /*// Créer un graphique
-    QChart *chart = new QChart();
-    chart->setTitle("Graphique des ressources");
-
-    // Créer une série de barres
-    QBarSeries *series = new QBarSeries();
-
-    // Créer des ensembles de barres
-    QBarSet *set1 = new QBarSet("Matériel");
-    *set1 << 10 << 20 << 30;  // Quantités de matériel
-    QBarSet *set2 = new QBarSet("Logiciel");
-    *set2 << 5 << 15 << 25;  // Quantités de logiciels
-
-    // Ajouter les ensembles à la série
-    series->append(set1);
-    series->append(set2);
-
-    // Ajouter la série au graphique
-    chart->addSeries(series);
-
-    // Créer un axe X pour les catégories
-    QStringList categories;
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
-
-    // Créer un axe Y
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0, 50);
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
-
-    // Créer un QChartView pour afficher le graphique
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    // Créer un QWidget pour contenir le layout
-    QWidget *widgetGraph = new QWidget(this);
-
-    // Créer le layout (QHBoxLayout ou QVBoxLayout)
-    QHBoxLayout *layout = new QHBoxLayout(widgetGraph);  // ou QVBoxLayout
-
-    // Ajouter le QChartView au layout
-    layout->addWidget(chartView);
-
-    // Associer le layout au QWidget
-    widgetGraph->setLayout(layout);
-
-    // Ajouter ce QWidget à l'interface principale (par exemple à un autre QWidget ou à la fenêtre principale)
-    ui->widgetGraphLayout->addWidget(widgetGraph);  // Assurez-vous q*/
     QRegularExpression regex("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(regex, this);
-
-    // Appliquer le validateur sur les champs concernés
     ui->lineEdit_Nom->setValidator(validator);
     ui->lineEdit_Type->setValidator(validator);
     QRegularExpression regexType("^(logiciel|materiel)$", QRegularExpression::CaseInsensitiveOption);
@@ -735,14 +737,11 @@ MainWindow::MainWindow(QWidget *parent)
     QRegularExpressionValidator *validatorQuantite = new QRegularExpressionValidator(regexQuantite, this);
     ui->lineEdit_Quantite->setValidator(validatorQuantite);
 
-
     Ressource r;
     setupTableWidget();
     afficher();
     this->setWindowTitle("ELICAR");
 
-
-    // Charger et vérifier l'image de l'icône de l'application
     QPixmap pixmap("C:/Users/tez/Desktop/dash/images/logo.png");
     if (!pixmap.isNull()) {
         QPixmap resizedPixmap = pixmap.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -753,13 +752,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     int columnActions = 7;
     ui->tableWidget->setColumnWidth(columnActions, 200);
-
-
-
 }
-
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
