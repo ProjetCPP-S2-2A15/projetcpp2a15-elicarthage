@@ -1,0 +1,11 @@
+release/main.o
+release/mainwindow.o
+release/connection.o
+release/projet.o
+release/speechnotifier.o
+release/chatserver.o
+release/chatclient.o
+release/moc_mainwindow.o
+release/moc_speechnotifier.o
+release/moc_chatserver.o
+release/moc_chatclient.o

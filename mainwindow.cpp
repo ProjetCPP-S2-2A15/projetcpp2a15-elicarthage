@@ -125,6 +125,8 @@ void MainWindow::on_ajouterProjet_clicked()
 
     if (projet.addProjet()) {
         QMessageBox::information(this, "Succès", "Projet ajouté avec succès !");
+        qDebug() << "ajouter trés bien";
+
 
         ui->project_id->clear();
         ui->project_name->clear();
