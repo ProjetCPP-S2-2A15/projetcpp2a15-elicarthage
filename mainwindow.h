@@ -2,13 +2,35 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ui_mainwindow_1.h"  // For MainWindow_Projects
+#include "ui_mainwindow_2.h"
 #include "speechnotifier.h"
 #include "chatserver.h"
 #include "chatclient.h"
+#include "QtSerialPort/qserialport.h"
+#include <QMainWindow>
+#include <QTableWidget>  // Inclure le QTableWidget
+#include <QPushButton>   // Inclure QPushButton
+#include <QtCharts/QChartView>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QValueAxis>
+#include <QMainWindow>
+#include <QPrinter>
+#include <QPainter>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextDocument>
+#include <QStackedWidget>
+
+
 
 QT_BEGIN_NAMESPACE
+
 namespace Ui {
-class MainWindow;
+class MainWindow_Projects;
+class MainWindow_Ressources;
 }
 QT_END_NAMESPACE
 
@@ -20,6 +42,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     SpeechNotifier *m_speechNotifier;
+
+
 
 private slots:
     void on_ajouterProjet_clicked();
@@ -38,16 +62,48 @@ private slots:
 
     void on_generateContractButton_clicked();
 
-    void toggleServer();
-    void sendChatMessage();
-    void displayMessage(const QString &message);
+    //void toggleServer();
+    //void sendChatMessage();
+    //void displayMessage(const QString &message);
+    void switchToRessources() ;
+    void switchToProjectsUI();
+    void on_annulertri_clicked();
+    void affichertri(QString typeFiltre);
+    void on_trimateriel_clicked();
+    void on_trilogiciel_clicked();
+    void exporterPDF();
+    void rechercher();
+    void afficherGraphiqueMateriels();
+    void setupTableWidget();
+    void on_ajouter_clicked();
+    void on_supprimer_clicked();
+    void modifier(int id, const QString &nom, const QString &type, const QString &etat,
+                  const QString &fournisseur, const QString &localisation, int quantite);
 
 
 private:
+    QStackedWidget *stack;
+    QWidget *projectsWidget;
+    QWidget *ressourcesWidget;
+    Ui::MainWindow_Projects *ui1;
+    Ui::MainWindow_Ressources *ui2;
+    QTableWidget *tableWidget;
+    QLineEdit *lineEdit_Nom;
+    QLineEdit *lineEdit_Type;
+    QLineEdit *lineEdit_Etat;
+    QLineEdit *lineEdit_Fournisseur;
+    QLineEdit *lineEdit_Localisation;
+    QLineEdit *lineEdit_Quantite;
+    QLineEdit *lineEdit_Id;
+    QLineEdit *lineEdit_Recherche;
+    QWidget *widgetGraphLayoutContainer;
+    QSerialPort *serial;
+    QTextToSpeech *speech;
+
+    void afficher();
     ChatServer *server;
     ChatClient *client;
     bool isServerRunning = false;
-    Ui::MainWindow *ui;
     void refreshTable();
     void generateContract(const QString &clientName, const QString &projectName,
                           const QString &projectDescription, double budget,
@@ -56,4 +112,11 @@ private:
                                  const QString &projectDescription, double budget,
                                  const QDate &startDate, const QString &projectType);
 };
+
+
+
+
+
+
+
 #endif // MAINWINDOW_H

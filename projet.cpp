@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QTableWidget>
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QMessageBox>
 
 

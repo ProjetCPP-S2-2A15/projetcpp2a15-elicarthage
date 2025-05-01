@@ -1,13 +1,14 @@
 #include "connection.h"
 #include <QMessageBox>
 #include <QSqlError>
-Connection::Connection()
-{
+Connection::Connection() {}
 
-}
 
 bool Connection::createconnect()
-{bool test=false;
+{
+    bool test=false;
+
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
     db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
     db.setUserName("tez");//inserer nom de l'utilisateur
@@ -23,3 +24,8 @@ bool Connection::createconnect()
     return test;  // Pas de app.exec() ici !
 
 }
+
+
+
+void Connection::closeconnection(){db.close();}
+

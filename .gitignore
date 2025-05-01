@@ -1,0 +1,4 @@
+build/
+*.idx
+*.qtc_clangd/
+*.pro.user
