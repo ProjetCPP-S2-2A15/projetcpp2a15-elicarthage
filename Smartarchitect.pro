@@ -28,7 +28,6 @@ SOURCES += \
     mimecontentencoder.cpp \
     EmailAddress.cpp \
     mimeqpformatter.cpp \
-<<<<<<< HEAD
     QuotedPrintable.cpp \
     architecte.cpp \
     arduino.cpp \
