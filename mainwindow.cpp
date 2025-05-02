@@ -1235,7 +1235,7 @@ void MainWindow::on_projectTable_cellClicked(int row, int column)
 
     ui->project_etat->setText(itemEtat->text());
 
-
+}
 void MainWindow::on_pdfProjet_clicked()
 { // Sélection du chemin et du nom du fichier PDF
     QString filePath = QFileDialog::getSaveFileName(this, "Enregistrer le PDF", "", "*.pdf");
