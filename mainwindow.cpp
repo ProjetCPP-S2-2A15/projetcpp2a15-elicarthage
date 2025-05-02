@@ -1,17 +1,11 @@
 #include "mainwindow.h"
 #include "projet.h"
 #include "historique.h"
-<<<<<<< HEAD
 #include "./ui_mainwindow.h"
 #include "login.h"
 #include "arduino.h"
 #include "ressource.h"
 #include "architecte.h"
-=======
-
-#include "ressource.h"
-
->>>>>>> integration
 #include <QFileDialog>
 #include <QPdfWriter>
 #include <QPainter>
@@ -37,11 +31,8 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
-<<<<<<< HEAD
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QPieSeries>
-=======
->>>>>>> integration
 #include <QFormLayout>
 #include <QSpinBox>
 #include <QPrinter>
@@ -50,7 +41,6 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QTextToSpeech>
-<<<<<<< HEAD
 #include <QCryptographicHash>
 #include <QRandomGenerator>
 #include <QStandardItemModel>
@@ -59,16 +49,7 @@
 #include <QtCharts/QPieSeries>
 #include <QLegendMarker>
 #include <QPixmap>
-=======
-#include "ui_mainwindow_1.h" // For MainWindow_Resources
-#include "ui_mainwindow_2.h"
->>>>>>> integration
- // For MainWindow_Resources
 
-
-
-
-<<<<<<< HEAD
 /* void MainWindow::switchToRessources() {
      stack->setCurrentIndex(1); // Affiche ui2
  }
@@ -93,24 +74,12 @@
  }
 
 
-=======
- void MainWindow::switchToRessources() {
-     stack->setCurrentIndex(1); // Affiche ui2
- }
-
-
- void MainWindow::switchToProjectsUI()
- {
-     stack->setCurrentIndex(0);  // 0 for Projects UI
- }
->>>>>>> integration
 void MainWindow::on_annulertri_clicked() {
 
     afficher();
 }
 
 void MainWindow::affichertri(QString filtre) {
-<<<<<<< HEAD
     ui->tableWidget->clear();  // Nettoyer le tableau
     ui->tableWidget->setRowCount(0);
 
@@ -118,15 +87,6 @@ void MainWindow::affichertri(QString filtre) {
     QStringList headers = {"ID", "Nom", "Type", "État", "Fournisseur", "Localisation", "Quantité", "Action"};
     ui->tableWidget->setColumnCount(headers.size());
     ui->tableWidget->setHorizontalHeaderLabels(headers);
-=======
-    ui2->tableWidget->clear();  // Nettoyer le tableau
-    ui2->tableWidget->setRowCount(0);
-
-    // Définir les noms des colonnes
-    QStringList headers = {"ID", "Nom", "Type", "État", "Fournisseur", "Localisation", "Quantité", "Action"};
-    ui2->tableWidget->setColumnCount(headers.size());
-    ui2->tableWidget->setHorizontalHeaderLabels(headers);
->>>>>>> integration
      QSqlQuery query;
     if (filtre.isEmpty()) {
         query.prepare("SELECT * FROM ressource");
@@ -138,17 +98,11 @@ void MainWindow::affichertri(QString filtre) {
     if (query.exec()) {
         int row = 0;
         while (query.next()) {
-<<<<<<< HEAD
+
             ui->tableWidget->insertRow(row);
 
             for (int col = 0; col < 7; col++) {  // Mettre les valeurs des 7 colonnes
                 ui->tableWidget->setItem(row, col, new QTableWidgetItem(query.value(col).toString()));
-=======
-            ui2->tableWidget->insertRow(row);
-
-            for (int col = 0; col < 7; col++) {  // Mettre les valeurs des 7 colonnes
-                ui2->tableWidget->setItem(row, col, new QTableWidgetItem(query.value(col).toString()));
->>>>>>> integration
             }
 
             // Ajouter le bouton Modifier
@@ -260,17 +214,10 @@ void MainWindow::exporterPDF() {
 void MainWindow::rechercher() {
 
     // Effacer les anciennes lignes affichées dans la table
-<<<<<<< HEAD
     ui->tableWidget->setRowCount(0);
 
     // Récupérer le texte du champ de recherche
     QString rechercheNom = ui->lineEdit_Recherche->text();
-=======
-    ui2->tableWidget->setRowCount(0);
-
-    // Récupérer le texte du champ de recherche
-    QString rechercheNom = ui2->lineEdit_Recherche->text();
->>>>>>> integration
 
     // Préparer la requête SQL avec un filtre par nom
     QSqlQuery query;
@@ -284,11 +231,8 @@ void MainWindow::rechercher() {
 
     int row = 0;
     while (query.next()) {
-<<<<<<< HEAD
+
        ui->tableWidget->insertRow(row);
-=======
-        ui2->tableWidget->insertRow(row);
->>>>>>> integration
 
         int id = query.value("id").toInt();
         QString nom = query.value("nom").toString();
@@ -298,7 +242,6 @@ void MainWindow::rechercher() {
         QString localisation = query.value("localisation").toString();
         int quantite = query.value("quantite").toInt();
 
-<<<<<<< HEAD
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
         ui->tableWidget->setItem(row, 1, new QTableWidgetItem(nom));
         ui->tableWidget->setItem(row, 2, new QTableWidgetItem(type));
@@ -306,15 +249,7 @@ void MainWindow::rechercher() {
         ui->tableWidget->setItem(row, 4, new QTableWidgetItem(fournisseur));
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(localisation));
         ui->tableWidget->setItem(row, 6, new QTableWidgetItem(QString::number(quantite)));
-=======
-        ui2->tableWidget->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
-        ui2->tableWidget->setItem(row, 1, new QTableWidgetItem(nom));
-        ui2->tableWidget->setItem(row, 2, new QTableWidgetItem(type));
-        ui2->tableWidget->setItem(row, 3, new QTableWidgetItem(etat));
-        ui2->tableWidget->setItem(row, 4, new QTableWidgetItem(fournisseur));
-        ui2->tableWidget->setItem(row, 5, new QTableWidgetItem(localisation));
-        ui2->tableWidget->setItem(row, 6, new QTableWidgetItem(QString::number(quantite)));
->>>>>>> integration
+
 
         QPushButton *modifierButton = new QPushButton("Modifier");
         modifierButton->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
@@ -324,29 +259,19 @@ void MainWindow::rechercher() {
             modifier(id, nom, type, etat, fournisseur, localisation, quantite);
         });
 
-<<<<<<< HEAD
         ui->tableWidget->setCellWidget(row, 7, modifierButton);
-=======
-        ui2->tableWidget->setCellWidget(row, 7, modifierButton);
->>>>>>> integration
+
 
         row++;
     }
 }
 
 
-<<<<<<< HEAD
-
 void MainWindow::afficherGraphiqueMateriels() {
     // Nettoyage de l'ancien contenu
     QLayoutItem* item;
     while ((item = ui->widgetGraphLayout->layout()->takeAt(0)) != nullptr) {
-=======
-void MainWindow::afficherGraphiqueMateriels() {
-    // Nettoyage de l'ancien contenu
-    QLayoutItem* item;
-    while ((item = ui2->widgetGraphLayout->layout()->takeAt(0)) != nullptr) {
->>>>>>> integration
+
         delete item->widget();
         delete item;
     }
@@ -402,21 +327,16 @@ void MainWindow::afficherGraphiqueMateriels() {
     QHBoxLayout *layout = new QHBoxLayout(graphWidget);
     layout->addWidget(chartView, 2);     // 3/4 pour le graphique
     layout->addWidget(logicielList, 2);  // 1/4 pour la liste
-<<<<<<< HEAD
     ui->widgetGraphLayout->addWidget(graphWidget);
-=======
-    ui2->widgetGraphLayout->addWidget(graphWidget);
->>>>>>> integration
+
 }
 
 
 void MainWindow::afficher() {
     // Clear the table before filling it
-<<<<<<< HEAD
+
     ui->tableWidget->setRowCount(0); // Remove any existing rows
-=======
-    ui2->tableWidget->setRowCount(0); // Remove any existing rows
->>>>>>> integration
+
 
     // Prepare the SQL query
     QSqlQuery query;
@@ -424,7 +344,7 @@ void MainWindow::afficher() {
 
     int row = 0;
     while (query.next()) {
-<<<<<<< HEAD
+
         ui->tableWidget->insertRow(row);  // Insert a new row
 
         // Assign data to correct columns based on the column index
@@ -435,18 +355,7 @@ void MainWindow::afficher() {
         ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value("fournisseur").toString())); // FOURNISSEUR
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("localisation").toString())); // LOCALISATION
         ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("quantite").toString())); // QUANTITE
-=======
-        ui2->tableWidget->insertRow(row);  // Insert a new row
 
-        // Assign data to correct columns based on the column index
-        ui2->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value("id").toString())); // ID
-        ui2->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value("nom").toString())); // NOM
-        ui2->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value("type").toString())); // TYPE
-        ui2->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value("etat").toString())); // ETAT
-        ui2->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value("fournisseur").toString())); // FOURNISSEUR
-        ui2->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("localisation").toString())); // LOCALISATION
-        ui2->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("quantite").toString())); // QUANTITE
->>>>>>> integration
 
         QPushButton *modifyButton = new QPushButton("Modifier");
         modifyButton->setStyleSheet("QPushButton { background-color: #3498db; color: white; border-radius: 5px; padding: 5px; }"
@@ -454,7 +363,7 @@ void MainWindow::afficher() {
         modifyButton->setFixedSize(70, 25);
         connect(modifyButton, &QPushButton::clicked, [this, row]() {
             // Get the values from the table row and pass them to the modifier function
-<<<<<<< HEAD
+
             int id = ui->tableWidget->item(row, 0)->text().toInt();
             QString nom = ui->tableWidget->item(row, 1)->text();
             QString type = ui->tableWidget->item(row, 2)->text();
@@ -462,26 +371,16 @@ void MainWindow::afficher() {
             QString fournisseur = ui->tableWidget->item(row, 4)->text();
             QString localisation = ui->tableWidget->item(row, 5)->text();
             int quantite = ui->tableWidget->item(row, 6)->text().toInt();
-=======
-            int id = ui2->tableWidget->item(row, 0)->text().toInt();
-            QString nom = ui2->tableWidget->item(row, 1)->text();
-            QString type = ui2->tableWidget->item(row, 2)->text();
-            QString etat = ui2->tableWidget->item(row, 3)->text();
-            QString fournisseur = ui2->tableWidget->item(row, 4)->text();
-            QString localisation = ui2->tableWidget->item(row, 5)->text();
-            int quantite = ui2->tableWidget->item(row, 6)->text().toInt();
->>>>>>> integration
+
 
             // Call the modifier function with the parameters
             this->modifier(id, nom, type, etat, fournisseur, localisation, quantite);
         });
 
         // Set the button in the last column of the table
-<<<<<<< HEAD
+
         ui->tableWidget->setCellWidget(row, 7, modifyButton);
-=======
-        ui2->tableWidget->setCellWidget(row, 7, modifyButton);
->>>>>>> integration
+
 
         row++;  // Go to the next row
 
@@ -490,38 +389,25 @@ void MainWindow::afficher() {
 
 }
 void MainWindow::setupTableWidget() {
-<<<<<<< HEAD
+
     ui->tableWidget->setColumnCount(8);  // 7 columns for ID, NOM, TYPE, ETAT, FOURNISSEUR, LOCALISATION, QUANTITE + 1 column for "action"
 
     ui->tableWidget->setHorizontalHeaderLabels({"ID", "NOM", "TYPE", "ETAT", "FOURNISSEUR", "LOCALISATION", "QUANTITE", "action"});
 
     ui->tableWidget->setRowCount(16);  // Set number of rows as per your data
-=======
-    ui2->tableWidget->setColumnCount(8);  // 7 columns for ID, NOM, TYPE, ETAT, FOURNISSEUR, LOCALISATION, QUANTITE + 1 column for "action"
-
-    ui2->tableWidget->setHorizontalHeaderLabels({"ID", "NOM", "TYPE", "ETAT", "FOURNISSEUR", "LOCALISATION", "QUANTITE", "action"});
-
-    ui2->tableWidget->setRowCount(16);  // Set number of rows as per your data
->>>>>>> integration
 
 
 }
 
 
 void MainWindow::on_ajouter_clicked() {
-<<<<<<< HEAD
+
     QString nom = ui->lineEdit_Nom->text().trimmed();
     QString type = ui->lineEdit_Type->text().trimmed();
     QString etat = ui->lineEdit_Etat->text().trimmed();
     QString fournisseur = ui->lineEdit_Fournisseur->text().trimmed();
     QString localisation = ui->lineEdit_Localisation->text().trimmed();
-=======
-    QString nom = ui2->lineEdit_Nom->text().trimmed();
-    QString type = ui2->lineEdit_Type->text().trimmed();
-    QString etat = ui2->lineEdit_Etat->text().trimmed();
-    QString fournisseur = ui2->lineEdit_Fournisseur->text().trimmed();
-    QString localisation = ui2->lineEdit_Localisation->text().trimmed();
->>>>>>> integration
+
     // Vérifier si les champs sont vides
     if (nom.isEmpty() || type.isEmpty() || etat.isEmpty() || fournisseur.isEmpty() || localisation.isEmpty()) {
         QMessageBox::warning(this, "Erreur", "Tous les champs doivent être remplis !");
@@ -530,11 +416,9 @@ void MainWindow::on_ajouter_clicked() {
 
     // Vérifier la quantité
     bool ok;
-<<<<<<< HEAD
+
     int quantite = ui->lineEdit_Quantite->text().toInt(&ok);
-=======
-    int quantite = ui2->lineEdit_Quantite->text().toInt(&ok);
->>>>>>> integration
+
     if (!ok) {
         QMessageBox::warning(this, "Erreur", "Veuillez entrer une quantité valide !");
         return;
@@ -625,11 +509,9 @@ void MainWindow::on_ajouter_clicked() {
 }
 
 void MainWindow::on_supprimer_clicked() {
-<<<<<<< HEAD
+
     QString idStr = ui->lineEdit_Id->text().trimmed();  // Récupérer l'ID
-=======
-    QString idStr = ui2->lineEdit_Id->text().trimmed();  // Récupérer l'ID
->>>>>>> integration
+
 
     // Vérifier si l'ID est vide
     if (idStr.isEmpty()) {
@@ -867,7 +749,7 @@ void MainWindow::modifier(int id, const QString &nom, const QString &type, const
 }
 
 MainWindow::MainWindow(QWidget *parent)
-<<<<<<< HEAD
+
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -954,24 +836,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->architecteBtn, &QPushButton::clicked, this, &MainWindow::on_architecteBtn_clicked);
     connect(ui->tacheBtn, &QPushButton::clicked, this, &MainWindow::on_tacheBtn_clicked);
 //--------------------------------------------------------
-=======
-    : QMainWindow(parent),
-    ui1(new Ui::MainWindow_Projects),
-    ui2(new Ui::MainWindow_Ressources)
-{
-    // Setup des interfaces
-    QWidget *projectsWidget = new QWidget();
-    ui1->setupUi(projectsWidget);
 
-    QWidget *resourcesWidget = new QWidget();
-    ui2->setupUi(resourcesWidget);
-
-    // Stacked Widget
-    stack = new QStackedWidget(this);
-    stack->addWidget(projectsWidget);   // Index 0 - Projets
-    stack->addWidget(resourcesWidget);  // Index 1 - Ressources
-    setCentralWidget(stack);
->>>>>>> integration
 
     // Initialisations
     m_speechNotifier = new SpeechNotifier(this);
@@ -980,21 +845,13 @@ MainWindow::MainWindow(QWidget *parent)
     speech->setLocale(QLocale(QLocale::French));
 
     // Connexions
-<<<<<<< HEAD
+
   /*  connect(ui1->pushButton_26, &QPushButton::clicked,
             this, &MainWindow::switchToRessources);
     connect(ui2->projet, &QPushButton::clicked,
             this, &MainWindow::switchToProjectsUI);*/
     // Connecte ton bouton pour basculer
     //connect(ui1->pushButton_26, &QPushButton::clicked, this, &MainWindow::switchToRessources);
-=======
-    connect(ui1->pushButton_26, &QPushButton::clicked,
-            this, &MainWindow::switchToRessources);
-    connect(ui2->projet, &QPushButton::clicked,
-            this, &MainWindow::switchToProjectsUI);
-    // Connecte ton bouton pour basculer
-    connect(ui1->pushButton_26, &QPushButton::clicked, this, &MainWindow::switchToRessources);
->>>>>>> integration
 
 
     // --- Manually Created Widgets ---
@@ -1019,17 +876,12 @@ MainWindow::MainWindow(QWidget *parent)
     lineEdit_Id = new QLineEdit(this);
     lineEdit_Recherche = new QLineEdit(this);
     refreshTable();
-<<<<<<< HEAD
+
     connect(ui->projectTable, &QTableWidget::cellClicked, this, &MainWindow::on_projectTable_cellClicked);
     connect(ui->BouttonRechProjet_5, &QPushButton::clicked, this, &MainWindow::on_searchButton_clicked);
     connect(ui->TriButton, &QPushButton::clicked, this, &MainWindow::on_TriButton_clicked);
     connect(ui->generateContractButton, &QPushButton::clicked, this, &MainWindow::on_generateContractButton_clicked);
-=======
-    connect(ui1->projectTable, &QTableWidget::cellClicked, this, &MainWindow::on_projectTable_cellClicked);
-    connect(ui1->BouttonRechProjet_5, &QPushButton::clicked, this, &MainWindow::on_searchButton_clicked);
-    connect(ui1->TriButton, &QPushButton::clicked, this, &MainWindow::on_TriButton_clicked);
-    connect(ui1->generateContractButton, &QPushButton::clicked, this, &MainWindow::on_generateContractButton_clicked);
->>>>>>> integration
+
     m_speechNotifier = new SpeechNotifier(this);
     // Dans le constructeur
     server = new ChatServer(this);
@@ -1039,13 +891,10 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(client, &ChatClient::messageReceived, this, &MainWindow::displayMessage);
 
     // Connectez vos boutons UI
-<<<<<<< HEAD
+
    // connect(ui->startServerButton, &QPushButton::clicked, this, &MainWindow::toggleServer);
    // connect(ui->sendButton, &QPushButton::clicked, this, &MainWindow::sendChatMessage);
-=======
-    //connect(ui1->startServerButton, &QPushButton::clicked, this, &MainWindow::toggleServer);
-    //connect(ui1->sendButton, &QPushButton::clicked, this, &MainWindow::sendChatMessage);
->>>>>>> integration
+
     serial = new QSerialPort(this); // ✅ initialise la variable membre
     // Création de l'objet dans le constructeur de ta classe (ou au bon endroit)
     speech = new QTextToSpeech(this);
@@ -1072,7 +921,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // Les connect doivent être en dehors du if/else
-<<<<<<< HEAD
+
     connect(ui->annuletri, &QPushButton::clicked, this, &MainWindow::on_annulertri_clicked);
     connect(ui->trimateriel, &QPushButton::clicked, this, &MainWindow::on_trimateriel_clicked);
     connect(ui->trilogiciel, &QPushButton::clicked, this, &MainWindow::on_trilogiciel_clicked);
@@ -1095,41 +944,16 @@ MainWindow::MainWindow(QWidget *parent)
     QRegularExpression regexQuantite("^[0-9]+$");
     QRegularExpressionValidator *validatorQuantite = new QRegularExpressionValidator(regexQuantite, this);
     ui->lineEdit_Quantite->setValidator(validatorQuantite);
-=======
-    connect(ui2->annuletri, &QPushButton::clicked, this, &MainWindow::on_annulertri_clicked);
-    connect(ui2->trimateriel, &QPushButton::clicked, this, &MainWindow::on_trimateriel_clicked);
-    connect(ui2->trilogiciel, &QPushButton::clicked, this, &MainWindow::on_trilogiciel_clicked);
-    connect(ui2->pushButton_exporterpdf, &QPushButton::clicked, this, &MainWindow::exporterPDF);
-    connect(ui2->pushButton_Rechercher, &QPushButton::clicked, this, &MainWindow::rechercher);
 
-    QRegularExpression regex("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
-    QRegularExpressionValidator *validator = new QRegularExpressionValidator(regex, this);
-    ui2->lineEdit_Nom->setValidator(validator);
-    ui2->lineEdit_Type->setValidator(validator);
-    QRegularExpression regexType("^(logiciel|materiel)$", QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionValidator *validatorType = new QRegularExpressionValidator(regexType, this);
-    ui2->lineEdit_Type->setValidator(validatorType);
-    ui2->lineEdit_Etat->setValidator(validator);
-    QRegularExpression regexEtat("^(active|inactive|disponible|indisponible)$", QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionValidator *validatorEtat = new QRegularExpressionValidator(regexEtat, this);
-    ui2->lineEdit_Etat->setValidator(validatorEtat);
-    ui2->lineEdit_Fournisseur->setValidator(validator);
-    ui2->lineEdit_Localisation->setValidator(validator);
-    QRegularExpression regexQuantite("^[0-9]+$");
-    QRegularExpressionValidator *validatorQuantite = new QRegularExpressionValidator(regexQuantite, this);
-    ui2->lineEdit_Quantite->setValidator(validatorQuantite);
->>>>>>> integration
 
     Ressource r;
     setupTableWidget();
     afficher();
     this->setWindowTitle("ELICAR");
 
-<<<<<<< HEAD
+
     QPixmap pixmap("C:/Users/Admin/Desktop/projetcpp2a15-elicarthage-integration/images/logo.png");
-=======
-    QPixmap pixmap("C:/Users/tez/Desktop/dash/images/logo.png");
->>>>>>> integration
+
     if (!pixmap.isNull()) {
         QPixmap resizedPixmap = pixmap.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         this->setWindowIcon(QIcon(resizedPixmap));
@@ -1138,28 +962,23 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     int columnActions = 7;
-<<<<<<< HEAD
+
     ui->tableWidget->setColumnWidth(columnActions, 200);
-=======
-    ui2->tableWidget->setColumnWidth(columnActions, 200);
->>>>>>> integration
+
 }
 
 MainWindow::~MainWindow()
 {
-<<<<<<< HEAD
+
     delete ui;
-=======
-    delete ui1;
-    delete ui2;
->>>>>>> integration
+
 }
 
 //crud
 void MainWindow::refreshTable()
 {
     Projet projet;
-<<<<<<< HEAD
+
     ui->projectTable->setColumnCount(7);
      ui->projectTable->setHorizontalHeaderLabels({"ID_PROJET", "NOM", "DESCRIPTION", "DATE_DEBUT", "TYPE", "BUDGET", "ETAT"});
         projet.display(ui->projectTable);
@@ -1183,30 +1002,7 @@ void MainWindow::on_ajouterProjet_clicked()
     bool budgetOk;
     double projectBudget = ui->project_budget->text().toDouble(&budgetOk);
     QString projectEtat = ui->project_etat->text().trimmed();
-=======
-     ui1->projectTable->setColumnCount(7);
-     ui1->projectTable->setHorizontalHeaderLabels({"ID_PROJET", "NOM", "DESCRIPTION", "DATE_DEBUT", "TYPE", "BUDGET", "ETAT"});
-        projet.display(ui1->projectTable);
-        if (ui1->projectTable->rowCount() == 0) {
-            QMessageBox::warning(this, "Attention", "Aucune donnée à afficher dans la table des événements.");
-            qDebug() << "Aucune ligne trouvée dans le QTableWidget.";
-            return;
-        }
-        qDebug() << "Données chargées dans projectTable. Lignes:" << ui1->projectTable->rowCount() << "Colonnes:" << ui1->projectTable->columnCount();
-    }
 
-void MainWindow::on_ajouterProjet_clicked()
-{
-
-    QString projectId = ui1->project_id->text().trimmed();
-    QString projectName = ui1->project_name->text().trimmed();
-    QString projectDescription = ui1->project_description->text().trimmed();
-    QDate projectDateDeb = QDate::fromString(ui1->project_date_deb->text(), "yyyy-MM-dd");
-    QString projectType = ui1->project_type->text().trimmed();
-    bool budgetOk;
-    double projectBudget = ui1->project_budget->text().toDouble(&budgetOk);
-    QString projectEtat = ui1->project_etat->text().trimmed();
->>>>>>> integration
 
     // Validation de l'ID du projet (alphanumérique, max 6 caractères)
     if (projectId.isEmpty() || projectId.length() > 6 || projectId.contains(QChar(' '))) {
@@ -1260,7 +1056,7 @@ void MainWindow::on_ajouterProjet_clicked()
         qDebug() << "ajouter trés bien";
 
 
-<<<<<<< HEAD
+
        ui->project_id->clear();
         ui->project_name->clear();
         ui->project_description->clear();
@@ -1268,16 +1064,7 @@ void MainWindow::on_ajouterProjet_clicked()
         ui->project_type->clear();
         ui->project_budget->clear();
         ui->project_etat->clear();
-=======
-        ui1->project_id->clear();
-        ui1->project_name->clear();
-        ui1->project_description->clear();
-        ui1->project_date_deb->clear();
-        ui1->project_type->clear();
-        ui1->project_budget->clear();
-        ui1->project_etat->clear();
 
->>>>>>> integration
         refreshTable();
         m_speechNotifier->notifyProjectAdded(projectName);
     } else {
@@ -1286,19 +1073,16 @@ void MainWindow::on_ajouterProjet_clicked()
 
 }
 
-<<<<<<< HEAD
+
 
 void MainWindow::on_modifierProjet_clicked()
 {  if (ui->project_id->text().isEmpty()) {
-=======
-void MainWindow::on_modifierProjet_clicked()
-{  if (ui1->project_id->text().isEmpty()) {
->>>>>>> integration
+
         QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un projet à modifier.");
         return;
     }
 
-<<<<<<< HEAD
+
     QString projectId = ui->project_id->text().trimmed();
     QString projectName = ui->project_name->text().trimmed();
     QString projectDescription = ui->project_description->text().trimmed();
@@ -1308,17 +1092,7 @@ void MainWindow::on_modifierProjet_clicked()
     bool budgetOk;
     double projectBudget = ui->project_budget->text().toDouble(&budgetOk);
     QString projectEtat = ui->project_etat->text().trimmed();
-=======
-    QString projectId = ui1->project_id->text().trimmed();
-    QString projectName = ui1->project_name->text().trimmed();
-    QString projectDescription = ui1->project_description->text().trimmed();
-    QDate projectDateDeb = ui1->project_date_deb->date();
-    QString projectType = ui1->project_type->text().trimmed();
 
-    bool budgetOk;
-    double projectBudget = ui1->project_budget->text().toDouble(&budgetOk);
-    QString projectEtat = ui1->project_etat->text().trimmed();
->>>>>>> integration
 
     // Vérification des champs obligatoires
     if (projectId.isEmpty() || projectName.isEmpty() || projectDescription.isEmpty() ||
@@ -1351,7 +1125,7 @@ void MainWindow::on_modifierProjet_clicked()
         QMessageBox::information(this, "Succès", "Projet modifié avec succès !");
 
         // Nettoyage des champs après modification
-<<<<<<< HEAD
+
         ui->project_id->clear();
         ui->project_name->clear();
         ui->project_description->clear();
@@ -1359,15 +1133,7 @@ void MainWindow::on_modifierProjet_clicked()
         ui->project_type->clear();
         ui->project_budget->clear();
         ui->project_etat->clear();
-=======
-        ui1->project_id->clear();
-        ui1->project_name->clear();
-        ui1->project_description->clear();
-        ui1->project_date_deb->clear();
-        ui1->project_type->clear();
-        ui1->project_budget->clear();
-        ui1->project_etat->clear();
->>>>>>> integration
+
 
         refreshTable();
         m_speechNotifier->notifyProjectUpdated(projectName);
@@ -1378,13 +1144,10 @@ void MainWindow::on_modifierProjet_clicked()
 
 void MainWindow::on_suppProjet_clicked()
 {
-<<<<<<< HEAD
+
     int row = ui->projectTable->currentRow();
     QString projectName = ui->project_name->text().trimmed();
-=======
-    int row = ui1->projectTable->currentRow();
-    QString projectName = ui1->project_name->text().trimmed();
->>>>>>> integration
+
 
     // Vérifier si une ligne est bien sélectionnée
     if (row < 0) {
@@ -1393,11 +1156,9 @@ void MainWindow::on_suppProjet_clicked()
     }
 
     // Récupérer l'ID du projet à partir de la table
-<<<<<<< HEAD
+
     QString projectId = ui->projectTable->item(row, 0)->text();
-=======
-    QString projectId = ui1->projectTable->item(row, 0)->text();
->>>>>>> integration
+
 
     if (projectId.isEmpty()) {
         QMessageBox::warning(this, "Erreur", "L'ID du projet est invalide.");
@@ -1418,11 +1179,9 @@ void MainWindow::on_suppProjet_clicked()
         QMessageBox::information(this, "Succès", "Projet supprimé avec succès !");
 
         // Supprimer la ligne de la table et rafraîchir les données
-<<<<<<< HEAD
+
         ui->projectTable->removeRow(row);
-=======
-        ui1->projectTable->removeRow(row);
->>>>>>> integration
+
         refreshTable();
         m_speechNotifier->notifyProjectDeleted(projectName);
     } else {
@@ -1433,16 +1192,14 @@ void MainWindow::on_suppProjet_clicked()
 void MainWindow::on_projectTable_cellClicked(int row, int column)
 {
     // Vérification que la ligne sélectionnée est valide
-<<<<<<< HEAD
+
     if (row < 0 || column < 0 || !ui->projectTable->item(row, 0)) {
-=======
-    if (row < 0 || column < 0 || !ui1->projectTable->item(row, 0)) {
->>>>>>> integration
+
         return;
     }
 
     // Récupération des données de la ligne sélectionnée
-<<<<<<< HEAD
+
     QTableWidgetItem *itemId = ui->projectTable->item(row, 0);
     QTableWidgetItem *itemName = ui->projectTable->item(row, 1);
     QTableWidgetItem *itemDesc = ui->projectTable->item(row, 2);
@@ -1450,52 +1207,34 @@ void MainWindow::on_projectTable_cellClicked(int row, int column)
     QTableWidgetItem *itemType = ui->projectTable->item(row, 4);
     QTableWidgetItem *itemBudget = ui->projectTable->item(row, 5);
     QTableWidgetItem *itemEtat = ui->projectTable->item(row, 6);
-=======
-    QTableWidgetItem *itemId = ui1->projectTable->item(row, 0);
-    QTableWidgetItem *itemName = ui1->projectTable->item(row, 1);
-    QTableWidgetItem *itemDesc = ui1->projectTable->item(row, 2);
-    QTableWidgetItem *itemDate = ui1->projectTable->item(row, 3);
-    QTableWidgetItem *itemType = ui1->projectTable->item(row, 4);
-    QTableWidgetItem *itemBudget = ui1->projectTable->item(row, 5);
-    QTableWidgetItem *itemEtat = ui1->projectTable->item(row, 6);
->>>>>>> integration
+
 
     if (!itemId || !itemName || !itemDesc || !itemDate || !itemType || !itemBudget || !itemEtat) {
         return; // Évite tout crash si une cellule est vide
     }
 
     // Affichage des données dans les champs de saisie
-<<<<<<< HEAD
+
     ui->project_id->setText(itemId->text());
     ui->project_name->setText(itemName->text());
     ui->project_description->setText(itemDesc->text());
     ui->project_type->setText(itemType->text());
-=======
-    ui1->project_id->setText(itemId->text());
-    ui1->project_name->setText(itemName->text());
-    ui1->project_description->setText(itemDesc->text());
-    ui1->project_type->setText(itemType->text());
->>>>>>> integration
+
 
     // Vérification et conversion correcte du budget
     bool budgetOk;
     double budget = itemBudget->text().toDouble(&budgetOk);
     if (budgetOk) {
-<<<<<<< HEAD
+
         ui->project_budget->setText(QString::number(budget, 'f', 2));
-=======
-        ui1->project_budget->setText(QString::number(budget, 'f', 2));
->>>>>>> integration
+
     } else {
         QMessageBox::warning(this, "Erreur", "Valeur de budget invalide.");
     }
 
-<<<<<<< HEAD
+
     ui->project_etat->setText(itemEtat->text());
-=======
-    ui1->project_etat->setText(itemEtat->text());
->>>>>>> integration
-}
+
 
 void MainWindow::on_pdfProjet_clicked()
 { // Sélection du chemin et du nom du fichier PDF
@@ -1609,41 +1348,33 @@ void MainWindow::on_pdfProjet_clicked()
 }
 
 void MainWindow::on_searchButton_clicked() {
-<<<<<<< HEAD
+
     QString searchText = ui->taperRech_5->text().trimmed().toLower(); // Get search text (case-insensitive)
     int rowCount = ui->projectTable->rowCount();
     int columnCount = ui->projectTable->columnCount();
-=======
-    QString searchText = ui1->taperRech_5->text().trimmed().toLower(); // Get search text (case-insensitive)
-    int rowCount = ui1->projectTable->rowCount();
-    int columnCount = ui1->projectTable->columnCount();
->>>>>>> integration
+
 
     for (int row = 0; row < rowCount; ++row) {
         bool matchFound = false;
         for (int col = 0; col < columnCount; ++col) {
-<<<<<<< HEAD
+
             QTableWidgetItem *item = ui->projectTable->item(row, col);
-=======
-            QTableWidgetItem *item = ui1->projectTable->item(row, col);
->>>>>>> integration
+
             if (item && item->text().toLower().contains(searchText)) {
                 matchFound = true;
                 break;
             }
         }
         // Show/hide row based on match
-<<<<<<< HEAD
+
         ui->projectTable->setRowHidden(row, !matchFound);
-=======
-        ui1->projectTable->setRowHidden(row, !matchFound);
->>>>>>> integration
+
     }
 }
 
 void MainWindow::on_TriButton_clicked()
 {
-<<<<<<< HEAD
+
     QString colonneTri = ui->rechProjet_5->currentText();
 
     if (colonneTri == "NOM") {
@@ -1657,30 +1388,14 @@ void MainWindow::on_TriButton_clicked()
     else if (colonneTri == "DATE_DEBUT") {
         // Tri par date (du plus récent au plus ancien)
         ui->projectTable->sortByColumn(3, Qt::DescendingOrder);
-=======
-    QString colonneTri = ui1->rechProjet_5->currentText();
 
-    if (colonneTri == "NOM") {
-        // Tri alphabétique
-        ui1->projectTable->sortByColumn(1, Qt::AscendingOrder);
-    }
-    else if (colonneTri == "BUDGET") {
-        // Tri du budget (du plus élevé au plus bas)
-        ui1->projectTable->sortByColumn(5, Qt::DescendingOrder);
-    }
-    else if (colonneTri == "DATE_DEBUT") {
-        // Tri par date (du plus récent au plus ancien)
-        ui1->projectTable->sortByColumn(3, Qt::DescendingOrder);
->>>>>>> integration
     }
 }
 
 void MainWindow::on_generateContractButton_clicked() {
-<<<<<<< HEAD
+
     if (ui->project_id->text().isEmpty()) {
-=======
-    if (ui1->project_id->text().isEmpty()) {
->>>>>>> integration
+
         QMessageBox::warning(this, "Error", "Please select a project first.");
         return;
     }
@@ -1693,19 +1408,13 @@ void MainWindow::on_generateContractButton_clicked() {
         return;
     }
 
-<<<<<<< HEAD
+
     QString projectName = ui->project_name->text();
     QString projectDescription = ui->project_description->text();
     double budget = ui->project_budget->text().toDouble();
     QDate startDate = ui->project_date_deb->date();
     QString projectType = ui->project_type->text();
-=======
-    QString projectName = ui1->project_name->text();
-    QString projectDescription = ui1->project_description->text();
-    double budget = ui1->project_budget->text().toDouble();
-    QDate startDate = ui1->project_date_deb->date();
-    QString projectType = ui1->project_type->text();
->>>>>>> integration
+
 
     generateContract(clientName, projectName, projectDescription, budget, startDate, projectType);
 }
@@ -1800,10 +1509,7 @@ void MainWindow::generateContract(const QString &clientName, const QString &proj
 
     contractDialog->exec();
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> integration
 //void MainWindow::toggleServer()
 /*{
     if (!isServerRunning) {
@@ -1832,7 +1538,7 @@ void MainWindow::generateContract(const QString &clientName, const QString &proj
     ui1->chatTextEdit->append(message);
 }*/
 
-<<<<<<< HEAD
+
 void MainWindow::switchWidget(QWidget* widgetToShow) {
 
     widgetToShow->setGeometry(this->rect());
@@ -2630,5 +2336,4 @@ void MainWindow::refreshTableA()
     ui->tableView->setModel(Etmp.afficher());
 }
 
-=======
->>>>>>> integration
+
