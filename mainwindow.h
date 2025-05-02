@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "ui_mainwindow_1.h"  // For MainWindow_Projects
-#include "ui_mainwindow_2.h"
+
+
 #include "speechnotifier.h"
 #include "chatserver.h"
 #include "chatclient.h"
+#include "arduino.h"
+
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
 #include <QTableWidget>  // Inclure le QTableWidget
@@ -29,20 +31,38 @@
 QT_BEGIN_NAMESPACE
 
 namespace Ui {
-class MainWindow_Projects;
-class MainWindow_Ressources;
+class MainWindow;
 }
+
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+signals:
+
+    void logoutSuccess();
 public:
-    MainWindow(QWidget *parent = nullptr);
+  explicit MainWindow( QWidget *parent = nullptr);
     ~MainWindow();
     SpeechNotifier *m_speechNotifier;
+        QLineEdit* getPasswordLineEdit();
+    int generateAutoID();
+    bool estTexteValide(const QString &texte);
+    void setupValidation();
+    void exporterPDFA();
 
+    bool verifierMotDePasse(const QString &motDePasse, QLabel* labelErreur = nullptr);
+    void afficherStatistiques();
+
+/*protected:
+      bool eventFilter(QObject *obj, QEvent *event);*/
+
+
+public slots:
+        void refreshTableA();
+      void handleLoginSuccess(const QString &role);
 
 
 private slots:
@@ -62,11 +82,22 @@ private slots:
 
     void on_generateContractButton_clicked();
 
+
+
+    void on_btnAjouter_clicked();
+    void on_annulerEvent_clicked();
+    void on_btnsupprimer_clicked();
+    void modifierCellule(const QModelIndex &index);
+    void on_lineEdit_Rech_textChanged(const QString &text);
+    void on_triCroissantButton_clicked();
+    void on_triDecroissantButton_clicked();
+
     //void toggleServer();
     //void sendChatMessage();
     //void displayMessage(const QString &message);
-    void switchToRessources() ;
-    void switchToProjectsUI();
+   // void switchToRessources() ;
+   // void switchToProjectsUI();
+
     void on_annulertri_clicked();
     void affichertri(QString typeFiltre);
     void on_trimateriel_clicked();
@@ -80,13 +111,33 @@ private slots:
     void modifier(int id, const QString &nom, const QString &type, const QString &etat,
                   const QString &fournisseur, const QString &localisation, int quantite);
 
-
+    //-----------------------------------------
+    void on_ressourcesBtn_clicked();
+    void on_architecteBtn_clicked();
+    void on_tacheBtn_clicked();
+    void on_projetBtn_clicked();
+    void on_clientBtn_clicked();
+    void on_formationsBtn_clicked();
+    void on_btnDeconnecter_clicked();
 private:
+     Ui::MainWindow *ui;
+
+    QList<QWidget*> allModules;
+     Arduino *arduino;
+     QString currentUserRole;
+    bool isModuleAllowed(QWidget *module);
+    void setupPermissions();
+    QWidget* findParentModule(QWidget *child);
+    void showAccessDenied();
+bool eventFilter(QObject *obj, QEvent *event);
+    void switchWidget(QWidget* widgetToShow);
+    bool isValidColumn(const QString &columnName);
+    bool validateEmail(const QString &email, bool isModification = false);
+    bool isValidSupplementaryHours(const QString &value);
+    QString hasherMotDePasse(const QString &motDePasse);
+    bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
     QStackedWidget *stack;
-    QWidget *projectsWidget;
-    QWidget *ressourcesWidget;
-    Ui::MainWindow_Projects *ui1;
-    Ui::MainWindow_Ressources *ui2;
+
     QTableWidget *tableWidget;
     QLineEdit *lineEdit_Nom;
     QLineEdit *lineEdit_Type;

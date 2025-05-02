@@ -28,12 +28,14 @@ SOURCES += \
     mimecontentencoder.cpp \
     EmailAddress.cpp \
     mimeqpformatter.cpp \
-    QuotedPrintable.cpp
+    QuotedPrintable.cpp \
+    architecte.cpp \
+    arduino.cpp \
+    login.cpp
+
 
 HEADERS += \
     mainwindow.h \
-    ui_mainwindow_1.h \
-    ui_mainwindow_2.h \
     connection.h \
     projet.h \
     speechnotifier.h \
@@ -54,10 +56,17 @@ HEADERS += \
     MimeContentFormatter.h \
     mimecontentencoder.h \
     mimeqpformatter.h \
-    quotedprintable.h
+    quotedprintable.h \
+    arduino.h \
+    login.h \
+    architecte.h
 
-FORMS += \
-    mainwindow_1.ui \
-    mainwindow_2.ui
+
+FORMS +=mainwindow.ui \
+login.ui
+
+CONFIG += c++11
+QT += pdf
+QT += charts
 
 
