@@ -2,11 +2,19 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+<<<<<<< HEAD
 
 #include "speechnotifier.h"
 #include "chatserver.h"
 #include "chatclient.h"
 #include "arduino.h"
+=======
+#include "ui_mainwindow_1.h"  // For MainWindow_Projects
+#include "ui_mainwindow_2.h"
+#include "speechnotifier.h"
+#include "chatserver.h"
+#include "chatclient.h"
+>>>>>>> integration
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
 #include <QTableWidget>  // Inclure le QTableWidget
@@ -27,15 +35,24 @@
 
 
 QT_BEGIN_NAMESPACE
+<<<<<<< HEAD
 namespace Ui {
 class MainWindow;
 }
 
+=======
+
+namespace Ui {
+class MainWindow_Projects;
+class MainWindow_Ressources;
+}
+>>>>>>> integration
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+<<<<<<< HEAD
 signals:
 
     void logoutSuccess();
@@ -59,6 +76,15 @@ public:
 public slots:
         void refreshTableA();
       void handleLoginSuccess(const QString &role);
+=======
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+    SpeechNotifier *m_speechNotifier;
+
+
+>>>>>>> integration
 
 private slots:
     void on_ajouterProjet_clicked();
@@ -77,6 +103,7 @@ private slots:
 
     void on_generateContractButton_clicked();
 
+<<<<<<< HEAD
 
     void on_btnAjouter_clicked();
     void on_annulerEvent_clicked();
@@ -91,6 +118,13 @@ private slots:
     //void displayMessage(const QString &message);
    // void switchToRessources() ;
    // void switchToProjectsUI();
+=======
+    //void toggleServer();
+    //void sendChatMessage();
+    //void displayMessage(const QString &message);
+    void switchToRessources() ;
+    void switchToProjectsUI();
+>>>>>>> integration
     void on_annulertri_clicked();
     void affichertri(QString typeFiltre);
     void on_trimateriel_clicked();
@@ -103,6 +137,7 @@ private slots:
     void on_supprimer_clicked();
     void modifier(int id, const QString &nom, const QString &type, const QString &etat,
                   const QString &fournisseur, const QString &localisation, int quantite);
+<<<<<<< HEAD
     //-----------------------------------------
     void on_ressourcesBtn_clicked();
     void on_architecteBtn_clicked();
@@ -130,6 +165,16 @@ bool eventFilter(QObject *obj, QEvent *event);
     bool verifierChampsLettresSeules(const QString &champ, QLabel *labelErreur);
     QStackedWidget *stack;
 
+=======
+
+
+private:
+    QStackedWidget *stack;
+    QWidget *projectsWidget;
+    QWidget *ressourcesWidget;
+    Ui::MainWindow_Projects *ui1;
+    Ui::MainWindow_Ressources *ui2;
+>>>>>>> integration
     QTableWidget *tableWidget;
     QLineEdit *lineEdit_Nom;
     QLineEdit *lineEdit_Type;
