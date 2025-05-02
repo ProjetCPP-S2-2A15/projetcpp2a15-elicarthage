@@ -11,7 +11,7 @@ bool Connection::createconnect()
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
     db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
-<<<<<<< HEAD
+
     db.setUserName("zeineb");//inserer nom de l'utilisateur
     db.setPassword("zeineb8");//inserer mot de passe de cet utilisateur
 
@@ -20,19 +20,6 @@ bool Connection::createconnect()
         test=true;
 
     return  test;
-=======
-    db.setUserName("tez");//inserer nom de l'utilisateur
-    db.setPassword("esprit09");//inserer mot de passe de cet utilisateur
-
-    if (db.open()) {
-        test = true;
-        QMessageBox::information(nullptr, "Connexion réussie", "Connexion à la base de données établie avec succès !");
-    } else {
-        QMessageBox::critical(nullptr, "Erreur de connexion", "Impossible de se connecter à la base de données : " + db.lastError().text());
-    }
-
-    return test;  // Pas de app.exec() ici !
->>>>>>> integration
 
 }
 
