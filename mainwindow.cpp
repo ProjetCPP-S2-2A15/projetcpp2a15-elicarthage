@@ -344,7 +344,7 @@ void MainWindow::on_pdfProjet_clicked()
 
     // Requête SQL pour récupérer les projets
     QSqlQuery query;
-    if (!query.exec("SELECT ID_PROJET, NOM FROM PROJETS")) {
+    if (!query.exec("SELECT ID_PROJET, NOM FROM PROJET")) {
         QMessageBox::warning(this, "Erreur", "Erreur lors de la récupération des données : " + query.lastError().text());
         return;
     }

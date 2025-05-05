@@ -10,7 +10,7 @@
 
 bool Projet::addProjet() {
     QSqlQuery query;
-    query.prepare("INSERT INTO PROJETS (ID_PROJET, NOM, DESCRIPTION, DATE_DEBUT, TYPE, BUDGET, ETAT) "
+    query.prepare("INSERT INTO Projet (ID_PROJET, NOM, DESCRIPTION, DATE_DEBUT, TYPE, BUDGET, ETAT) "
                   "VALUES (:project_id, :project_name, :project_description, :project_date_deb, :project_type, :project_budget, :project_etat)");
 
     query.bindValue(":project_id", project_id);
@@ -31,7 +31,7 @@ bool Projet::addProjet() {
 
 void Projet::display(QTableWidget *tableWidget) {
     QSqlQuery query;
-    query.prepare("SELECT * FROM PROJETS");
+    query.prepare("SELECT * FROM PROJET");
 
     if (!query.exec()) {
         qDebug() << "Erreur lors de l'exécution de la requête : " << query.lastError().text();
@@ -57,7 +57,7 @@ void Projet::display(QTableWidget *tableWidget) {
 
 bool Projet::updateProjet(const QString &originalId) {
     QSqlQuery query;
-    query.prepare("UPDATE PROJETS SET ID_PROJET = :project_id, NOM = :project_name, DESCRIPTION = :project_description, "
+    query.prepare("UPDATE PROJET SET ID_PROJET = :project_id, NOM = :project_name, DESCRIPTION = :project_description, "
                   "DATE_DEBUT = :project_date_deb, TYPE = :project_type, BUDGET = :project_budget, ETAT = :project_etat "
                   "WHERE ID_PROJET = :original_id");
 
@@ -80,7 +80,7 @@ bool Projet::updateProjet(const QString &originalId) {
 
 bool Projet::deleteProjet(const QString &projectId) {
     QSqlQuery query;
-    query.prepare("DELETE FROM PROJETS WHERE ID_PROJET = :project_id");
+    query.prepare("DELETE FROM PROJET WHERE ID_PROJET = :project_id");
     query.bindValue(":project_id", projectId);
     return query.exec();
 }
