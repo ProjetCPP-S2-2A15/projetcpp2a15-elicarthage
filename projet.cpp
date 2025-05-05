@@ -52,7 +52,7 @@ void Projet::display(QTableWidget *tableWidget) {
         tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("BUDGET").toString()));
         tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("ETAT").toString()));
     }
-    qDebug() << "Nombre de projets chargés depuis la base de données:" << tableWidget->rowCount();
+    qDebug() << "Nombre de PROJET chargés depuis la base de données:" << tableWidget->rowCount();
 }
 
 bool Projet::updateProjet(const QString &originalId) {
