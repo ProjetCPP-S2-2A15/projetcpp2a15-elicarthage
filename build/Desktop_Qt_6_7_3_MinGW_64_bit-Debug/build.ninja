@@ -97,6 +97,22 @@ build CMakeFiles/SmartArchitect.dir/speechnotifier.cpp.obj: CXX_COMPILER__SmartA
   OBJECT_DIR = CMakeFiles\SmartArchitect.dir
   OBJECT_FILE_DIR = CMakeFiles\SmartArchitect.dir
 
+build CMakeFiles/SmartArchitect.dir/chatserver.cpp.obj: CXX_COMPILER__SmartArchitect_unscanned_Debug C$:/Users/khiar/OneDrive/Documents/SmartArchitect/chatserver.cpp || cmake_object_order_depends_target_SmartArchitect
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_TEXTTOSPEECH_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\SmartArchitect.dir\chatserver.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/SmartArchitect_autogen/include -isystem C:/Qt/6.7.3/mingw_64/include/QtCore -isystem C:/Qt/6.7.3/mingw_64/include -isystem C:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.3/mingw_64/include/QtSql -isystem C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech -isystem C:/Qt/6.7.3/mingw_64/include/QtMultimedia -isystem C:/Qt/6.7.3/mingw_64/include/QtGui -isystem C:/Qt/6.7.3/mingw_64/include/QtNetwork -isystem C:/Qt/6.7.3/mingw_64/include/QtWidgets
+  OBJECT_DIR = CMakeFiles\SmartArchitect.dir
+  OBJECT_FILE_DIR = CMakeFiles\SmartArchitect.dir
+
+build CMakeFiles/SmartArchitect.dir/chatclient.cpp.obj: CXX_COMPILER__SmartArchitect_unscanned_Debug C$:/Users/khiar/OneDrive/Documents/SmartArchitect/chatclient.cpp || cmake_object_order_depends_target_SmartArchitect
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_TEXTTOSPEECH_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\SmartArchitect.dir\chatclient.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/SmartArchitect_autogen/include -isystem C:/Qt/6.7.3/mingw_64/include/QtCore -isystem C:/Qt/6.7.3/mingw_64/include -isystem C:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.3/mingw_64/include/QtSql -isystem C:/Qt/6.7.3/mingw_64/include/QtTextToSpeech -isystem C:/Qt/6.7.3/mingw_64/include/QtMultimedia -isystem C:/Qt/6.7.3/mingw_64/include/QtGui -isystem C:/Qt/6.7.3/mingw_64/include/QtNetwork -isystem C:/Qt/6.7.3/mingw_64/include/QtWidgets
+  OBJECT_DIR = CMakeFiles\SmartArchitect.dir
+  OBJECT_FILE_DIR = CMakeFiles\SmartArchitect.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target SmartArchitect
@@ -105,7 +121,7 @@ build CMakeFiles/SmartArchitect.dir/speechnotifier.cpp.obj: CXX_COMPILER__SmartA
 #############################################
 # Link the executable SmartArchitect.exe
 
-build SmartArchitect.exe: CXX_EXECUTABLE_LINKER__SmartArchitect_Debug CMakeFiles/SmartArchitect.dir/SmartArchitect_autogen/mocs_compilation.cpp.obj CMakeFiles/SmartArchitect.dir/main.cpp.obj CMakeFiles/SmartArchitect.dir/mainwindow.cpp.obj CMakeFiles/SmartArchitect.dir/connection.cpp.obj CMakeFiles/SmartArchitect.dir/projet.cpp.obj CMakeFiles/SmartArchitect.dir/speechnotifier.cpp.obj | C$:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a C$:/Qt/6.7.3/mingw_64/lib/libQt6TextToSpeech.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Multimedia.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Network.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Core.a C$:/Qt/6.7.3/mingw_64/lib/libQt6EntryPoint.a || SmartArchitect_autogen SmartArchitect_autogen_timestamp_deps
+build SmartArchitect.exe: CXX_EXECUTABLE_LINKER__SmartArchitect_Debug CMakeFiles/SmartArchitect.dir/SmartArchitect_autogen/mocs_compilation.cpp.obj CMakeFiles/SmartArchitect.dir/main.cpp.obj CMakeFiles/SmartArchitect.dir/mainwindow.cpp.obj CMakeFiles/SmartArchitect.dir/connection.cpp.obj CMakeFiles/SmartArchitect.dir/projet.cpp.obj CMakeFiles/SmartArchitect.dir/speechnotifier.cpp.obj CMakeFiles/SmartArchitect.dir/chatserver.cpp.obj CMakeFiles/SmartArchitect.dir/chatclient.cpp.obj | C$:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a C$:/Qt/6.7.3/mingw_64/lib/libQt6TextToSpeech.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Multimedia.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Network.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a C$:/Qt/6.7.3/mingw_64/lib/libQt6Core.a C$:/Qt/6.7.3/mingw_64/lib/libQt6EntryPoint.a || SmartArchitect_autogen SmartArchitect_autogen_timestamp_deps
   FLAGS = -DQT_QML_DEBUG -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = C:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a  C:/Qt/6.7.3/mingw_64/lib/libQt6TextToSpeech.a  C:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a  C:/Qt/6.7.3/mingw_64/lib/libQt6Multimedia.a  C:/Qt/6.7.3/mingw_64/lib/libQt6Network.a  -lws2_32  C:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a  C:/Qt/6.7.3/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  C:/Qt/6.7.3/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

@@ -10,7 +10,11 @@
 
 bool Projet::addProjet() {
     QSqlQuery query;
+<<<<<<< HEAD
     query.prepare("INSERT INTO PROJET (ID_PROJET, NOM, DESCRIPTION, DATE_DEBUT, TYPE, BUDGET, ETAT) "
+=======
+    query.prepare("INSERT INTO Projet (ID_PROJET, NOM, DESCRIPTION, DATE_DEBUT, TYPE, BUDGET, ETAT) "
+>>>>>>> integration
                   "VALUES (:project_id, :project_name, :project_description, :project_date_deb, :project_type, :project_budget, :project_etat)");
 
     query.bindValue(":project_id", project_id);

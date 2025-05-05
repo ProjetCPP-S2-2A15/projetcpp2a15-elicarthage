@@ -15,6 +15,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDateEdit>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -22,9 +23,11 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -94,6 +97,17 @@ public:
     QLabel *label_106;
     QLabel *label_107;
     QGroupBox *groupBox_6;
+    QGroupBox *serverGroupBox;
+    QLabel *serverIpLabel;
+    QLineEdit *serverIpLineEdit;
+    QLabel *serverPortLabel;
+    QSpinBox *serverPortSpinBox;
+    QPushButton *startServerButton;
+    QTextEdit *chatTextEdit;
+    QLineEdit *messageLineEdit;
+    QPushButton *sendButton;
+    QLabel *statusLabel;
+    QFrame *portSpinBox;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -106,7 +120,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName("tabWidget");
-        tabWidget->setGeometry(QRect(0, 0, 1481, 661));
+        tabWidget->setGeometry(QRect(-10, 0, 1481, 661));
         tab = new QWidget();
         tab->setObjectName("tab");
         widget_2 = new QWidget(tab);
@@ -660,7 +674,7 @@ public:
 "    border: 2px solid #3498DB;    /* Bordure bleu plus clair au focus */\n"
 "    background-color: #ECF0F1;    /* Fond gris clair subtil au focus */\n"
 "}"));
-        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(12, 0, 0)));
+        project_date_deb->setMinimumDateTime(QDateTime(QDate(2024, 1, 1), QTime(11, 0, 0)));
         project_date_deb->setMinimumDate(QDate(2024, 1, 1));
         label_6 = new QLabel(widget_4);
         label_6->setObjectName("label_6");
@@ -863,9 +877,44 @@ public:
         label_107->setGeometry(QRect(1140, 30, 41, 31));
         label_107->setPixmap(QPixmap(QString::fromUtf8("../../../../../Downloads/images/power-off.png")));
         label_107->setScaledContents(true);
-        groupBox_6 = new QGroupBox(tab_2);
+        groupBox_6 = new QGroupBox(widget_3);
         groupBox_6->setObjectName("groupBox_6");
-        groupBox_6->setGeometry(QRect(9, 9, 1181, 471));
+        groupBox_6->setGeometry(QRect(-120, -60, 1181, 471));
+        serverGroupBox = new QGroupBox(tab_2);
+        serverGroupBox->setObjectName("serverGroupBox");
+        serverGroupBox->setGeometry(QRect(10, 10, 431, 301));
+        serverIpLabel = new QLabel(serverGroupBox);
+        serverIpLabel->setObjectName("serverIpLabel");
+        serverIpLabel->setGeometry(QRect(30, 30, 81, 21));
+        serverIpLineEdit = new QLineEdit(serverGroupBox);
+        serverIpLineEdit->setObjectName("serverIpLineEdit");
+        serverIpLineEdit->setGeometry(QRect(70, 30, 113, 20));
+        serverPortLabel = new QLabel(serverGroupBox);
+        serverPortLabel->setObjectName("serverPortLabel");
+        serverPortLabel->setGeometry(QRect(20, 72, 37, 20));
+        serverPortSpinBox = new QSpinBox(serverGroupBox);
+        serverPortSpinBox->setObjectName("serverPortSpinBox");
+        serverPortSpinBox->setGeometry(QRect(40, 70, 42, 22));
+        startServerButton = new QPushButton(serverGroupBox);
+        startServerButton->setObjectName("startServerButton");
+        startServerButton->setGeometry(QRect(90, 70, 80, 21));
+        chatTextEdit = new QTextEdit(serverGroupBox);
+        chatTextEdit->setObjectName("chatTextEdit");
+        chatTextEdit->setGeometry(QRect(120, 250, 301, 41));
+        messageLineEdit = new QLineEdit(serverGroupBox);
+        messageLineEdit->setObjectName("messageLineEdit");
+        messageLineEdit->setGeometry(QRect(22, 99, 391, 121));
+        sendButton = new QPushButton(serverGroupBox);
+        sendButton->setObjectName("sendButton");
+        sendButton->setGeometry(QRect(340, 270, 80, 18));
+        statusLabel = new QLabel(serverGroupBox);
+        statusLabel->setObjectName("statusLabel");
+        statusLabel->setGeometry(QRect(300, 30, 61, 20));
+        portSpinBox = new QFrame(serverGroupBox);
+        portSpinBox->setObjectName("portSpinBox");
+        portSpinBox->setGeometry(QRect(380, 30, 21, 21));
+        portSpinBox->setFrameShape(QFrame::Shape::StyledPanel);
+        portSpinBox->setFrameShadow(QFrame::Shadow::Raised);
         tabWidget->addTab(tab_2, QString());
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -878,7 +927,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
         tabWidget_6->setCurrentIndex(0);
 
 
@@ -971,6 +1020,12 @@ public:
         label_106->setText(QString());
         label_107->setText(QString());
         groupBox_6->setTitle(QCoreApplication::translate("MainWindow", "GroupBox", nullptr));
+        serverGroupBox->setTitle(QCoreApplication::translate("MainWindow", "ServerGroupBox", nullptr));
+        serverIpLabel->setText(QCoreApplication::translate("MainWindow", "Server IP", nullptr));
+        serverPortLabel->setText(QCoreApplication::translate("MainWindow", "Port", nullptr));
+        startServerButton->setText(QCoreApplication::translate("MainWindow", "D\303\251marrer", nullptr));
+        sendButton->setText(QCoreApplication::translate("MainWindow", "Envoyer", nullptr));
+        statusLabel->setText(QString());
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Statistiques", nullptr));
     } // retranslateUi
 

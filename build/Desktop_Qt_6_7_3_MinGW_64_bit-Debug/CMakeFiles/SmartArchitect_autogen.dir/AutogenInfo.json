@@ -436,6 +436,30 @@
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginTargets.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginTargets-relwithdebinfo.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6TextToSpeech/Qt6QTextToSpeechSapiPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6ConfigExtras.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6Targets.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6VersionlessTargets.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtFeature.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckCXXCompilerFlag.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtFeatureCommon.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicAppleHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicPluginHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicTargetHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicTestHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicToolHelpers.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6Dependencies.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/khiar/OneDrive/Documents/SmartArchitect",
@@ -444,6 +468,18 @@
 	"DEP_FILE_RULE_NAME" : "SmartArchitect_autogen/timestamp",
 	"HEADERS" : 
 	[
+		[
+			"C:/Users/khiar/OneDrive/Documents/SmartArchitect/chatclient.h",
+			"MU",
+			"EWIEGA46WW/moc_chatclient.cpp",
+			null
+		],
+		[
+			"C:/Users/khiar/OneDrive/Documents/SmartArchitect/chatserver.h",
+			"MU",
+			"EWIEGA46WW/moc_chatserver.cpp",
+			null
+		],
 		[
 			"C:/Users/khiar/OneDrive/Documents/SmartArchitect/connection.h",
 			"MU",
@@ -548,6 +584,16 @@
 	"SETTINGS_FILE" : "C:/Users/khiar/OneDrive/Documents/SmartArchitect/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/SmartArchitect_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"C:/Users/khiar/OneDrive/Documents/SmartArchitect/chatclient.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/khiar/OneDrive/Documents/SmartArchitect/chatserver.cpp",
+			"MU",
+			null
+		],
 		[
 			"C:/Users/khiar/OneDrive/Documents/SmartArchitect/connection.cpp",
 			"MU",
