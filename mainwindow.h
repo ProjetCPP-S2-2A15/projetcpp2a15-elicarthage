@@ -9,6 +9,7 @@
 #include "chatclient.h"
 #include "arduino.h"
 #include "tache.h"
+#include "client.h"
 
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
@@ -136,6 +137,16 @@ private slots:
     void on_clientBtn_clicked();
     void on_formationsBtn_clicked();
     void on_btnDeconnecter_clicked();
+    void on_addClientButton_clicked();
+    void on_updateClientButton_clicked();
+    void on_deleteClientButton_clicked();
+    void on_clientTable_cellClicked(int row, int column);
+    void on_searchClientButton_2_clicked();
+    void on_sortClientButton_clicked();
+    void on_pdfc_clicked();
+    //void on_mapViewClient_clicked(const QPointF &pos);
+    //void on_showMapButton_clicked();
+
 private:
      Ui::MainWindow *ui;
 
@@ -170,6 +181,16 @@ bool eventFilter(QObject *obj, QEvent *event);
     // Méthodes privées
     void mettreAJourCouleursCalendrier();
     void afficherStatistiqueTache();
+    QGraphicsScene *clientScene;
+
+    void refreshClientTable();
+    void clearClientInputFields();
+    class Client getClientFromInput();
+
+
+    void refreshTablec();
+    //bool eventFilterc(QObject *obj, QEvent *event) override;
+
 
 
     // Stockage des tâches par date
