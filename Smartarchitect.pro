@@ -31,7 +31,8 @@ SOURCES += \
     QuotedPrintable.cpp \
     architecte.cpp \
     arduino.cpp \
-    login.cpp
+    login.cpp \
+    tache.cpp
 
 
 HEADERS += \
@@ -59,7 +60,8 @@ HEADERS += \
     quotedprintable.h \
     arduino.h \
     login.h \
-    architecte.h
+    architecte.h \
+    tache.h
 
 
 FORMS +=mainwindow.ui \

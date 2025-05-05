@@ -8,6 +8,7 @@
 #include "chatserver.h"
 #include "chatclient.h"
 #include "arduino.h"
+#include "tache.h"
 
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
@@ -66,6 +67,22 @@ public slots:
 
 
 private slots:
+      // Gestion des tâches
+      void on_pushButtonajouter_clicked();
+      void on_btnsupprimerT_clicked();
+      void on_pushButton_modifierT_clicked();
+
+      // Fonctionnalités d'affichage et de recherche
+      void on_lineEdit_recherche_textChanged(const QString &text);
+      void on_comboBox_tri_currentIndexChanged(int index);
+
+      // Export et statistiques
+      void on_pushButton_exportPDF_clicked();
+      void on_pushButton_statistique_clicked();
+
+      // Calendrier
+      void on_calendarWidget_clicked(const QDate &date);
+      void on_pushButton_micro_clicked();
     void on_ajouterProjet_clicked();
 
     void on_modifierProjet_clicked();
@@ -150,6 +167,13 @@ bool eventFilter(QObject *obj, QEvent *event);
     QWidget *widgetGraphLayoutContainer;
     QSerialPort *serial;
     QTextToSpeech *speech;
+    // Méthodes privées
+    void mettreAJourCouleursCalendrier();
+    void afficherStatistiqueTache();
+
+
+    // Stockage des tâches par date
+    QMap<QDate, QList<Tache>> mapTachesParDate;
 
     void afficher();
     ChatServer *server;
