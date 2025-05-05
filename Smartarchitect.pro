@@ -32,7 +32,8 @@ SOURCES += \
     architecte.cpp \
     arduino.cpp \
     login.cpp \
-    tache.cpp
+    tache.cpp \
+    client.cpp
 
 
 HEADERS += \
@@ -61,7 +62,8 @@ HEADERS += \
     arduino.h \
     login.h \
     architecte.h \
-    tache.h
+    tache.h \
+    client.h
 
 
 FORMS +=mainwindow.ui \
