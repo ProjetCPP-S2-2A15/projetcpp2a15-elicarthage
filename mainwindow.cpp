@@ -1326,7 +1326,7 @@ void MainWindow::on_pdfProjet_clicked()
 
     // Requête SQL pour récupérer les projets
     QSqlQuery query;
-    if (!query.exec("SELECT ID_PROJET, NOM FROM PROJETS")) {
+    if (!query.exec("SELECT ID_PROJET, NOM FROM PROJET")) {
         QMessageBox::warning(this, "Erreur", "Erreur lors de la récupération des données : " + query.lastError().text());
         return;
     }
@@ -1995,12 +1995,12 @@ void MainWindow::modifierCellule(const QModelIndex &index)
 
 
     }
-    else {
+  /*  else {
 
         newValue = QInputDialog::getText(this, tr("Modifier ") + columnName,
                                          tr("Nouvelle valeur :"), QLineEdit::Normal,
                                          model->data(index).toString(), &inputOk);
-    }
+    }*/
 
     if (!inputOk) {
         return;
@@ -2420,7 +2420,7 @@ void MainWindow::on_btnsupprimerT_clicked()
     if (test) {
         QMessageBox::information(this, "Succès", "Suppression effectuée avec succès!");
         ui->tableView_T->setModel(tache.afficher());
-        ui->tableView_T->setStyleSheet("QTableView { color: black; }");
+
         mettreAJourCouleursCalendrier();
     } else {
         QMessageBox::warning(this, "Erreur", "Suppression non effectuée.");
