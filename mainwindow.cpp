@@ -1,3 +1,4 @@
+
 #include "mainwindow.h"
 #include "tache.h"
 #include "projet.h"
@@ -835,7 +836,32 @@ MainWindow::MainWindow(QWidget *parent)
     Architecte Etmp;
     ui->tableView->setModel(Etmp.afficher());
     this->setWindowTitle("ELICAR");
+    // Créer l'onglet des statistiques
+    statsProjet = new StatsProjet(this);
+    statsTabWidget = new QTabWidget(this);
 
+    QWidget *statsContainer = new QWidget(this);
+    QVBoxLayout *statsLayout = new QVBoxLayout(statsContainer);
+    statsLayout->addWidget(statsTabWidget);
+
+    QPushButton *yearlyStatsBtn = new QPushButton("Statistiques par année", this);
+    QPushButton *budgetStatsBtn = new QPushButton("Statistiques par budget", this);
+
+    QHBoxLayout *btnLayout = new QHBoxLayout();
+    btnLayout->addWidget(yearlyStatsBtn);
+    btnLayout->addWidget(budgetStatsBtn);
+
+    statsLayout->addLayout(btnLayout);
+    statsLayout->addWidget(statsProjet);
+
+    ui->widgetProjet->addTab(statsContainer, "Statistiques");
+
+    connect(yearlyStatsBtn, &QPushButton::clicked, this, [this]() {
+        statsProjet->loadYearlyStats();
+    });
+    connect(budgetStatsBtn, &QPushButton::clicked, this, [this]() {
+        statsProjet->loadBudgetStats();
+    });
     //------
     // Architecte::resetPresenceDaily();
 
@@ -925,9 +951,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->generateContractButton, &QPushButton::clicked, this, &MainWindow::on_generateContractButton_clicked);
 
     m_speechNotifier = new SpeechNotifier(this);
-    // Dans le constructeur
-    server = new ChatServer(this);
-    client = new ChatClient(this);
+
 
     //connect(server, &ChatServer::newMessage, this, &MainWindow::displayMessage);
     //connect(client, &ChatClient::messageReceived, this, &MainWindow::displayMessage);
@@ -2927,7 +2951,7 @@ void MainWindow::on_searchClientButton_2_clicked()
 
 void MainWindow::on_sortClientButton_clicked()
 {
-    QString critere = ui->rechProjet_5->currentText();
+    QString critere = ui->rechProjet_2->currentText();
     if (critere == "CIN")
         ui->clientTable->sortByColumn(0, Qt::AscendingOrder);
     else if (critere == "Nom")
