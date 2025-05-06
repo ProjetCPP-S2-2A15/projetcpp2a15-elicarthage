@@ -43,15 +43,19 @@ void Projet::display(QTableWidget *tableWidget) {
         int row = tableWidget->rowCount();
         tableWidget->insertRow(row);
 
+        // Convertir la date au format dd/MM/yyyy
+        QDate date = query.value("DATE_DEBUT").toDate();
+        QString formattedDate = date.toString("dd/MM/yyyy");
+
         tableWidget->setItem(row, 0, new QTableWidgetItem(query.value("ID_PROJET").toString()));
         tableWidget->setItem(row, 1, new QTableWidgetItem(query.value("NOM").toString()));
         tableWidget->setItem(row, 2, new QTableWidgetItem(query.value("DESCRIPTION").toString()));
-        tableWidget->setItem(row, 3, new QTableWidgetItem(query.value("DATE_DEBUT").toString()));
+        tableWidget->setItem(row, 3, new QTableWidgetItem(formattedDate)); // Date formatée
         tableWidget->setItem(row, 4, new QTableWidgetItem(query.value("TYPE").toString()));
         tableWidget->setItem(row, 5, new QTableWidgetItem(query.value("BUDGET").toString()));
         tableWidget->setItem(row, 6, new QTableWidgetItem(query.value("ETAT").toString()));
     }
-    qDebug() << "Nombre de projets chargés depuis la base de données:" << tableWidget->rowCount();
+    qDebug() << "Nombre de PROJET chargés depuis la base de données:" << tableWidget->rowCount();
 }
 
 bool Projet::updateProjet(const QString &originalId) {

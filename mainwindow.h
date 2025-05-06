@@ -5,14 +5,15 @@
 
 
 #include "speechnotifier.h"
-#include "chatserver.h"
-#include "chatclient.h"
+
 #include "arduino.h"
 #include "tache.h"
 #include "client.h"
+#include "statsprojet.h"
 
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
+#include <QTabWidget>
 #include <QTableWidget>  // Inclure le QTableWidget
 #include <QPushButton>   // Inclure QPushButton
 #include <QtCharts/QChartView>
@@ -148,6 +149,8 @@ private slots:
     //void on_showMapButton_clicked();
 
 private:
+    StatsProjet *statsProjet;
+    QTabWidget *statsTabWidget;
      Ui::MainWindow *ui;
 
     QList<QWidget*> allModules;
@@ -197,9 +200,6 @@ bool eventFilter(QObject *obj, QEvent *event);
     QMap<QDate, QList<Tache>> mapTachesParDate;
 
     void afficher();
-    ChatServer *server;
-    ChatClient *client;
-    bool isServerRunning = false;
     void refreshTable();
     void generateContract(const QString &clientName, const QString &projectName,
                           const QString &projectDescription, double budget,

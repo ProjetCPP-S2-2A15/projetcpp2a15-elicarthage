@@ -11,8 +11,6 @@ SOURCES += \
     connection.cpp \
     projet.cpp \
     speechnotifier.cpp \
-    chatserver.cpp \
-    chatclient.cpp \
     emailnotifier.cpp \
     historique.cpp \
     ressource.cpp \
@@ -32,6 +30,7 @@ SOURCES += \
     architecte.cpp \
     arduino.cpp \
     login.cpp \
+    statsprojet.cpp \
     tache.cpp \
     client.cpp
 
@@ -41,8 +40,6 @@ HEADERS += \
     connection.h \
     projet.h \
     speechnotifier.h \
-    chatserver.h \
-    chatclient.h \
     emailnotifier.h \
     historique.h \
     ressource.h \
@@ -62,6 +59,7 @@ HEADERS += \
     arduino.h \
     login.h \
     architecte.h \
+    statsprojet.h \
     tache.h \
     client.h
 

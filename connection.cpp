@@ -13,8 +13,8 @@ bool Connection::createconnect()
      db.setDatabaseName("Source_Projet2A");
     // db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
 
-    db.setUserName("meniar");//inserer nom de l'utilisateur
-    db.setPassword("addnotnew");//inserer mot de passe de cet utilisateur
+    db.setUserName("elyes");//inserer nom de l'utilisateur
+    db.setPassword("elyes123");//inserer mot de passe de cet utilisateur
 
 
     if (db.open())

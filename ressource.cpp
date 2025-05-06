@@ -100,7 +100,7 @@ bool Ressource::ajouter()
 bool Ressource::supprimer(int id) {
     QSqlQuery query;
     query.prepare("DELETE FROM RESSOURCE WHERE ID = :ID");
-    query.bindValue(":ID", id);  // Bind the input ID to the query
+    query.bindValue(":ID", QString::number(id));
 
     if (query.exec()) {
         return true;  // Return true if the deletion is successful
