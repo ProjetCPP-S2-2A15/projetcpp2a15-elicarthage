@@ -155,8 +155,8 @@
       <widget class="QGroupBox" name="groupBox">
        <property name="geometry">
         <rect>
-         <x>-80</x>
-         <y>50</y>
+         <x>-220</x>
+         <y>20</y>
          <width>1641</width>
          <height>791</height>
         </rect>
@@ -877,7 +877,7 @@ QPushButton:disabled {
          </rect>
         </property>
         <property name="text">
-         <string>supprimer</string>
+         <string/>
         </property>
        </widget>
        <widget class="QTableView" name="tableView">
@@ -1144,6 +1144,19 @@ QLineEdit:focus {
         </property>
         <property name="text">
          <string>Message</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_id_2">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>100</y>
+          <width>113</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>ID a modif</string>
         </property>
        </widget>
       </widget>

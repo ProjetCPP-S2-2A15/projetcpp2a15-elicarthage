@@ -2,14 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "smsmanager.h"  // Inclure SmsManager pour l'envoi de SMS
+#include "smsmanager.h"
 #include "formation.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
@@ -23,18 +24,21 @@ private slots:
     void on_btnTrierThematique_clicked();
     void on_btnRechercherId_clicked();
     void on_btnRechercherDate_clicked();
-    void on_btnSendSms_clicked();  // Nouvelle méthode pour envoyer le SMS
+    void on_btnSendSms_clicked();
+    void on_annulerEvent_clicked();  // Nouvelle méthode ajoutée
 
 private:
     Ui::MainWindow *ui;
     Formation F;
-    SmsManager smsManager;  // Instance de SmsManager
-    void setupUI();
-    void setupConnections();
+    SmsManager smsManager;
+
     void afficherTableView();
-    void clearFields();
-    void showError(const QString &message);
-    void showSuccess(const QString &message);
+    // Les méthodes suivantes ont été supprimées car elles ne sont plus utilisées dans le nouveau mainwindow.cpp:
+    // void setupUI();
+    // void setupConnections();
+    // void clearFields();
+    // void showError(const QString &message);
+    // void showSuccess(const QString &message);
 };
 
 #endif // MAINWINDOW_H
