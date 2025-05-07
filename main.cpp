@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     loginWindow.show();
 
     if (test) {
-        mainWindow.show();
+       // mainWindow.show();
         QMessageBox::information(nullptr, QObject::tr("database is open"),
         QObject::tr( "Connexion à la base de données réussie au démarrage."),QMessageBox::Cancel);
        Architecte::resetPresenceDaily();

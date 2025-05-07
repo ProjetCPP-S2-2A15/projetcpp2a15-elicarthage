@@ -5,11 +5,12 @@
 
 
 #include "speechnotifier.h"
-
+#include "formation.h"
 #include "arduino.h"
 #include "tache.h"
 #include "client.h"
 #include "statsprojet.h"
+//#include "smsmanager.h"
 
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
@@ -102,6 +103,16 @@ private slots:
     void on_generateContractButton_clicked();
 
 
+   //-----------------------------------
+    void on_btnAjouterF_clicked();
+    void on_btnSupprimerF_clicked();
+    void on_btnModifierF_clicked();
+    void on_btnTrierThematique_clicked();
+    void on_btnRechercherId_clicked();
+    void on_btnRechercherDate_clicked();
+    void on_btnSendSms_clicked();
+   // void on_annulerEvent_clicked();
+//--------------------------------------------
 
     void on_btnAjouter_clicked();
     void on_annulerEvent_clicked();
@@ -149,6 +160,15 @@ private slots:
     //void on_showMapButton_clicked();
 
 private:
+
+
+    Formation F;
+  //  SmsManager smsManager;
+
+    void afficherTableViewF();
+
+
+
     StatsProjet *statsProjet;
     QTabWidget *statsTabWidget;
      Ui::MainWindow *ui;

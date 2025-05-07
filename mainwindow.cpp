@@ -1,5 +1,6 @@
 
 #include "mainwindow.h"
+#include "formation.h"
 #include "tache.h"
 #include "projet.h"
 #include "historique.h"
@@ -863,7 +864,7 @@ MainWindow::MainWindow(QWidget *parent)
         statsProjet->loadBudgetStats();
     });
     //------
-    // Architecte::resetPresenceDaily();
+     Architecte::resetPresenceDaily();
 
     // Setup des interfaces
   /*  QWidget *projectsWidget = new QWidget();
@@ -1030,6 +1031,36 @@ MainWindow::MainWindow(QWidget *parent)
     int columnActions = 7;
 
     ui->tableWidget->setColumnWidth(columnActions, 200);
+
+
+
+    // Initialize UI elements
+    ui->lineEdit_id_F->setPlaceholderText("ID Formation");
+    ui->lineEdit_thematique->setPlaceholderText("Thématique");
+    ui->lineEdit_nom_F->setPlaceholderText("Nom*");
+    ui->lineEdit_description->setPlaceholderText("Description");
+    ui->lineEdit_idSupp->setPlaceholderText("ID à supprimer");
+    ui->lineEdit_idRecherche->setPlaceholderText("Entrer l'ID");
+
+    ui->dateEdit_date->setDisplayFormat("dd/MM/yyyy");
+    ui->dateEdit_date->setDate(QDate::currentDate());
+    ui->dateEdit_rechercheDate->setDisplayFormat("dd/MM/yyyy");
+    ui->dateEdit_rechercheDate->setDate(QDate::currentDate());
+
+    ui->lineEdit_id_F->setValidator(new QIntValidator(0, 999999, this));
+    ui->lineEdit_idSupp->setValidator(new QIntValidator(1, 999999, this));
+    ui->lineEdit_idRecherche->setValidator(new QIntValidator(1, 999999, this));
+
+    ui->btnAjouterF->setToolTip("Ajouter une nouvelle formation");
+    ui->btnModifierF->setToolTip("Modifier la formation sélectionnée");
+    ui->btnSupprimerF->setToolTip("Supprimer la formation sélectionnée");
+    ui->btnRechercherId->setToolTip("Rechercher par ID");
+    ui->btnRechercherDate->setToolTip("Rechercher par date de début");
+    ui->btnTrierThematique->setToolTip("Trier par thématique");
+    ui->btnSendSms->setToolTip("Envoyer un SMS");
+
+    // Display initial data
+    afficherTableViewF();
 
 }
 
@@ -1607,7 +1638,15 @@ void MainWindow::generateContract(const QString &clientName, const QString &proj
 
 void MainWindow::switchWidget(QWidget* widgetToShow) {
 
-    widgetToShow->setGeometry(this->rect());
+    if (widgetToShow == ui->widgetProjet) {
+        int sidebarWidth = 140;
+        QRect fullRect = this->rect();
+        QRect projetRect(sidebarWidth, 0, fullRect.width() - sidebarWidth, fullRect.height());
+        ui->widgetProjet->setGeometry(projetRect);
+    } else {
+        // Pour les autres widgets, occuper toute la fenêtre
+        widgetToShow->setGeometry(this->rect());
+    }
 
     // Liste  widgets
     QList<QWidget*> mainWidgets = {
@@ -2980,4 +3019,139 @@ void MainWindow::on_mapViewClient_clicked(const QPointF &point) {
 }
 */
 
+void MainWindow::afficherTableViewF()
+{
+    QSqlQueryModel* oldModel = qobject_cast<QSqlQueryModel*>(ui->tableViewF->model());
+    QSqlQueryModel* model = F.afficher();
+    ui->tableViewF->setModel(model);
+    ui->tableViewF->resizeColumnsToContents();
+    delete oldModel;
+}
 
+void MainWindow::on_btnAjouterF_clicked()
+{
+    int id = ui->lineEdit_id_F->text().toInt();
+    QString thematique = ui->lineEdit_thematique->text();
+    QString date_d = ui->dateEdit_date->date().toString("yyyy-MM-dd");
+    QString nom = ui->lineEdit_nom_F->text();
+    QString description = ui->lineEdit_description->text();
+
+    if (nom.isEmpty() || date_d.isEmpty()) {
+        QMessageBox::warning(this, "Champs vides", "Les champs marqués d'un * sont obligatoires.");
+        return;
+    }
+
+    Formation f(id, thematique, date_d, nom, description);
+    if (f.ajouter()) {
+        QMessageBox::information(this, "Ajout", "Formation ajoutée avec succès !");
+        on_annulerEvent_clicked();
+        afficherTableViewF();
+    } else {
+        QMessageBox::critical(this, "Erreur", "Échec de l'ajout de la formation !");
+    }
+}
+
+void MainWindow::on_btnModifierF_clicked()
+{
+    int id = ui->lineEdit_id_F->text().toInt();
+    QString thematique = ui->lineEdit_thematique->text();
+    QString date_d = ui->dateEdit_date->date().toString("yyyy-MM-dd");
+    QString nom = ui->lineEdit_nom_F->text();
+    QString description = ui->lineEdit_description->text();
+
+    if (nom.isEmpty() || date_d.isEmpty()) {
+        QMessageBox::warning(this, "Champs vides", "Les champs marqués d'un * sont obligatoires.");
+        return;
+    }
+
+    Formation f(id, thematique, date_d, nom, description);
+    if (f.modifier()) {
+        QMessageBox::information(this, "Modification", "Formation modifiée avec succès !");
+        on_annulerEvent_clicked();
+        afficherTableViewF();
+    } else {
+        QMessageBox::critical(this, "Erreur", "Échec de la modification de la formation !");
+    }
+}
+
+void MainWindow::on_btnSupprimerF_clicked()
+{
+    int id = ui->lineEdit_idSupp->text().toInt();
+    if (id <= 0) {
+        QMessageBox::warning(this, "ID invalide", "Veuillez entrer un ID valide.");
+        return;
+    }
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmation",
+                                  "Voulez-vous vraiment supprimer la formation ID: " + QString::number(id) + "?",
+                                  QMessageBox::Yes|QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        if (F.supprimer(id)) {
+            QMessageBox::information(this, "Suppression", "Formation supprimée avec succès !");
+            ui->lineEdit_idSupp->clear();
+            afficherTableViewF();
+        } else {
+            QMessageBox::critical(this, "Erreur", "Échec de la suppression de la formation !");
+        }
+    }
+}
+
+void MainWindow::on_btnRechercherId_clicked()
+{
+    int id = ui->lineEdit_idRecherche->text().toInt();
+    if (id <= 0) {
+        QMessageBox::warning(this, "ID invalide", "Veuillez entrer un ID valide.");
+        return;
+    }
+
+    QSqlQueryModel* oldModel = qobject_cast<QSqlQueryModel*>(ui->tableView->model());
+    QSqlQueryModel* model = F.rechercherParId(id);
+    ui->tableViewF->setModel(model);
+    ui->tableViewF->resizeColumnsToContents();
+
+    if (model->rowCount() == 0) {
+        QMessageBox::information(this, "Recherche", "Aucune formation trouvée avec cet ID.");
+    }
+    delete oldModel;
+}
+
+void MainWindow::on_btnRechercherDate_clicked()
+{
+    QDate date = ui->dateEdit_rechercheDate->date();
+
+    QSqlQueryModel* oldModel = qobject_cast<QSqlQueryModel*>(ui->tableView->model());
+    QSqlQueryModel* model = F.rechercherParDate(date);
+    ui->tableViewF->setModel(model);
+    ui->tableViewF->resizeColumnsToContents();
+
+    if (model->rowCount() == 0) {
+        QMessageBox::information(this, "Recherche",
+                                 QString("Aucune formation trouvée pour la date %1.").arg(date.toString("dd/MM/yyyy")));
+    }
+    delete oldModel;
+}
+
+void MainWindow::on_btnTrierThematique_clicked()
+{
+    QSqlQueryModel* oldModel = qobject_cast<QSqlQueryModel*>(ui->tableView->model());
+    QSqlQueryModel* model = F.sort();
+    ui->tableViewF->setModel(model);
+    ui->tableViewF->resizeColumnsToContents();
+    delete oldModel;
+}
+
+void MainWindow::on_btnSendSms_clicked()
+{
+    QString toPhone = ui->lineEdit_thematique->text();
+    QString message = ui->lineEdit_nom_F->text();
+
+    if (toPhone.isEmpty() || message.isEmpty()) {
+        QMessageBox::warning(this, "Champs vides", "Le numéro de téléphone et le message ne peuvent pas être vides.");
+        return;
+    }
+
+   // smsManager.sendSms(toPhone, message);
+    QMessageBox::information(this, "SMS", "SMS envoyé !");
+}
