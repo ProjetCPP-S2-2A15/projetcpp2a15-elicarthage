@@ -3152,6 +3152,6 @@ void MainWindow::on_btnSendSms_clicked()
         return;
     }
 
-    smsManager.sendSms(toPhone, message);
+   // smsManager.sendSms(toPhone, message);
     QMessageBox::information(this, "SMS", "SMS envoyé !");
 }

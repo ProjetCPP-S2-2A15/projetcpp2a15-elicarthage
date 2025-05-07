@@ -33,8 +33,8 @@ SOURCES += \
     statsprojet.cpp \
     tache.cpp \
     client.cpp  \
-    formation.cpp
-
+    formation.cpp \
+    smsmanager.cpp
 
 
 HEADERS += \
@@ -64,8 +64,8 @@ HEADERS += \
     statsprojet.h \
     tache.h \
     client.h \
-    formation.h
-
+    formation.h  \
+    smsmanager.h
 
 
 FORMS +=mainwindow.ui \

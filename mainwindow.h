@@ -10,7 +10,7 @@
 #include "tache.h"
 #include "client.h"
 #include "statsprojet.h"
-#include "smsmanager.h"
+//#include "smsmanager.h"
 
 #include "QtSerialPort/qserialport.h"
 #include <QMainWindow>
@@ -163,7 +163,7 @@ private:
 
 
     Formation F;
-    SmsManager smsManager;
+  //  SmsManager smsManager;
 
     void afficherTableViewF();
 
